@@ -1,0 +1,41 @@
+<div class="max-w-2xl mx-auto py-16">
+  <h1 class="text-3xl font-bold mb-2">Application Status</h1>
+  <p class="text-gray-500 mb-8">Reference: <span class="font-mono font-semibold"><%= @case.reference %></span></p>
+
+  <div class="border rounded-lg p-6 mb-8">
+    <dl>
+      <dt class="font-medium text-gray-500">Applicant</dt>
+      <dd class="mb-4 text-lg"><%= @case.applicant_name %></dd>
+
+      <dt class="font-medium text-gray-500">Application Type</dt>
+      <dd class="mb-4"><%= @case.case_type.humanize %></dd>
+
+      <dt class="font-medium text-gray-500">Current Status</dt>
+      <dd class="mb-4">
+        <span class="inline-block px-3 py-1 rounded-full text-sm font-medium
+          <% case @case.status
+             when 'submitted' then %>bg-gray-100 text-gray-800<%
+             when 'assigned', 'in_review' then %>bg-blue-100 text-blue-800<%
+             when 'awaiting_evidence' then %>bg-yellow-100 text-yellow-800<%
+             when 'ready_for_decision' then %>bg-purple-100 text-purple-800<%
+             when 'decided_approved' then %>bg-green-100 text-green-800<%
+             when 'decided_refused' then %>bg-red-100 text-red-800<%
+             when 'withdrawn' then %>bg-gray-100 text-gray-500<%
+             end %>">
+          <%= @case.status.humanize %>
+        </span>
+      </dd>
+
+      <dt class="font-medium text-gray-500">Submitted</dt>
+      <dd class="mb-4"><%= @case.submitted_at&.strftime("%d %B %Y") %></dd>
+
+      <dt class="font-medium text-gray-500">Priority</dt>
+      <dd class="mb-4"><%= @case.priority.humanize %></dd>
+    </dl>
+  </div>
+
+  <div class="flex gap-4">
+    <%= link_to "Search again", public_lookup_path, class: "text-blue-600 hover:underline" %>
+    <%= link_to "Back to Home", root_path, class: "text-blue-600 hover:underline" %>
+  </div>
+</div>

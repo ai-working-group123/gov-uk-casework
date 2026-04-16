@@ -1,0 +1,33 @@
+<div class="max-w-2xl mx-auto py-16">
+  <h1 class="text-3xl font-bold mb-2">Check your application status</h1>
+  <p class="text-gray-600 mb-8">Enter your case reference number (e.g. HO-T2-A3F9) to view the current status of your application.</p>
+
+  <% if flash[:alert] %>
+    <div class="bg-red-50 text-red-700 px-4 py-3 rounded mb-6">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+
+  <%= form_tag public_lookup_case_path(reference: "__REF__"), method: :get, id: "lookup-form", class: "flex gap-4" do %>
+    <input type="text" name="reference" id="reference-input" placeholder="HO-T2-A3F9"
+           class="border rounded px-4 py-3 flex-1 text-lg uppercase" required
+           pattern="HO-[A-Z0-9]{2}-[A-Z2-9]{4}" title="Format: HO-XX-XXXX">
+    <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded text-lg hover:bg-blue-700">
+      Search
+    </button>
+  <% end %>
+
+  <div class="mt-8">
+    <%= link_to "Back to Home", root_path, class: "text-blue-600 hover:underline" %>
+  </div>
+</div>
+
+<script>
+  document.getElementById('lookup-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var ref = document.getElementById('reference-input').value.trim().toUpperCase();
+    if (ref) {
+      window.location.href = '<%= public_lookup_path %>/' + encodeURIComponent(ref);
+    }
+  });
+</script>
