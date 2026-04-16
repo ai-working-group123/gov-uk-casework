@@ -374,7 +374,7 @@ seed_cases = [
 			{ evidence_type: :english_language, status: :accepted, policy_code: "SW-ENGLISH", required_by: 2.weeks.ago, received_at: 16.days.ago, reviewed_at: 14.days.ago },
 			{ evidence_type: :tb_certificate, status: :received, policy_code: "SW-TB", required_by: 2.weeks.ago, received_at: 14.days.ago },
 			{ evidence_type: :bank_statements, status: :under_review, policy_code: "SW-MAINTENANCE", required_by: 2.weeks.ago, received_at: 12.days.ago },
-			{ evidence_type: :atas_certificate, status: :not_received, policy_code: "SW-ATAS", required_by: 1.week.from_now, notes: "ATAS may be required depending on role details." }
+			# { evidence_type: :atas_certificate, status: :not_received, policy_code: "SW-ATAS", required_by: 1.week.from_now, notes: "ATAS may be required depending on role details." }
 		]
 	},
 	{
