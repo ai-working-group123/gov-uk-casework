@@ -4,6 +4,9 @@ Rails.application.routes.draw do
     resources :caseworkers
     resources :policy_references
     resources :cases do
+      member do
+        post :evaluate
+      end
       resources :evidences
       resources :case_notes, only: [ :index, :show, :create, :new, :edit, :update, :destroy ]
       resources :actions do

@@ -17,7 +17,19 @@ class Case < ApplicationRecord
   scope :overdue, -> { where("sla_deadline < ?", Time.current).where.not(status: %i[decided_approved decided_refused withdrawn]) }
   scope :approaching_sla, -> { where(sla_deadline: Time.current..7.days.from_now).where.not(status: %i[decided_approved decided_refused withdrawn]) }
 
+  attr_accessor :skip_evaluation
+
+  after_commit :enqueue_evaluation, on: [ :create, :update ]
+
   private
+
+  def enqueue_evaluation
+    return if skip_evaluation
+    return if status.in?(%w[decided_approved decided_refused withdrawn])
+
+    update_column(:evaluation_in_progress, true)
+    CaseEvaluationJob.perform_later(id)
+  end
 
   def generate_reference
     return if reference.present?
