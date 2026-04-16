@@ -42,6 +42,7 @@
                 type="url"
                 name="urls[]"
                 value="<%= url %>"
+                aria-label="Reference URL"
                 class="flex-1"
                 placeholder="https://www.gov.uk/..."
               >
@@ -49,8 +50,8 @@
                 type="button"
                 data-action="url-list#remove"
                 class="text-gds-red hover:text-gds-red-dark px-2 text-lg"
-                title="Remove URL"
-              >&times;</button>
+                aria-label="Remove URL"
+              ><span aria-hidden="true">&times;</span></button>
             </div>
           <% end %>
         <% else %>
@@ -58,6 +59,7 @@
             <input
               type="url"
               name="urls[]"
+              aria-label="Reference URL"
               class="flex-1"
               placeholder="https://www.gov.uk/..."
             >
@@ -73,10 +75,10 @@
       </button>
     </div>
 
-    <div class="pt-6 mt-6" style="border-top: 1px solid var(--color-gds-mid-grey);">
+    <div class="pt-6 mt-6 border-t border-gds-mid-grey">
       <button type="submit" class="btn-primary">
         Re-analyse &amp; Generate
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
         </svg>
       </button>

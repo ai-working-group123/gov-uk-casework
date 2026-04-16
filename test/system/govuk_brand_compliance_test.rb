@@ -2,67 +2,59 @@ require "application_system_test_case"
 require_relative "support/public_portal_helper"
 
 # =============================================================================
-# TC-BRAND: GOV.UK 2025 Rebrand Compliance Tests
-# Validates correct brand colours, typography, and layout across all screens
-# Brand spec: https://brand.design-system.service.gov.uk/colour/govuk-blue/
-#   Primary blue: #1D70B8
-#   Accent teal:  #00FFE0
-#   GDS green:    #00703c (buttons)
+# TC-BRAND: GOV.UK Design System Compliance Tests
+# Validates correct use of GOV.UK Design System components across all screens
 # =============================================================================
 class GovukBrandComplianceTest < ApplicationSystemTestCase
   include PublicPortalHelper
 
-  BRAND_BLUE  = "#1D70B8"
-  ACCENT_TEAL = "#00FFE0"
-  GDS_GREEN   = "#00703c"
-
-  # TC-BRAND-01: Lookup page has primary blue header
-  test "lookup page header uses 2025 primary blue" do
+  # TC-BRAND-01: Lookup page uses GOV.UK Design System header
+  test "lookup page header uses GOV.UK design system header" do
     visit public_lookup_path
-    header = find("div[style*='#{BRAND_BLUE}']")
-    assert header.visible?
+    assert_selector ".govuk-header"
   end
 
-  # TC-BRAND-02: Status page has primary blue header
-  test "status page header uses 2025 primary blue" do
+  # TC-BRAND-02: Status page uses GOV.UK Design System header
+  test "status page header uses GOV.UK design system header" do
     visit public_lookup_case_path(reference: "HO-T2-A3F9")
-    assert_selector "div[style*='#{BRAND_BLUE}']"
+    assert_selector ".govuk-header"
   end
 
-  # TC-BRAND-03: Upload page has primary blue header
-  test "upload page header uses 2025 primary blue" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
-    assert_selector "div[style*='#{BRAND_BLUE}']"
+  # TC-BRAND-03: Upload page uses GOV.UK Design System header
+  test "upload page header uses GOV.UK design system header" do
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
+    assert_selector ".govuk-header"
   end
 
-  # TC-BRAND-04: Teal dot visible in header wordmark
-  test "GOV.UK wordmark shows teal dot on all public pages" do
+  # TC-BRAND-04: GOV.UK logo dot visible on all public pages
+  test "GOV.UK logo dot visible on all public pages" do
+    item = evidence_request_items(:tc04_tb_item)
     [ public_lookup_path,
       public_lookup_case_path(reference: "HO-T2-A3F9"),
-      public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1) ].each do |path|
+      public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id) ].each do |path|
       visit path
-      assert_selector "span[style*='#{ACCENT_TEAL}']", wait: 3
+      assert_selector ".govuk-header__logotype", wait: 3
     end
   end
 
-  # TC-BRAND-05: Primary action buttons use GDS green
-  test "submit buttons use GDS green colour" do
+  # TC-BRAND-05: Primary action buttons use GOV.UK button style
+  test "submit buttons use GOV.UK button style" do
     visit public_lookup_path
-    btn = find("button", text: "Check status")
-    assert_match(/00703c/, btn["style"].to_s)
+    assert_selector "button.govuk-button", text: "Find application"
   end
 
-  # TC-BRAND-06: Check status button on upload page uses GDS green
-  test "upload button uses GDS green colour" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
-    btn = find("button", text: "Upload document")
-    assert_match(/00703c/, btn["style"].to_s)
+  # TC-BRAND-06: Upload page button uses GOV.UK button style
+  test "upload button uses GOV.UK button style" do
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
+    assert_selector "button.govuk-button", text: "Upload document"
   end
 
-  # TC-BRAND-07: Service name bar has blue underline border
-  test "service name bar has 2025 brand blue bottom border" do
+  # TC-BRAND-07: Service name displayed in header
+  test "service name displayed in header" do
     visit public_lookup_path
-    assert_selector "div[style*='#{BRAND_BLUE}']"
+    assert_text "Check your application status"
   end
 
   # TC-BRAND-08: No old black GOV.UK header present
@@ -73,15 +65,13 @@ class GovukBrandComplianceTest < ApplicationSystemTestCase
 
   # TC-BRAND-09: GOV.UK wordmark text present on all public pages
   test "GOV.UK wordmark text visible on all public pages" do
+    item = evidence_request_items(:tc04_tb_item)
     [ public_lookup_path,
       public_lookup_case_path(reference: "HO-T2-A3F9"),
       public_lookup_case_path(reference: "HO-T2-P2KR"),
-      public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1) ].each do |path|
+      public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id) ].each do |path|
       visit path
-      within("header, div[style*='#{BRAND_BLUE}']") do
-        assert_text "GOV"
-        assert_text "UK"
-      end
+      assert_text "GOV.UK"
     end
   end
 
@@ -93,10 +83,9 @@ class GovukBrandComplianceTest < ApplicationSystemTestCase
     end
   end
 
-  # TC-BRAND-11: Links use brand blue colour
-  test "back links use brand blue colour" do
+  # TC-BRAND-11: Links use GOV.UK link style
+  test "links use GOV.UK link style" do
     visit public_lookup_case_path(reference: "HO-T2-A3F9")
-    back_link = find("a", text: /Check another application/)
-    assert_match(/1D70B8/, back_link["style"].to_s)
+    assert_selector "a.govuk-link", text: "Check a different reference"
   end
 end

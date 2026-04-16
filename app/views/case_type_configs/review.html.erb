@@ -36,6 +36,7 @@
             data-action="markdown-section#toggleEdit"
             data-markdown-section-target="editBtn"
             class="link text-sm"
+            aria-label="Edit <%= section[:title] %>"
           >
             Edit
           </button>
@@ -69,13 +70,13 @@
       </div>
     <% end %>
 
-    <div class="mt-8 pt-6 flex items-center justify-between" style="border-top: 1px solid var(--color-gds-mid-grey);">
+    <div class="mt-8 pt-6 flex items-center justify-between border-t border-gds-mid-grey">
       <p class="text-sm text-gds-dark-grey">
         Next: AI will review your configuration and suggest process improvements.
       </p>
       <button type="submit" class="btn-primary">
         Save &amp; Continue
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
         </svg>
       </button>
@@ -92,7 +93,7 @@
           <dt>Source URLs</dt>
           <dd>
             <% metadata["urls"].each do |url| %>
-              <div><%= link_to url, url, target: "_blank", class: "link break-all" %></div>
+              <div><%= link_to url, url, target: "_blank", rel: "noopener noreferrer", class: "link break-all" %><span class="sr-only"> (opens in new tab)</span></div>
             <% end %>
           </dd>
         <% end %>

@@ -9,31 +9,19 @@ module PublicPortalHelper
   def submit_reference(reference)
     visit_lookup
     fill_in "reference", with: reference
-    click_button "Check status"
+    click_button "Find application"
   end
 
   def assert_govuk_header
-    assert_selector "div[style*='1D70B8']", wait: 5
-    assert_text "GOV"
-    assert_text "UK"
+    assert_selector ".govuk-header", wait: 5
+    assert_text "GOV.UK"
   end
 
   def assert_action_required_panel
-    assert_text "Action needed"
-    assert_text "we need documents from you"
+    assert_selector ".govuk-tag--yellow", text: /action required/i
   end
 
   def assert_passive_status_panel
-    assert_selector ".border-blue-500"
-    assert_text "Awaiting evidence"
-  end
-
-  def assert_timeline_entry(text)
-    assert_selector "ol li", text: text
-  end
-
-  def assert_upload_button_for(document_name)
-    assert_selector "a", text: "Upload document"
-    assert_text document_name
+    assert_selector ".govuk-tag--blue"
   end
 end

@@ -1,0 +1,121 @@
+# tc-01: Priya Sharma — awaiting evidence, passive (no applicant action)
+tc_01:
+  reference: "HO-T2-A3F9"
+  applicant_name: "Priya Sharma"
+  nationality: "Indian"
+  case_type_config: skilled_worker
+  status: 3
+  priority: 2
+  risk_score: 85
+  sla_deadline: "2024-03-28"
+  submitted_at: "2024-02-12"
+
+# tc-02: Chen Wei — fresh submission
+tc_02:
+  reference: "HO-T2-D9PQ"
+  applicant_name: "Chen Wei"
+  nationality: "Chinese"
+  case_type_config: skilled_worker
+  status: 0
+  priority: 1
+  risk_score: 15
+  sla_deadline: "2024-06-16"
+  submitted_at: "2024-04-16"
+
+# tc-04: Amara Diallo — awaiting evidence, action required (TB cert)
+tc_04:
+  reference: "HO-T2-P2KR"
+  applicant_name: "Amara Diallo"
+  nationality: "Senegalese"
+  case_type_config: skilled_worker
+  status: 3
+  priority: 2
+  risk_score: 70
+  sla_deadline: "2024-03-10"
+  submitted_at: "2024-01-10"
+
+# tc-06: Marco Rossi — ready for decision
+tc_06:
+  reference: "HO-T4-B7KX"
+  applicant_name: "Marco Rossi"
+  nationality: "Italian"
+  case_type_config: student
+  status: 4
+  priority: 1
+  risk_score: 30
+  sla_deadline: "2024-04-20"
+  submitted_at: "2024-01-20"
+
+# tc-07: Fatima Malik — awaiting evidence, action required (bank statements)
+tc_07:
+  reference: "HO-T4-E5RW"
+  applicant_name: "Fatima Malik"
+  nationality: "Pakistani"
+  case_type_config: student
+  status: 3
+  priority: 2
+  risk_score: 60
+  sla_deadline: "2024-04-20"
+  submitted_at: "2024-02-15"
+
+# tc-10: Sofia Kowalski — awaiting evidence, action required (physical post)
+tc_10:
+  reference: "HO-FV-R4TG"
+  applicant_name: "Sofia Kowalski"
+  nationality: "Polish"
+  case_type_config: family_spouse
+  status: 3
+  priority: 1
+  risk_score: 40
+  sla_deadline: "2024-09-20"
+  submitted_at: "2024-03-20"
+
+# tc-15: Li Wei — in review, 3 missing items
+tc_15:
+  reference: "HO-T2-Z9YQ"
+  applicant_name: "Li Wei"
+  nationality: "Chinese"
+  case_type_config: skilled_worker
+  status: 2
+  priority: 3
+  risk_score: 90
+  sla_deadline: "2024-03-25"
+  submitted_at: "2024-01-15"
+
+# tc-16: Maria Santos — decided approved
+tc_16:
+  reference: "HO-FV-W2XP"
+  applicant_name: "Maria Santos"
+  nationality: "Brazilian"
+  case_type_config: family_spouse
+  status: 5
+  priority: 0
+  risk_score: 0
+  sla_deadline: "2024-07-10"
+  submitted_at: "2024-01-10"
+  decided_at: "2024-06-01"
+
+# tc-17: Pavel Novak — decided refused
+tc_17:
+  reference: "HO-VS-A4NB"
+  applicant_name: "Pavel Novak"
+  nationality: "Czech"
+  case_type_config: visitor
+  status: 6
+  priority: 0
+  risk_score: 0
+  sla_deadline: "2024-03-22"
+  submitted_at: "2024-03-01"
+  decided_at: "2024-03-20"
+
+# tc-18: Tariq Hassan — awaiting evidence, 2 items (digital)
+tc_18:
+  reference: "HO-T4-Q8VL"
+  applicant_name: "Tariq Hassan"
+  nationality: "Bangladeshi"
+  case_type_config: student
+  status: 3
+  priority: 2
+  risk_score: 50
+  sla_deadline: "2024-07-01"
+  submitted_at: "2024-04-01"

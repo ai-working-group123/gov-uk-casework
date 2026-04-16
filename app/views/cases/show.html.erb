@@ -1,6 +1,6 @@
 <%= turbo_stream_from @case %>
 
-<div class="max-w-5xl mx-auto py-8 w-full">
+<div>
   <% if notice.present? %>
     <div class="notification-success"><p><%= notice %></p></div>
   <% end %>
@@ -10,7 +10,7 @@
 
   <%= turbo_frame_tag "case_evaluation_banner" do %>
     <% if @case.evaluation_in_progress? %>
-      <div class="inset-text mb-6" style="border-left-color: var(--color-gds-blue);">
+      <div class="inset-text mb-6 border-l-gds-blue">
         <p class="font-semibold text-sm text-gds-black">Rules engine evaluation in progress</p>
         <p class="text-sm text-gds-dark-grey">The case is being analysed against its case type rules. Actions may be updated shortly.</p>
       </div>
@@ -49,22 +49,9 @@
     <dt>Assigned to</dt>
     <dd><%= @case.assigned_to&.name || "Unassigned" %></dd>
 
-    <dt>Assigned to</dt>
-    <dd><%= @case.assigned_to&.name || "Unassigned" %></dd>
-
     <dt>Last evaluated</dt>
     <dd><%= @case.last_evaluated_at&.strftime("%d %b %Y %H:%M") || "Never" %></dd>
   </dl>
-
-  <%# ── Case Data ── %>
-  <% if @case.case_data.present? %>
-    <div class="gds-section">
-      <h2 class="gds-section-title">Case Data</h2>
-      <% @case.case_data.deep_symbolize_keys.each do |key, value| %>
-        <%= render partial: "cases/data_value", locals: { key: key, value: value, depth: 0 } %>
-      <% end %>
-    </div>
-  <% end %>
 
   <%# ── What you need to do ── %>
   <% outstanding_actions = @case.actions.reject { |a| a.completed? || a.cancelled? } %>
@@ -74,7 +61,7 @@
     <% if outstanding_actions.any? %>
       <div class="space-y-4">
         <% outstanding_actions.each do |action| %>
-          <div class="flex items-start gap-3" style="border-bottom: 1px solid var(--color-gds-mid-grey); padding-bottom: 1rem;">
+          <div class="flex items-start gap-3 border-b border-gds-mid-grey pb-4">
             <div class="flex-1">
               <p class="font-bold text-sm"><%= action.title %></p>
               <% if action.description.present? %>
@@ -105,6 +92,16 @@
       <p class="text-gds-dark-grey">No outstanding actions — you're all caught up.</p>
     <% end %>
   </div>
+
+  <%# ── Case Data ── %>
+  <% if @case.case_data.present? %>
+    <div class="gds-section">
+      <h2 class="gds-section-title">Case Data</h2>
+      <% @case.case_data.deep_symbolize_keys.each do |key, value| %>
+        <%= render partial: "cases/data_value", locals: { key: key, value: value, depth: 0 } %>
+      <% end %>
+    </div>
+  <% end %>
 
   <%# ── Evidence & Policy side by side ── %>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
@@ -161,7 +158,7 @@
 
       <% if policy_refs.any? %>
         <% policy_refs.each do |policy| %>
-          <div class="mb-4 pb-4" style="border-bottom: 1px solid var(--color-gds-mid-grey);">
+          <div class="mb-4 pb-4 border-b border-gds-mid-grey">
             <p class="font-bold text-sm"><%= policy.title %></p>
             <p class="text-sm text-gds-dark-grey mt-1"><%= policy.summary %></p>
 
@@ -214,7 +211,7 @@
         <% if content.present? %>
           <details class="gds-details mb-3">
             <summary><%= label %></summary>
-            <pre class="text-sm text-gds-dark-grey mt-2 p-3 overflow-x-auto whitespace-pre-wrap" style="background: var(--color-gds-light-grey);"><%= content %></pre>
+            <pre class="text-sm text-gds-dark-grey mt-2 p-3 overflow-x-auto whitespace-pre-wrap bg-gds-light-grey"><%= content %></pre>
           </details>
         <% end %>
       <% end %>
@@ -258,6 +255,6 @@
   <div class="mt-8 flex gap-4">
     <%= link_to "Edit case", edit_case_path(@case), class: "link" %>
     <%= link_to "Evidence requests", case_evidence_requests_path(@case), class: "link" %>
-    <%= button_to "Run Workflow", run_workflow_case_path(@case), method: :post, class: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" %>
+    <%= button_to "Run Workflow", run_workflow_case_path(@case), method: :post, class: "btn-primary" %>
   </div>
 </div>

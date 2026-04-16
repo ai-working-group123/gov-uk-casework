@@ -14,22 +14,22 @@
       <li class="flex items-center">
         <% if step_num < current_step %>
           <%= link_to step[:path], class: "flex items-center gap-1.5 text-gds-green font-semibold hover:underline" do %>
-            <span class="inline-flex items-center justify-center w-6 h-6 bg-gds-green text-white text-xs font-bold">✓</span>
-            <span><%= step[:label] %></span>
+            <span class="inline-flex items-center justify-center w-6 h-6 bg-gds-green text-white text-xs font-bold" aria-hidden="true">✓</span>
+            <span><%= step[:label] %><span class="sr-only"> (completed)</span></span>
           <% end %>
         <% elsif step_num == current_step %>
-          <span class="flex items-center gap-1.5 font-bold text-gds-black">
-            <span class="inline-flex items-center justify-center w-6 h-6 bg-gds-blue text-white text-xs font-bold"><%= step_num %></span>
+          <span class="flex items-center gap-1.5 font-bold text-gds-black" aria-current="step">
+            <span class="inline-flex items-center justify-center w-6 h-6 bg-gds-blue text-white text-xs font-bold" aria-hidden="true"><%= step_num %></span>
             <span><%= step[:label] %></span>
           </span>
         <% else %>
           <%= link_to step[:path], class: "flex items-center gap-1.5 text-gds-mid-grey hover:text-gds-dark-grey", data: { step_navigation_target: "futureLink" } do %>
-            <span class="inline-flex items-center justify-center w-6 h-6 border-2 border-gds-mid-grey text-gds-mid-grey text-xs font-bold"><%= step_num %></span>
+            <span class="inline-flex items-center justify-center w-6 h-6 border-2 border-gds-mid-grey text-gds-mid-grey text-xs font-bold" aria-hidden="true"><%= step_num %></span>
             <span><%= step[:label] %></span>
           <% end %>
         <% end %>
         <% if index < steps.length - 1 %>
-          <span class="mx-3 w-8 h-0.5 <%= step_num < current_step ? 'bg-gds-green' : 'bg-gds-mid-grey' %>"></span>
+          <span class="mx-3 w-8 h-0.5 <%= step_num < current_step ? 'bg-gds-green' : 'bg-gds-mid-grey' %>" aria-hidden="true"></span>
         <% end %>
       </li>
     <% end %>

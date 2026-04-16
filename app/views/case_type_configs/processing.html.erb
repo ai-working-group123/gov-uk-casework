@@ -1,30 +1,30 @@
 <% content_for(:title) { "Processing — Admin" } %>
 
-<div class="max-w-[640px] py-12">
+<div class="max-w-[640px] py-12" role="status" aria-live="polite">
   <h1 class="text-3xl font-bold text-gds-black mb-2"><%= @processing_title || "Processing" %></h1>
   <p class="text-gds-dark-grey mb-8"><%= @processing_message || "The AI is analysing your input. This may take a moment." %></p>
 
   <div class="space-y-3 mb-8">
     <% (@completed_steps || []).each do |step| %>
       <div class="flex items-center gap-3 text-sm">
-        <span class="inline-flex items-center justify-center w-6 h-6 bg-gds-green text-white text-xs font-bold">✓</span>
-        <span class="text-gds-black"><%= step %></span>
+        <span class="inline-flex items-center justify-center w-6 h-6 bg-gds-green text-white text-xs font-bold" aria-hidden="true">✓</span>
+        <span class="text-gds-black"><%= step %><span class="sr-only"> (completed)</span></span>
       </div>
     <% end %>
 
     <% if @current_step %>
       <div class="flex items-center gap-3 text-sm font-semibold">
         <span class="inline-flex items-center justify-center w-6 h-6 bg-gds-blue text-white text-xs">
-          <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+          <svg aria-hidden="true" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
         </span>
-        <span class="text-gds-black"><%= @current_step %></span>
+        <span class="text-gds-black"><%= @current_step %><span class="sr-only"> (in progress)</span></span>
       </div>
     <% end %>
 
     <% (@pending_steps || []).each do |step| %>
       <div class="flex items-center gap-3 text-sm">
-        <span class="inline-flex items-center justify-center w-6 h-6 border-2 border-gds-mid-grey text-gds-mid-grey text-xs font-bold">&middot;</span>
-        <span class="text-gds-mid-grey"><%= step %></span>
+        <span class="inline-flex items-center justify-center w-6 h-6 border-2 border-gds-mid-grey text-gds-mid-grey text-xs font-bold" aria-hidden="true">&middot;</span>
+        <span class="text-gds-mid-grey"><%= step %><span class="sr-only"> (pending)</span></span>
       </div>
     <% end %>
   </div>

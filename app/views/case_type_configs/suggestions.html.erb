@@ -59,10 +59,11 @@
             <% end %>
 
             <div class="form-group mt-3 mb-0" data-suggestion-target="commentArea">
-              <label class="form-label text-xs">Additional comments (optional)</label>
+              <label for="comment_<%= suggestion.id %>" class="form-label text-xs">Additional comments (optional)</label>
               <input
                 type="text"
                 name="suggestions[<%= suggestion.id %>][comment]"
+                id="comment_<%= suggestion.id %>"
                 class="w-full"
                 placeholder="e.g. Apply this but with a 21-day window instead of 14..."
               >
@@ -78,7 +79,7 @@
       </div>
     <% end %>
 
-    <div class="mt-8 pt-6 flex items-center justify-between" style="border-top: 1px solid var(--color-gds-mid-grey);">
+    <div class="mt-8 pt-6 flex items-center justify-between border-t border-gds-mid-grey">
       <p class="text-sm text-gds-dark-grey">
         Accepted suggestions will be applied by AI. You'll review the final result next.
       </p>
@@ -86,7 +87,7 @@
         <%= link_to "Skip suggestions", finalise_case_type_config_path(@case_type_config), class: "link text-sm" %>
         <button type="submit" class="btn-primary">
           Apply &amp; Continue
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
           </svg>
         </button>

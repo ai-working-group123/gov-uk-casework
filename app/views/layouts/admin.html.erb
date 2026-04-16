@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title><%= content_for(:title) || "Case Management Service — Admin" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -21,6 +21,7 @@
   </head>
 
   <body class="bg-gds-page-bg min-h-screen text-gds-black">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-blue-700 focus:text-white focus:px-4 focus:py-2">Skip to main content</a>
     <!-- GDS-style blue header -->
     <header class="bg-gds-blue">
       <div class="max-w-[960px] mx-auto px-4 py-3 flex items-baseline justify-between">
@@ -29,7 +30,7 @@
             Case Management Service
           </a>
         </div>
-        <nav class="flex items-center gap-6 text-sm">
+        <nav aria-label="Admin navigation" class="flex items-center gap-6 text-sm">
           <%= link_to "Cases", cases_path, class: "text-white no-underline hover:underline" %>
           <%= link_to "Case Types", case_type_configs_path, class: "text-white no-underline hover:underline" %>
         </nav>
@@ -46,7 +47,7 @@
 
     <% if flash[:notice] %>
       <div class="max-w-[960px] mx-auto px-4 mt-6">
-        <div class="notification-success">
+        <div class="notification-success" role="status">
           <p><%= flash[:notice] %></p>
         </div>
       </div>
@@ -54,13 +55,13 @@
 
     <% if flash[:alert] %>
       <div class="max-w-[960px] mx-auto px-4 mt-6">
-        <div class="notification-error">
+        <div class="notification-error" role="alert">
           <p><%= flash[:alert] %></p>
         </div>
       </div>
     <% end %>
 
-    <main class="max-w-[960px] mx-auto px-4 py-8">
+    <main id="main-content" class="max-w-[960px] mx-auto px-4 py-8">
       <%= yield %>
     </main>
   </body>

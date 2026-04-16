@@ -17,7 +17,7 @@
 
     <div class="space-y-4 mb-8">
       <% @evaluation[:operations].each_with_index do |op, i| %>
-        <div class="mb-4 pb-4" style="border-bottom: 1px solid var(--color-gds-mid-grey);">
+        <div class="mb-4 pb-4 border-b border-gds-mid-grey">
           <div class="flex items-center justify-between mb-2">
             <span class="font-bold text-sm">
               <%= op[:op].upcase %> <%= op[:model] %>
