@@ -1,4 +1,6 @@
-<% document_name = @evidence_item ? @evidence_item.evidence.evidence_type.humanize : "Document" %>
+<% document_name = @evidence_item&.policy_reference&.title ||
+                   @evidence_item&.evidence&.evidence_type&.humanize ||
+                   "Document" %>
 <% content_for :title, "Upload #{document_name.downcase}" %>
 
 <% content_for :back_link do %>
