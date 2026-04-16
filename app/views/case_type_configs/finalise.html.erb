@@ -1,29 +1,22 @@
 <% content_for(:title) { "Finalise: #{@case_type_config.name} — Admin" } %>
 
-<div class="max-w-6xl mx-auto">
-  <!-- Header -->
-  <div class="flex items-start justify-between mb-8">
-    <div>
-      <h2 class="text-2xl font-bold text-gray-900 mb-1"><%= @case_type_config.name %></h2>
-      <p class="text-gray-600"><%= @case_type_config.description %></p>
-      <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
-        <span>SLA: <%= @case_type_config.default_sla_days %> days</span>
-        <span>Organisation: <%= @case_type_config.organisation || "Not set" %></span>
-      </div>
+<div>
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gds-black mb-1"><%= @case_type_config.name %></h1>
+    <p class="text-gds-dark-grey mb-2"><%= @case_type_config.description %></p>
+    <div class="flex items-center gap-4 text-sm text-gds-dark-grey">
+      <span>SLA: <strong><%= @case_type_config.default_sla_days %> days</strong></span>
+      <span>Organisation: <strong><%= @case_type_config.organisation || "Not set" %></strong></span>
     </div>
   </div>
 
-  <!-- Progress indicator -->
   <%= render "progress", current_step: 5 %>
 
-  <!-- Applied suggestions summary -->
   <% accepted = @case_type_config.case_type_suggestions.accepted %>
   <% if accepted.any? %>
-    <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-      <h3 class="text-sm font-semibold text-green-800 mb-2">
-        ✅ <%= accepted.count %> improvement<%= "s" if accepted.count > 1 %> applied
-      </h3>
-      <ul class="text-sm text-green-700 list-disc list-inside space-y-1">
+    <div class="notification-success mb-6">
+      <p class="mb-2"><%= accepted.count %> improvement<%= "s" if accepted.count > 1 %> applied</p>
+      <ul class="text-sm text-gds-black list-disc list-inside space-y-1">
         <% accepted.each do |s| %>
           <li><%= s.title %></li>
         <% end %>
@@ -31,71 +24,56 @@
     </div>
   <% end %>
 
-  <!-- Final config sections (read-only) -->
-  <div class="space-y-6">
-    <% sections = [
-      { title: "Decision Tree", field: :decision_tree_md, icon: "🌳" },
-      { title: "State Transitions", field: :state_transitions_md, icon: "🔄" },
-      { title: "Evidence Requirements", field: :evidence_requirements_md, icon: "📋" },
-      { title: "Risk Scoring", field: :risk_scoring_md, icon: "⚠️" },
-      { title: "Correspondence Templates", field: :correspondence_templates_md, icon: "✉️" }
-    ] %>
+  <% sections = [
+    { title: "Decision Tree", field: :decision_tree_md },
+    { title: "State Transitions", field: :state_transitions_md },
+    { title: "Evidence Requirements", field: :evidence_requirements_md },
+    { title: "Risk Scoring", field: :risk_scoring_md },
+    { title: "Correspondence Templates", field: :correspondence_templates_md }
+  ] %>
 
-    <% sections.each do |section| %>
-      <% content = @case_type_config.send(section[:field]) %>
-      <% next if content.blank? %>
+  <% sections.each do |section| %>
+    <% content = @case_type_config.send(section[:field]) %>
+    <% next if content.blank? %>
 
-      <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
-        <div class="px-6 py-4 border-b border-gray-100">
-          <h3 class="text-lg font-semibold text-gray-900">
-            <span class="mr-2" aria-hidden="true"><%= section[:icon] %></span><%= section[:title] %>
-          </h3>
-        </div>
-        <div class="px-6 py-4 prose prose-sm max-w-none">
-          <%= sanitize marksmithed(content) %>
-        </div>
+    <div class="gds-section">
+      <h2 class="text-xl font-bold text-gds-black mb-4"><%= section[:title] %></h2>
+      <div class="prose prose-sm max-w-none">
+        <%= marksmithed_sanitized(content) %>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 
-  <!-- Source metadata -->
   <% if @case_type_config.source_metadata.present? %>
     <% metadata = @case_type_config.source_metadata.is_a?(String) ? JSON.parse(@case_type_config.source_metadata) : @case_type_config.source_metadata %>
-    <div class="mt-8 bg-gray-50 border border-gray-200 rounded-lg p-6">
-      <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Source Information</h3>
-      <dl class="grid grid-cols-2 gap-4 text-sm">
+    <div class="gds-section">
+      <h2 class="text-sm font-bold text-gds-dark-grey uppercase tracking-wide mb-4">Source Information</h2>
+      <dl class="summary-list">
         <% if metadata["urls"].present? %>
-          <div>
-            <dt class="text-gray-500">Source URLs</dt>
-            <dd class="text-gray-900 mt-1">
-              <% metadata["urls"].each do |url| %>
-                <div><%= link_to url, url, target: "_blank", rel: "noopener noreferrer", class: "text-blue-600 hover:underline break-all" %><span class="sr-only"> (opens in new tab)</span></div>
-              <% end %>
-            </dd>
-          </div>
+          <dt>Source URLs</dt>
+          <dd>
+            <% metadata["urls"].each do |url| %>
+              <div><%= link_to url, url, target: "_blank", rel: "noopener noreferrer", class: "link break-all" %><span class="sr-only"> (opens in new tab)</span></div>
+            <% end %>
+          </dd>
         <% end %>
         <% if metadata["submitted_at"].present? %>
-          <div>
-            <dt class="text-gray-500">Submitted</dt>
-            <dd class="text-gray-900 mt-1"><%= metadata["submitted_at"] %></dd>
-          </div>
+          <dt>Submitted</dt>
+          <dd><%= metadata["submitted_at"] %></dd>
         <% end %>
       </dl>
     </div>
   <% end %>
 
-  <!-- Action buttons -->
-  <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
-    <%= link_to "← Back to Review", review_case_type_config_path(@case_type_config),
-          class: "text-sm text-gray-500 hover:text-gray-700" %>
-    <div class="flex gap-3">
-      <%= link_to "Save as Draft", case_type_configs_path,
-            class: "border border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold px-6 py-3 rounded-lg text-sm transition-colors" %>
+  <div class="mt-8 pt-6 flex items-center justify-between" style="border-top: 1px solid var(--color-gds-mid-grey);">
+    <%= link_to "Back to Review", review_case_type_config_path(@case_type_config), class: "link-back" %>
+    <div class="flex gap-3 items-center">
+      <%= link_to "Save as Draft", case_type_configs_path, class: "btn-secondary" %>
       <%= button_to "Publish",
             publish_case_type_config_path(@case_type_config),
             method: :post,
-            class: "bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg text-sm transition-colors inline-flex items-center gap-2",
-            data: { turbo: false, turbo_confirm: "Are you sure you want to publish this case type? This will make it available for use." } %>
+            class: "btn-primary",
+            data: { turbo: false } %>
     </div>
   </div>
 </div>

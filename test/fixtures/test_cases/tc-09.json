@@ -1,0 +1,24 @@
+{
+  "id": "tc-09",
+  "reference": "HO-FV-C2MN",
+  "applicant_name": "Aisha Hassan",
+  "nationality": "Sudanese",
+  "case_type": "Family (Spouse)",
+  "status": "in_review",
+  "priority": "medium",
+  "risk_score": 55,
+  "sla_status": "Within SLA",
+  "submitted_date": "2024-02-01",
+  "sla_deadline": "2024-06-01",
+  "scenario": "Complex family case — thin relationship evidence",
+  "evidence_summary": "4/6 received. Relationship evidence: 6 months WhatsApp, 2 photos, 1 visit. Financial: borderline £28.9k (threshold £29k).",
+  "next_action": "Relationship evidence insufficient — schedule interview or request more evidence",
+  "public_status_message": "Your application is being reviewed — we may contact you",
+  "action_required": false,
+  "documents_to_request": [],
+  "test_flows": [
+    "Policy sidebar shows Appendix FM",
+    "Schedule interview action",
+    "Complex evidence checklist"
+  ]
+}

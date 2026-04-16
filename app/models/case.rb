@@ -1,6 +1,6 @@
 class Case < ApplicationRecord
   belongs_to :assigned_to, class_name: "Caseworker", optional: true
-  belongs_to :case_type_config
+  belongs_to :case_type_config, optional: true
   has_many :evidences
   has_many :case_notes
   has_many :actions
@@ -21,6 +21,11 @@ class Case < ApplicationRecord
 
   after_commit :enqueue_evaluation, on: [ :create, :update ]
 
+  # Human-readable case type label — from config name if present, otherwise generic
+  def case_type_label
+    case_type_config&.name || "Application"
+  end
+
   private
 
   def enqueue_evaluation
@@ -34,7 +39,7 @@ class Case < ApplicationRecord
   def generate_reference
     return if reference.present?
 
-    # Use the first 2 characters of the case_type_config slug as the type code
+    # Derive type code from case_type_config slug (first 2 chars uppercased)
     type_code = case_type_config&.slug&.upcase&.slice(0, 2) || "XX"
     loop do
       suffix = Array.new(4) { REFERENCE_CHARS.sample }.join

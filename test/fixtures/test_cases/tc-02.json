@@ -1,0 +1,25 @@
+{
+  "id": "tc-02",
+  "reference": "HO-T2-D9PQ",
+  "applicant_name": "Chen Wei",
+  "nationality": "Chinese",
+  "case_type": "Skilled Worker",
+  "status": "submitted",
+  "priority": "medium",
+  "risk_score": 15,
+  "sla_status": "Within SLA",
+  "submitted_date": "2024-04-16",
+  "sla_deadline": "2024-06-16",
+  "scenario": "Fresh submission — initial review needed",
+  "evidence_summary": "0/6 received. Not yet started.",
+  "next_action": "Initial review — check CoS validity, begin evidence checklist",
+  "public_status_message": "Your application has been received and is being processed",
+  "action_required": false,
+  "documents_to_request": [],
+  "test_flows": [
+    "Dashboard new badge",
+    "Case detail initial state",
+    "Empty evidence checklist",
+    "Single pending action"
+  ]
+}

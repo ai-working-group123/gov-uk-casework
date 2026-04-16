@@ -1,0 +1,25 @@
+{
+  "id": "tc-07",
+  "reference": "HO-T4-E5RW",
+  "applicant_name": "Fatima Malik",
+  "nationality": "Pakistani",
+  "case_type": "Student",
+  "status": "awaiting_evidence",
+  "priority": "high",
+  "risk_score": 60,
+  "sla_status": "Approaching SLA 4 days",
+  "submitted_date": "2024-02-15",
+  "sla_deadline": "2024-04-20",
+  "scenario": "Approaching SLA — financial evidence borderline",
+  "evidence_summary": "4/5 received. MISSING: bank statements showing £1,334/month for 9 months. Amount falls short.",
+  "next_action": "SLA in 4 days — chase financial evidence urgently",
+  "public_status_message": "Awaiting evidence — we need documents from you",
+  "action_required": true,
+  "documents_to_request": ["3 months additional bank statements"],
+  "test_flows": [
+    "Approaching SLA badge",
+    "Urgent action",
+    "Public upload flow",
+    "Dashboard SLA warning"
+  ]
+}

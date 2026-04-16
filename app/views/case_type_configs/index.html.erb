@@ -1,45 +1,55 @@
 <% content_for(:title) { "Case Types — Admin" } %>
 
-<div class="max-w-5xl mx-auto">
-  <div class="flex items-center justify-between mb-8">
+<div>
+  <div class="flex items-start justify-between mb-6">
     <div>
-      <h2 class="text-2xl font-bold text-gray-900">Case Types</h2>
-      <p class="text-gray-600 text-sm mt-1">Manage AI-generated case type configurations</p>
+      <h1 class="text-3xl font-bold text-gds-black mb-1">Case Types</h1>
+      <p class="text-gds-dark-grey text-base">Manage AI-generated case type configurations</p>
     </div>
-    <%= link_to new_case_type_config_path, class: "bg-blue-700 hover:bg-blue-800 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors inline-flex items-center gap-2" do %>
-      <span aria-hidden="true" class="text-lg leading-none">+</span> New Case Type
+    <%= link_to new_case_type_config_path, class: "btn-primary" do %>
+      New Case Type
     <% end %>
   </div>
 
   <% if @case_type_configs.any? %>
-    <div class="bg-white border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-100">
-      <% @case_type_configs.each do |config| %>
-        <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-          <div>
-            <h3 class="font-semibold text-gray-900">
-              <%= link_to config.name, case_type_config_path(config), class: "hover:text-blue-600" %>
-            </h3>
-            <p class="text-sm text-gray-500 mt-0.5"><%= config.description&.truncate(120) %></p>
-            <div class="flex items-center gap-3 mt-1 text-xs text-gray-400">
-              <span><%= config.organisation %></span>
-              <span>Created <%= time_ago_in_words(config.created_at) %> ago</span>
-            </div>
-          </div>
-          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-            <%= case config.status
-                when 'published' then 'bg-green-100 text-green-800'
-                when 'archived' then 'bg-gray-100 text-gray-600'
-                else 'bg-yellow-100 text-yellow-800'
-                end %>">
-            <%= config.status.capitalize %>
-          </span>
-        </div>
-      <% end %>
-    </div>
+    <table class="gds-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Organisation</th>
+          <th>Status</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @case_type_configs.each do |config| %>
+          <tr>
+            <td>
+              <%= link_to config.name, case_type_config_path(config), class: "link font-semibold" %>
+              <% if config.description.present? %>
+                <p class="text-sm text-gds-dark-grey mt-0.5"><%= config.description.truncate(120) %></p>
+              <% end %>
+            </td>
+            <td class="text-sm"><%= config.organisation %></td>
+            <td>
+              <span class="<%= case config.status
+                  when 'published' then 'tag-green'
+                  when 'archived' then 'tag-grey'
+                  else 'tag-yellow'
+                  end %>">
+                <%= config.status.upcase %>
+              </span>
+            </td>
+            <td class="text-sm text-gds-dark-grey"><%= time_ago_in_words(config.created_at) %> ago</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% else %>
-    <div class="bg-white border border-gray-200 rounded-lg p-12 text-center">
-      <p class="text-gray-500 mb-4">No case types created yet.</p>
-      <%= link_to "Create your first case type →", new_case_type_config_path, class: "text-blue-600 hover:text-blue-800 font-medium" %>
+    <div class="py-12 border-t-3 border-gds-blue">
+      <h2 class="text-xl font-bold mb-2">No case types yet</h2>
+      <p class="text-gds-dark-grey mb-4">Case types define the rules, evidence requirements, and decision trees for different application types. Create your first one to get started.</p>
+      <%= link_to "Create your first case type", new_case_type_config_path, class: "btn-primary" %>
     </div>
   <% end %>
 </div>

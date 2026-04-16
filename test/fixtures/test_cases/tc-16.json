@@ -1,0 +1,25 @@
+{
+  "id": "tc-16",
+  "reference": "HO-FV-W2XP",
+  "applicant_name": "Maria Santos",
+  "nationality": "Brazilian",
+  "case_type": "Family (Spouse)",
+  "status": "decided_approved",
+  "priority": "low",
+  "risk_score": 0,
+  "sla_status": "Decided within SLA",
+  "submitted_date": "2024-01-10",
+  "sla_deadline": "2024-07-10",
+  "scenario": "Approved case — full happy path",
+  "evidence_summary": "All evidence accepted. Decision: APPROVED.",
+  "next_action": "No further action required",
+  "public_status_message": "Your application has been approved",
+  "action_required": false,
+  "documents_to_request": [],
+  "test_flows": [
+    "Approved status on public portal",
+    "Green status panel",
+    "Full timeline showing decision",
+    "No action required"
+  ]
+}

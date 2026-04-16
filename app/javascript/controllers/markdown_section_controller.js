@@ -2,14 +2,12 @@ import { Controller } from "@hotwired/stimulus";
 
 // Toggle between preview and edit mode for markdown sections
 export default class extends Controller {
-  static targets = ["preview", "editor", "editBtn", "textarea", "hiddenField"];
+  static targets = ["preview", "editor", "editBtn", "hiddenField"];
 
   originalContent = "";
 
   get textareaEl() {
-    return this.hasTextareaTarget
-      ? this.textareaTarget
-      : this.editorTarget.querySelector("textarea");
+    return this.editorTarget.querySelector("textarea");
   }
 
   toggleEdit() {

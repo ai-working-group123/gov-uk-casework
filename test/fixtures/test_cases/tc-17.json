@@ -1,0 +1,25 @@
+{
+  "id": "tc-17",
+  "reference": "HO-VS-A4NB",
+  "applicant_name": "Pavel Novak",
+  "nationality": "Czech",
+  "case_type": "Visitor",
+  "status": "decided_refused",
+  "priority": "low",
+  "risk_score": 0,
+  "sla_status": "Decided",
+  "submitted_date": "2024-03-01",
+  "sla_deadline": "2024-03-22",
+  "scenario": "Refused case — insufficient financial evidence",
+  "evidence_summary": "Application decided: REFUSED. Insufficient funds and no clear return intention.",
+  "next_action": "No further action required",
+  "public_status_message": "Your application has been unsuccessful",
+  "action_required": false,
+  "documents_to_request": [],
+  "test_flows": [
+    "Refused status on public portal",
+    "Red/grey status panel",
+    "Full timeline",
+    "No action required"
+  ]
+}

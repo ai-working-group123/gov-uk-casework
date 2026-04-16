@@ -1,41 +1,130 @@
-<div class="max-w-2xl mx-auto py-16">
-  <h1 class="text-3xl font-bold mb-2">Application Status</h1>
-  <p class="text-gray-500 mb-8">Reference: <span class="font-mono font-semibold"><%= @case.reference %></span></p>
+<% content_for :title, "Application #{@case.reference}" %>
 
-  <div class="border rounded-lg p-6 mb-8">
-    <dl>
-      <dt class="font-medium text-gray-500">Applicant</dt>
-      <dd class="mb-4 text-lg"><%= @case.applicant_name %></dd>
+<% content_for :back_link do %>
+  <%= link_to "Back", public_lookup_path, class: "govuk-back-link" %>
+<% end %>
 
-      <dt class="font-medium text-gray-500">Application Type</dt>
-      <dd class="mb-4"><%= @case.case_type_config&.name || "Unassigned" %></dd>
+<%
+  public_status = {
+    "submitted"          => { tag: "blue",   label: "Received",          message: "We have received your application and it is being processed." },
+    "assigned"           => { tag: "blue",   label: "In progress",       message: "Your application has been assigned to a caseworker and will be reviewed shortly." },
+    "in_review"          => { tag: "blue",   label: "Under review",      message: "A caseworker is currently reviewing your application and supporting documents." },
+    "awaiting_evidence"  => { tag: "yellow", label: "Action required",   message: "We are waiting for documents or information from you. Please check below." },
+    "ready_for_decision" => { tag: "blue",   label: "Decision pending",  message: "We have everything we need and a decision is being prepared." },
+    "decided_approved"   => { tag: "green",  label: "Approved",          message: "Your application has been successful. You will receive confirmation separately." },
+    "decided_refused"    => { tag: "red",    label: "Unsuccessful",      message: "Your application has not been successful. See your decision letter for details." },
+    "withdrawn"          => { tag: "grey",   label: "Withdrawn",         message: "This application has been withdrawn." }
+  }
 
-      <dt class="font-medium text-gray-500">Current Status</dt>
-      <dd class="mb-4">
-        <span class="inline-block px-3 py-1 rounded-full text-sm font-medium
-          <% case @case.status
-             when 'submitted' then %>bg-gray-100 text-gray-800<%
-             when 'assigned', 'in_review' then %>bg-blue-100 text-blue-800<%
-             when 'awaiting_evidence' then %>bg-yellow-100 text-yellow-800<%
-             when 'ready_for_decision' then %>bg-purple-100 text-purple-800<%
-             when 'decided_approved' then %>bg-green-100 text-green-800<%
-             when 'decided_refused' then %>bg-red-100 text-red-800<%
-             when 'withdrawn' then %>bg-gray-100 text-gray-500<%
-             end %>">
-          <%= @case.status.humanize %>
-        </span>
-      </dd>
+  status_info  = public_status[@case.status] || { tag: "blue", label: @case.status.humanize, message: "Your application is being processed." }
 
-      <dt class="font-medium text-gray-500">Submitted</dt>
-      <dd class="mb-4"><%= @case.submitted_at&.strftime("%d %B %Y") %></dd>
+  # Drive from Evidence model — same source of truth as the admin view.
+  # Shows anything the applicant still needs to provide (not_received or rejected).
+  outstanding_evidence = @case.evidences
+                              .where(status: [:not_received, :rejected])
+                              .includes(:policy_reference)
 
-      <dt class="font-medium text-gray-500">Priority</dt>
-      <dd class="mb-4"><%= @case.priority.humanize %></dd>
-    </dl>
+  # Build a lookup of evidence_id -> EvidenceRequestItem so we can offer upload links
+  # where a formal request exists and allows digital submission
+  upload_items = EvidenceRequestItem
+                   .joins(:evidence_request)
+                   .where(evidence_requests: { case_id: @case.id })
+                   .where(status: [:pending, :received])
+                   .index_by(&:evidence_id)
+%>
+
+<h1 class="govuk-heading-xl">Your application status</h1>
+
+<% if flash[:notice] %>
+  <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">Success</h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      <p class="govuk-body"><%= flash[:notice] %></p>
+    </div>
+  </div>
+<% end %>
+
+<dl class="govuk-summary-list govuk-!-margin-bottom-6">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Reference</dt>
+    <dd class="govuk-summary-list__value govuk-!-font-weight-bold"><%= @case.reference %></dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Application type</dt>
+    <dd class="govuk-summary-list__value"><%= @case.case_type_label %></dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Applicant name</dt>
+    <dd class="govuk-summary-list__value"><%= @case.applicant_name %></dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Date submitted</dt>
+    <dd class="govuk-summary-list__value"><%= @case.submitted_at&.strftime("%-d %B %Y") %></dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Status</dt>
+    <dd class="govuk-summary-list__value">
+      <strong class="govuk-tag govuk-tag--<%= status_info[:tag] %>"><%= status_info[:label] %></strong>
+    </dd>
+  </div>
+</dl>
+
+<% if outstanding_evidence.any? %>
+  <div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-visually-hidden">Warning</span>
+      You need to provide <%= outstanding_evidence.size == 1 ? "a document" : "#{outstanding_evidence.size} documents" %> before we can continue.
+    </strong>
   </div>
 
-  <div class="flex gap-4">
-    <%= link_to "Search again", public_lookup_path, class: "text-blue-600 hover:underline" %>
-    <%= link_to "Back to Home", root_path, class: "text-blue-600 hover:underline" %>
-  </div>
+  <h2 class="govuk-heading-m">Documents we need from you</h2>
+
+  <ul class="govuk-list govuk-list--spaced">
+    <% outstanding_evidence.each do |evidence| %>
+      <%
+        doc_label = evidence.policy_reference&.title ||
+                    evidence.evidence_type&.humanize ||
+                    "Document"
+        upload_item = upload_items[evidence.id]
+        rejected = evidence.rejected?
+      %>
+      <li>
+        <strong class="govuk-body govuk-!-font-weight-bold"><%= doc_label %></strong>
+        <% if rejected %>
+          <p class="govuk-body govuk-!-margin-bottom-1">We were unable to accept a previous submission. Please upload a replacement.</p>
+        <% end %>
+        <% if upload_item&.reason.present? %>
+          <p class="govuk-body govuk-!-margin-bottom-1"><%= upload_item.reason %></p>
+        <% end %>
+        <% if upload_item&.allows_upload? %>
+          <%= link_to "Upload #{doc_label.downcase}",
+              public_lookup_upload_form_path(reference: @case.reference, item_id: upload_item.id),
+              class: "govuk-link" %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<div class="govuk-inset-text">
+  <%= status_info[:message] %>
 </div>
+
+<% if @case.decided_approved? || @case.decided_refused? %>
+  <h2 class="govuk-heading-m">What happens next</h2>
+  <% if @case.decided_approved? %>
+    <p class="govuk-body">Your application has been approved. You will receive your decision letter by post or email.</p>
+  <% else %>
+    <p class="govuk-body">Your application has not been approved. Your decision letter will explain the reasons and tell you about any rights of appeal or administrative review.</p>
+    <p class="govuk-body">
+      <a class="govuk-link" href="https://www.gov.uk/ask-for-a-visa-administrative-review">Find out about administrative review</a>
+    </p>
+  <% end %>
+<% end %>
+
+<p class="govuk-body govuk-!-margin-top-6">
+  <%= link_to "Check a different reference", public_lookup_path, class: "govuk-link" %>
+</p>

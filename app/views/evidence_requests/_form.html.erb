@@ -1,6 +1,6 @@
 <%= form_with(model: [@case, evidence_request]) do |form| %>
   <% if evidence_request.errors.any? %>
-    <div class="bg-red-50 text-red-500 px-4 py-3 rounded mb-4">
+    <div class="notification-error">
       <h2><%= pluralize(evidence_request.errors.count, "error") %> prohibited this evidence request from being saved:</h2>
       <ul class="list-disc ml-5 mt-2">
         <% evidence_request.errors.each do |error| %>
@@ -10,33 +10,33 @@
     </div>
   <% end %>
 
-  <div class="mb-4">
-    <%= form.label :requested_by_id, "Requested by", class: "block font-medium mb-1" %>
-    <%= form.collection_select :requested_by_id, Caseworker.all, :id, :name, { prompt: "Select caseworker" }, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :requested_by_id, "Requested by", class: "form-label" %>
+    <%= form.collection_select :requested_by_id, Caseworker.all, :id, :name, { prompt: "Select caseworker" }, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :status, class: "block font-medium mb-1" %>
-    <%= form.select :status, EvidenceRequest.statuses.keys.map { |s| [s.humanize, s] }, {}, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :status, class: "form-label" %>
+    <%= form.select :status, EvidenceRequest.statuses.keys.map { |s| [s.humanize, s] }, {}, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :deadline, class: "block font-medium mb-1" %>
-    <%= form.datetime_local_field :deadline, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :deadline, class: "form-label" %>
+    <%= form.datetime_local_field :deadline, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :notify_via, class: "block font-medium mb-1" %>
-    <%= form.number_field :notify_via, class: "border rounded px-3 py-2 w-full", min: 0, max: 7 %>
-    <p class="text-sm text-gray-500 mt-1">Bitmask: Email=1, Portal=2, SMS=4</p>
+  <div class="form-group">
+    <%= form.label :notify_via, class: "form-label" %>
+    <%= form.number_field :notify_via, class: "w-full", min: 0, max: 7 %>
+    <p class="form-hint">Bitmask: Email=1, Portal=2, SMS=4</p>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :cover_message, class: "block font-medium mb-1" %>
-    <%= form.text_area :cover_message, rows: 4, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :cover_message, class: "form-label" %>
+    <%= form.text_area :cover_message, rows: 4, class: "w-full" %>
   </div>
 
   <div>
-    <%= form.submit class: "bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700" %>
+    <%= form.submit class: "btn-primary cursor-pointer" %>
   </div>
 <% end %>

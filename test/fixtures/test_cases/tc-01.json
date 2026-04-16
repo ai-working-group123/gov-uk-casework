@@ -1,0 +1,26 @@
+{
+  "id": "tc-01",
+  "reference": "HO-T2-A3F9",
+  "applicant_name": "Priya Sharma",
+  "nationality": "Indian",
+  "case_type": "Skilled Worker",
+  "status": "awaiting_evidence",
+  "priority": "high",
+  "risk_score": 85,
+  "sla_status": "OVERDUE 13 days",
+  "submitted_date": "2024-02-12",
+  "sla_deadline": "2024-03-28",
+  "scenario": "Urgent overdue — missing sponsorship cert",
+  "evidence_summary": "5/6 received. MISSING: sponsorship certificate (employer not responding)",
+  "next_action": "Chase employer for CoS. 28 days overdue. Send formal chase letter.",
+  "public_status_message": "Awaiting evidence — we have contacted the relevant party directly",
+  "action_required": false,
+  "documents_to_request": [],
+  "test_flows": [
+    "Dashboard overdue badge",
+    "Case detail overdue banner",
+    "Evidence checklist missing item",
+    "Actions panel chase action",
+    "Timeline SLA breach event"
+  ]
+}

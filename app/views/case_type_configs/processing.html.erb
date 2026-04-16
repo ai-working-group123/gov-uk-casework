@@ -1,40 +1,33 @@
 <% content_for(:title) { "Processing — Admin" } %>
 
-<div class="max-w-3xl mx-auto text-center py-16" role="status" aria-live="polite">
-  <!-- Animated spinner -->
-  <div class="mb-8">
-    <svg aria-hidden="true" class="animate-spin h-16 w-16 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-    </svg>
-  </div>
+<div class="max-w-[640px] py-12" role="status" aria-live="polite">
+  <h1 class="text-3xl font-bold text-gds-black mb-2"><%= @processing_title || "Processing" %></h1>
+  <p class="text-gds-dark-grey mb-8"><%= @processing_message || "The AI is analysing your input. This may take a moment." %></p>
 
-  <h2 class="text-2xl font-bold text-gray-900 mb-2"><%= @processing_title || "Processing..." %></h2>
-  <p class="text-gray-600 mb-8"><%= @processing_message || "The AI is analysing your input. This may take a moment." %></p>
-
-  <!-- Progress steps -->
-  <div class="inline-flex flex-col items-start text-left space-y-3 mb-8" aria-label="Processing progress">
+  <div class="space-y-3 mb-8">
     <% (@completed_steps || []).each do |step| %>
-      <span class="flex items-center gap-2 text-green-600 text-sm">
-        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-        <span><%= step %> <span class="sr-only">(completed)</span></span>
-      </span>
+      <div class="flex items-center gap-3 text-sm">
+        <span class="inline-flex items-center justify-center w-6 h-6 bg-gds-green text-white text-xs font-bold" aria-hidden="true">✓</span>
+        <span class="text-gds-black"><%= step %><span class="sr-only"> (completed)</span></span>
+      </div>
     <% end %>
 
     <% if @current_step %>
-      <span class="flex items-center gap-2 text-blue-600 text-sm font-semibold">
-        <svg aria-hidden="true" class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
-        <span><%= @current_step %> <span class="sr-only">(in progress)</span></span>
-      </span>
+      <div class="flex items-center gap-3 text-sm font-semibold">
+        <span class="inline-flex items-center justify-center w-6 h-6 bg-gds-blue text-white text-xs">
+          <svg aria-hidden="true" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+        </span>
+        <span class="text-gds-black"><%= @current_step %><span class="sr-only"> (in progress)</span></span>
+      </div>
     <% end %>
 
     <% (@pending_steps || []).each do |step| %>
-      <span class="flex items-center gap-2 text-gray-400 text-sm">
-        <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke-width="2"></circle></svg>
-        <span><%= step %> <span class="sr-only">(pending)</span></span>
-      </span>
+      <div class="flex items-center gap-3 text-sm">
+        <span class="inline-flex items-center justify-center w-6 h-6 border-2 border-gds-mid-grey text-gds-mid-grey text-xs font-bold" aria-hidden="true">&middot;</span>
+        <span class="text-gds-mid-grey"><%= step %><span class="sr-only"> (pending)</span></span>
+      </div>
     <% end %>
   </div>
 
-  <p class="text-xs text-gray-400">Please don't close this page.</p>
+  <p class="text-sm text-gds-dark-grey">Do not close this page.</p>
 </div>

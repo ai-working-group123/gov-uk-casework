@@ -1,0 +1,35 @@
+{
+  "id": "tc-06",
+  "reference": "HO-T4-B7KX",
+  "applicant_name": "Marco Rossi",
+  "nationality": "Italian",
+  "case_type": "Student",
+  "status": "ready_for_decision",
+  "priority": "medium",
+  "risk_score": 30,
+  "sla_status": "Within SLA",
+  "submitted_date": "2024-01-20",
+  "sla_deadline": "2024-04-20",
+  "scenario": "Ready to decide — all evidence in, caseworker idle",
+  "evidence_summary": "5/5 received. CAS valid. Financials £1,334/month confirmed. English B2 SELT passed.",
+  "next_action": "All checks pass — record approval decision",
+  "public_status_message": "Your application is being reviewed by a caseworker",
+  "action_required": false,
+  "documents_to_request": [],
+  "test_flows": [
+    "Dashboard action needed",
+    "Make decision action",
+    "Full evidence checklist complete"
+  ],
+  case_data: {
+    "applicant_name": "Marco Rossi",
+    "nationality": "Italian",
+    "case_type": "Student",
+    "status": "ready_for_decision",
+    "priority": "medium",
+    "risk_score": 30,
+      "nationality": "Italian",
+  "visa_type": "Student",
+
+  }
+}

@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :case_type_configs, only: [ :new, :create, :show, :index, :update ] do
+    resources :case_type_configs, only: [ :new, :create, :show, :index, :edit, :update ] do
       member do
         get :questions
         post :answer
@@ -34,8 +34,10 @@ Rails.application.routes.draw do
   end
 
   scope "public" do
-    get "lookup", to: "lookup#index", as: :public_lookup
-    get "lookup/:reference", to: "lookup#show", as: :public_lookup_case
+    get  "lookup",                                    to: "lookup#index",       as: :public_lookup
+    get  "lookup/:reference",                         to: "lookup#show",        as: :public_lookup_case
+    get  "lookup/:reference/upload/:item_id",         to: "lookup#upload_form", as: :public_lookup_upload_form
+    post "lookup/:reference/upload/:item_id",         to: "lookup#upload",      as: :public_lookup_upload
   end
 
   root "home#index"

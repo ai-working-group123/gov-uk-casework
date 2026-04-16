@@ -1,33 +1,33 @@
-<div class="max-w-4xl mx-auto py-8">
+<div >
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold">Teams</h1>
-    <%= link_to "New Team", new_team_path, class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+    <h1 class="text-3xl font-bold mb-2">Teams</h1>
+    <%= link_to "New Team", new_team_path, class: "btn-secondary" %>
   </div>
 
   <% if @teams.any? %>
-    <table class="min-w-full border">
-      <thead class="bg-gray-50">
+    <table class="gds-table">
+      <thead>
         <tr>
-          <th class="px-4 py-2 text-left">Name</th>
-          <th class="px-4 py-2 text-left">Leader ID</th>
-          <th class="px-4 py-2 text-left">Actions</th>
+          <th>Name</th>
+          <th>Leader ID</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <% @teams.each do |team| %>
-          <tr class="border-t">
-            <td class="px-4 py-2"><%= team.name %></td>
-            <td class="px-4 py-2"><%= team.leader_id %></td>
-            <td class="px-4 py-2 flex gap-2">
-              <%= link_to "Show", team, class: "text-blue-600 hover:underline" %>
-              <%= link_to "Edit", edit_team_path(team), class: "text-blue-600 hover:underline" %>
-              <%= button_to "Delete", team, method: :delete, class: "text-red-600 hover:underline", data: { turbo_confirm: "Are you sure?" } %>
+          <tr>
+            <td><%= team.name %></td>
+            <td><%= team.leader_id %></td>
+            <td class="flex gap-3">
+              <%= link_to "Show", team, class: "link" %>
+              <%= link_to "Edit", edit_team_path(team), class: "link" %>
+              <%= button_to "Delete", team, method: :delete, class: "link text-gds-red", data: { turbo_confirm: "Are you sure?" } %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% else %>
-    <p class="text-gray-500">No teams yet.</p>
+    <p class="text-gds-dark-grey">No teams yet.</p>
   <% end %>
 </div>

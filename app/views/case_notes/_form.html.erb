@@ -1,6 +1,6 @@
 <%= form_with(model: [@case, case_note]) do |form| %>
   <% if case_note.errors.any? %>
-    <div class="bg-red-50 text-red-500 px-4 py-3 rounded mb-4">
+    <div class="notification-error">
       <h2><%= pluralize(case_note.errors.count, "error") %> prohibited this case note from being saved:</h2>
       <ul class="list-disc ml-5 mt-2">
         <% case_note.errors.each do |error| %>
@@ -10,33 +10,33 @@
     </div>
   <% end %>
 
-  <div class="mb-4">
-    <%= form.label :content, class: "block font-medium mb-1" %>
-    <%= form.text_area :content, rows: 5, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :content, class: "form-label" %>
+    <%= form.text_area :content, rows: 5, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :note_type, class: "block font-medium mb-1" %>
-    <%= form.select :note_type, CaseNote.note_types.keys.map { |t| [t.humanize, t] }, {}, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :note_type, class: "form-label" %>
+    <%= form.select :note_type, CaseNote.note_types.keys.map { |t| [t.humanize, t] }, {}, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :caseworker_id, "Caseworker", class: "block font-medium mb-1" %>
-    <%= form.collection_select :caseworker_id, Caseworker.all, :id, :name, { prompt: "None", include_blank: true }, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :caseworker_id, "Caseworker", class: "form-label" %>
+    <%= form.collection_select :caseworker_id, Caseworker.all, :id, :name, { prompt: "None", include_blank: true }, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
+  <div class="form-group">
     <%= form.label :visible_to_applicant, class: "inline-flex items-center gap-2" %>
     <%= form.check_box :visible_to_applicant, class: "rounded" %>
     <span>Visible to applicant</span>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :applicant_message, class: "block font-medium mb-1" %>
-    <%= form.text_field :applicant_message, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :applicant_message, class: "form-label" %>
+    <%= form.text_field :applicant_message, class: "w-full" %>
   </div>
 
   <div>
-    <%= form.submit class: "bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700" %>
+    <%= form.submit class: "btn-primary cursor-pointer" %>
   </div>
 <% end %>
