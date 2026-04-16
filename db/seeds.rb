@@ -531,7 +531,7 @@ seed_cases.each do |case_attrs|
 		nationality: case_attrs[:nationality],
 		assigned_to: assigned_caseworker,
 		assigned_at: case_attrs[:assigned_at],
-		case_type_config: case_attrs[:case_type_config],
+		case_type_config: case_type_config,
 		status: case_attrs[:status],
 		priority: case_attrs[:priority],
 		submitted_at: case_attrs[:submitted_at],
