@@ -20,5 +20,16 @@
     "Dashboard action needed",
     "Make decision action",
     "Full evidence checklist complete"
-  ]
+  ],
+  case_data: {
+    "applicant_name": "Marco Rossi",
+    "nationality": "Italian",
+    "case_type": "Student",
+    "status": "ready_for_decision",
+    "priority": "medium",
+    "risk_score": 30,
+      "nationality": "Italian",
+  "visa_type": "Student",
+
+  }
 }

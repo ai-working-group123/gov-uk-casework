@@ -1,65 +1,53 @@
 <%# Screen 7: Document Upload Page %>
 
-<% reference = params[:reference] || "VIS-2024-00847" %>
+<% reference = params[:reference] || "HO-T2-A3F9" %>
 
-<p class="text-sm mb-4">
-  <a href="/lookup/<%= reference %>?action_required=true" style="color:#1D70B8;" class="underline">← Back to your application</a>
-</p>
+<% content_for :back_link do %>
+  <a href="/lookup/<%= reference %>?action_required=true" class="govuk-back-link">Back</a>
+<% end %>
 
-<h1 class="text-2xl font-bold text-gray-900 mb-1">Upload document</h1>
-<h2 class="text-lg text-gray-700 mb-1">Sponsorship certificate</h2>
-<p class="text-sm text-gray-500 mb-6">Application: <strong><%= reference %></strong></p>
+<h1 class="govuk-heading-l">Upload document</h1>
+<p class="govuk-body"><strong>Document:</strong> Sponsorship certificate</p>
+<p class="govuk-body"><strong>Application:</strong> <%= reference %></p>
 
-<p class="text-gray-700 mb-4">Upload a copy of your Certificate of Sponsorship.</p>
+<p class="govuk-body">Upload a copy of your Certificate of Sponsorship.</p>
 
-<div class="mb-4">
-  <p class="font-semibold text-sm text-gray-800 mb-2">The file must be:</p>
-  <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
-    <li>a PDF, JPG, or PNG</li>
-    <li>smaller than 10MB</li>
-    <li>a clear, readable scan or photograph</li>
-  </ul>
-</div>
+<ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
+  <li>a PDF, JPG, or PNG</li>
+  <li>smaller than 10MB</li>
+  <li>a clear, readable scan or photograph</li>
+</ul>
 
 <form action="/lookup/<%= reference %>/upload/<%= params[:item_id] %>" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="authenticity_token" value="[token]">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 
-  <%# Drop zone %>
-  <div class="border-2 border-dashed border-gray-400 rounded bg-gray-50 p-10 text-center mb-4">
-    <p class="text-gray-500 mb-3">Drag and drop your file here</p>
-    <p class="text-gray-400 text-sm mb-4">or</p>
-    <label class="cursor-pointer bg-white border-2 border-gray-700 text-gray-800 font-bold px-4 py-2 rounded hover:bg-gray-100 text-sm">
-      Choose file
-      <input type="file" name="document" accept=".pdf,.jpg,.jpeg,.png" class="hidden">
+  <div class="govuk-form-group">
+    <label class="govuk-label" for="document">
+      Upload a file
     </label>
+    <input class="govuk-file-upload" id="document" name="document" type="file" accept=".pdf,.jpg,.jpeg,.png">
   </div>
 
-  <%# File selected state (wireframe static preview) %>
-  <div class="border border-gray-300 rounded bg-white px-4 py-3 flex items-center justify-between text-sm mb-4 text-gray-500 italic">
-    <span>📄 sponsorship_certificate.pdf (2.3 MB) &nbsp;<span class="text-xs text-gray-400">[selected — static wireframe preview]</span></span>
-    <button type="button" class="text-red-600 text-xs hover:underline">Remove</button>
-  </div>
-
-  <%# Optional note %>
-  <div class="mb-6">
-    <label class="block font-semibold text-sm text-gray-800 mb-1" for="note">
+  <div class="govuk-form-group">
+    <label class="govuk-label" for="note">
       Is there anything else you want to tell us about this document?
-      <span class="font-normal text-gray-500">(optional)</span>
     </label>
-    <textarea id="note" name="note" rows="3"
-              class="w-full border-2 border-gray-400 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"></textarea>
+    <div id="note-hint" class="govuk-hint">Optional</div>
+    <textarea class="govuk-textarea" id="note" name="note" rows="3" aria-describedby="note-hint"></textarea>
   </div>
 
-  <button type="submit"
-          style="background-color:#00703c;" class="hover:opacity-90 text-white font-bold px-5 py-2.5 rounded text-base">
+  <button type="submit" class="govuk-button" data-module="govuk-button">
     Upload document
   </button>
 </form>
 
-<%# Success state (wireframe static preview) %>
-<div class="mt-8 border-l-4 border-green-500 bg-green-50 p-4 text-sm text-gray-700">
-  <p class="font-bold text-green-800 mb-1">✅ Your document has been uploaded successfully.</p>
-  <p class="mb-3">We will review it as part of your application. You do not need to do anything else for this document.</p>
-  <a href="/lookup/<%= reference %>?action_required=true" style="color:#1D70B8;" class="underline font-semibold">Return to your application status</a>
+<%# Success state — static wireframe preview %>
+<div class="govuk-panel govuk-panel--confirmation govuk-!-margin-top-6">
+  <h1 class="govuk-panel__title">Document uploaded successfully</h1>
+  <div class="govuk-panel__body">Reference: <%= reference %></div>
 </div>
-<p class="text-xs text-gray-400 mt-1 italic">(Success panel shown here for wireframe — will only appear after upload in production)</p>
+<p class="govuk-body-s govuk-!-color-secondary">(Success panel shown for wireframe — will only appear after upload in production)</p>
+
+<p class="govuk-body govuk-!-margin-top-4">
+  <a href="/lookup/<%= reference %>?action_required=true" class="govuk-link">Return to your application status</a>
+</p>

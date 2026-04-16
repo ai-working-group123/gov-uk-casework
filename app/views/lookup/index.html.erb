@@ -1,17 +1,20 @@
 <%# Screen 4a: Applicant Lookup Form %>
 
-<h1 class="text-3xl font-bold text-gray-900 mb-2">Check your visa application status</h1>
-<p class="text-gray-600 mb-6">Enter your application reference number. You can find this on the confirmation email you received when you submitted your application.</p>
+<h1 class="govuk-heading-xl">Check your visa application status</h1>
+<p class="govuk-body">Enter your application reference number. You can find this on the confirmation email you received when you submitted your application.</p>
 
-<form action="/lookup/VIS-2024-00847" method="get">
-  <div class="mb-6">
-    <label class="block font-bold text-gray-900 mb-1" for="reference">Application reference number</label>
-    <p class="text-sm text-gray-500 mb-2">For example, VIS-2024-00847</p>
-    <input type="text" id="reference" name="reference" placeholder="VIS-2024-00847"
-           style="border-color:#0b0c0c;" class="border-2 rounded px-3 py-2 text-lg w-72 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+<form action="/lookup/HO-T2-A3F9" method="get">
+  <div class="govuk-form-group">
+    <label class="govuk-label govuk-label--m" for="reference">
+      Application reference number
+    </label>
+    <div id="reference-hint" class="govuk-hint">
+      For example, HO-T2-A3F9
+    </div>
+    <input class="govuk-input govuk-input--width-20" type="text" id="reference" name="reference"
+           aria-describedby="reference-hint" spellcheck="false" autocomplete="off">
   </div>
-  <button type="submit"
-          style="background-color:#00703c;" class="hover:opacity-90 text-white font-bold px-5 py-2.5 rounded text-base">
+  <button type="submit" class="govuk-button" data-module="govuk-button">
     Check status
   </button>
 </form>
