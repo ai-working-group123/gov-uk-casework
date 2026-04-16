@@ -14,7 +14,7 @@
   </div>
 
   <!-- Progress indicator -->
-  <%= render "progress", current_step: 6 %>
+  <%= render "progress", current_step: 5 %>
 
   <!-- Applied suggestions summary -->
   <% accepted = @case_type_config.case_type_suggestions.accepted %>
@@ -86,13 +86,13 @@
 
   <!-- Action buttons -->
   <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
-    <%= link_to "← Back to Review", review_admin_case_type_config_path(@case_type_config),
+    <%= link_to "← Back to Review", review_case_type_config_path(@case_type_config),
           class: "text-sm text-gray-500 hover:text-gray-700" %>
     <div class="flex gap-3">
-      <%= link_to "Save as Draft", admin_case_type_configs_path,
+      <%= link_to "Save as Draft", case_type_configs_path,
             class: "border border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold px-6 py-3 rounded-lg text-sm transition-colors" %>
       <%= button_to "Publish",
-            publish_admin_case_type_config_path(@case_type_config),
+            publish_case_type_config_path(@case_type_config),
             method: :post,
             class: "bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg text-sm transition-colors inline-flex items-center gap-2",
             data: { turbo: false } %>

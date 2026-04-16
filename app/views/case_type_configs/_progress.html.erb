@@ -1,0 +1,36 @@
+<%# Render the step progress bar. Pass current_step: 1..5 %>
+<%# Future steps are navigable links but become disabled when the form has unsaved changes %>
+<% steps = [
+  { label: "Step 1: Source", path: case_type_config_path(@case_type_config) },
+  { label: "Step 2: Clarify", path: questions_case_type_config_path(@case_type_config) },
+  { label: "Step 3: Review", path: review_case_type_config_path(@case_type_config) },
+  { label: "Step 4: Suggestions", path: suggestions_case_type_config_path(@case_type_config) },
+  { label: "Step 5: Finalise", path: finalise_case_type_config_path(@case_type_config) }
+] %>
+
+<div class="mb-8" data-controller="step-navigation">
+  <div class="flex items-center gap-4 text-sm flex-wrap">
+    <% steps.each_with_index do |step, index| %>
+      <% step_num = index + 1 %>
+      <% if step_num < current_step %>
+        <%# Completed step — link back %>
+        <%= link_to step[:path], class: "flex items-center gap-1.5 text-green-600 hover:text-green-800 hover:underline" do %>
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <%= step[:label] %>
+        <% end %>
+      <% elsif step_num == current_step %>
+        <%# Current step — no link %>
+        <span class="flex items-center gap-1.5 text-blue-600 font-semibold">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <%= step[:label] %>
+        </span>
+      <% else %>
+        <%# Future step — navigable link, disabled by JS when form has unsaved changes %>
+        <%= link_to step[:path], class: "flex items-center gap-1.5 text-gray-400 hover:text-gray-600 hover:underline transition-opacity", data: { step_navigation_target: "futureLink" } do %>
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"></circle></svg>
+          <%= step[:label] %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

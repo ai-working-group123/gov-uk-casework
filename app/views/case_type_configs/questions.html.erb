@@ -10,9 +10,9 @@
   </div>
 
   <!-- Progress indicator -->
-  <%= render "progress", current_step: 3 %>
+  <%= render "progress", current_step: 2 %>
 
-  <%= form_with url: answer_admin_case_type_config_path(@case_type_config), method: :post, data: { turbo: false } do |f| %>
+  <%= form_with url: answer_case_type_config_path(@case_type_config), method: :post, data: { turbo: false, controller: "loading-form", action: "submit->loading-form#submit" } do |f| %>
 
     <% @questions.each_with_index do |question, index| %>
       <div

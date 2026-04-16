@@ -7,7 +7,7 @@
     The more detail you provide, the better the generated configuration.
   </p>
 
-  <%= form_with url: admin_case_type_configs_path, method: :post, class: "space-y-6", data: { controller: "url-list", turbo: false } do |f| %>
+  <%= form_with url: case_type_configs_path, method: :post, class: "space-y-6", data: { controller: "url-list loading-form", turbo: false, action: "submit->loading-form#submit" } do |f| %>
 
     <!-- Description -->
     <div>

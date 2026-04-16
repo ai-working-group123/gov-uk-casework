@@ -137,7 +137,7 @@ response = client.chat(
       { role: "system", content: GENERATION_PROMPT },
       { role: "user", content: "Generate a complete case type configuration from this analysis:\n\n#{JSON.pretty_generate(analysis)}" }
     ],
-    max_tokens: 4000,
+    max_completion_tokens: 4000,
     temperature: 0.3
   }
 )

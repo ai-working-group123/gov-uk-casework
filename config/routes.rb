@@ -13,10 +13,8 @@ Rails.application.routes.draw do
         resources :evidence_request_items
       end
     end
-  end
 
-  namespace :admin do
-    resources :case_type_configs, only: [ :new, :create, :show, :index ] do
+    resources :case_type_configs, only: [ :new, :create, :show, :index, :update ] do
       member do
         get :questions
         post :answer

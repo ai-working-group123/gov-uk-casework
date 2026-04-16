@@ -6,11 +6,11 @@ You build the **engine** — the services that scrape, analyse, and generate cas
 
 **Your files — nobody else touches these:**
 
-| Layer | Files |
-|-------|-------|
-| **Migrations** | `create_case_type_configs`, `create_case_type_generation_logs` |
-| **Models** | `app/models/case_type_config.rb`, `app/models/case_type_generation_log.rb` |
-| **Services** | `app/services/llm_client.rb`, `app/services/url_scraper.rb`, `app/services/case_type_generator.rb` |
+| Layer          | Files                                                                                              |
+| -------------- | -------------------------------------------------------------------------------------------------- |
+| **Migrations** | `create_case_type_configs`, `create_case_type_generation_logs`                                     |
+| **Models**     | `app/models/case_type_config.rb`, `app/models/case_type_generation_log.rb`                         |
+| **Services**   | `app/services/llm_client.rb`, `app/services/url_scraper.rb`, `app/services/case_type_generator.rb` |
 
 ---
 
@@ -22,7 +22,7 @@ E3b will call your services via these exact method signatures. **Agree this befo
 # LlmClient
 LlmClient.available?                    # => true/false
 LlmClient.model_name                    # => "gpt-4o"
-LlmClient.new.call(system_prompt:, user_prompt:, max_tokens: 4000) # => String
+LlmClient.new.call(system_prompt:, user_prompt:, max_completion_tokens: 4000) # => String
 
 # UrlScraper
 UrlScraper.new.call(url)                # => String (cleaned text, max 5000 chars)
@@ -67,17 +67,17 @@ gen.generate_config!(answers: {})       # => CaseTypeConfig (updated with genera
 
 ## Pre-Build (08:30–09:55)
 
-| # | Task | Status | Notes |
-|---|------|--------|-------|
-| 1 | Add gem: `ruby-openai` (or `anthropic`) to Gemfile, `bundle install` | ⬜ | Coordinate with E3b who adds `redcarpet` |
-| 2 | Confirm LLM API key works — test from `irb`/console | ⬜ | `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` in ENV |
-| 3 | Create migration `create_case_type_configs` | ⬜ | Schema below |
-| 4 | Create migration `create_case_type_generation_logs` | ⬜ | Schema below |
-| 5 | Create `CaseTypeConfig` model with enums, validations | ⬜ | |
-| 6 | Create `CaseTypeGenerationLog` model | ⬜ | |
-| 7 | Create `app/services/llm_client.rb` | ⬜ | |
-| 8 | Create `app/services/url_scraper.rb` | ⬜ | |
-| 9 | `rails db:migrate` — verify models in console | ⬜ | |
+| #   | Task                                                                 | Status | Notes                                          |
+| --- | -------------------------------------------------------------------- | ------ | ---------------------------------------------- |
+| 1   | Add gem: `ruby-openai` (or `anthropic`) to Gemfile, `bundle install` | ⬜     | Coordinate with E3b who adds `redcarpet`       |
+| 2   | Confirm LLM API key works — test from `irb`/console                  | ⬜     | `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` in ENV |
+| 3   | Create migration `create_case_type_configs`                          | ⬜     | Schema below                                   |
+| 4   | Create migration `create_case_type_generation_logs`                  | ⬜     | Schema below                                   |
+| 5   | Create `CaseTypeConfig` model with enums, validations                | ⬜     |                                                |
+| 6   | Create `CaseTypeGenerationLog` model                                 | ⬜     |                                                |
+| 7   | Create `app/services/llm_client.rb`                                  | ⬜     |                                                |
+| 8   | Create `app/services/url_scraper.rb`                                 | ⬜     |                                                |
+| 9   | `rails db:migrate` — verify models in console                        | ⬜     |                                                |
 
 **Done when:** `LlmClient.new.call(...)` returns text. Models save to DB. `UrlScraper` fetches a page.
 
@@ -85,13 +85,13 @@ gen.generate_config!(answers: {})       # => CaseTypeConfig (updated with genera
 
 ## Phase 1 (09:55–11:00) — Analysis Pipeline
 
-| # | Task | Status | Notes |
-|---|------|--------|-------|
-| 10 | Create `app/services/case_type_generator.rb` | ⬜ | |
-| 11 | Implement `scrape_and_analyse!` — Steps 1+2 of pipeline | ⬜ | Scrape URLs → send to LLM → parse JSON → return analysis hash |
-| 12 | Write + test the Analysis Prompt (Step 2) | ⬜ | Get JSON back reliably, tune prompt |
-| 13 | Implement clarifying questions extraction from analysis | ⬜ | Filter elements with confidence < 0.6 |
-| 14 | Log each step to `CaseTypeGenerationLog` | ⬜ | input_text, output_text, model_used, tokens, confidence |
+| #   | Task                                                    | Status | Notes                                                         |
+| --- | ------------------------------------------------------- | ------ | ------------------------------------------------------------- |
+| 10  | Create `app/services/case_type_generator.rb`            | ⬜     |                                                               |
+| 11  | Implement `scrape_and_analyse!` — Steps 1+2 of pipeline | ⬜     | Scrape URLs → send to LLM → parse JSON → return analysis hash |
+| 12  | Write + test the Analysis Prompt (Step 2)               | ⬜     | Get JSON back reliably, tune prompt                           |
+| 13  | Implement clarifying questions extraction from analysis | ⬜     | Filter elements with confidence < 0.6                         |
+| 14  | Log each step to `CaseTypeGenerationLog`                | ⬜     | input_text, output_text, model_used, tokens, confidence       |
 
 **🔗 MERGE POINT 1 (11:00):** Push services. E3b wires their controller/views to your real services.
 
@@ -101,13 +101,13 @@ gen.generate_config!(answers: {})       # => CaseTypeConfig (updated with genera
 
 ## Phase 2 (11:40–12:30) — Generation Pipeline
 
-| # | Task | Status | Notes |
-|---|------|--------|-------|
-| 15 | Implement `generate_config!(answers:)` — Step 3 | ⬜ | Merge answers into analysis → send generation prompt → parse response |
-| 16 | Write + test the Generation Prompt (Step 3) | ⬜ | Must return valid JSON with all 5 markdown sections |
-| 17 | Handle answer merging — enrich analysis before generation | ⬜ | |
-| 18 | Add `regenerate_section!(section_name)` method | ⬜ | Re-runs LLM for one section only |
-| 19 | Test end-to-end in console: scrape → analyse → generate | ⬜ | |
+| #   | Task                                                      | Status | Notes                                                                 |
+| --- | --------------------------------------------------------- | ------ | --------------------------------------------------------------------- |
+| 15  | Implement `generate_config!(answers:)` — Step 3           | ⬜     | Merge answers into analysis → send generation prompt → parse response |
+| 16  | Write + test the Generation Prompt (Step 3)               | ⬜     | Must return valid JSON with all 5 markdown sections                   |
+| 17  | Handle answer merging — enrich analysis before generation | ⬜     |                                                                       |
+| 18  | Add `regenerate_section!(section_name)` method            | ⬜     | Re-runs LLM for one section only                                      |
+| 19  | Test end-to-end in console: scrape → analyse → generate   | ⬜     |                                                                       |
 
 **🔗 MERGE POINT 2 (12:30):** Push generation. E3b wires review screen to real generated output.
 
@@ -117,11 +117,11 @@ gen.generate_config!(answers: {})       # => CaseTypeConfig (updated with genera
 
 ## Phase 3 (13:55–14:30) — Improvements + Fallback
 
-| # | Task | Status | Notes |
-|---|------|--------|-------|
-| 20 | Add `suggest_improvements!` method | ⬜ | LLM reviews generated config, returns suggestions |
-| 21 | Pre-cache LLM responses for demo fallback | ⬜ | Black Bag Exemption + DVLA Motor Caravan |
-| 22 | Add fallback logic: if `LlmClient.available?` is false, return cached | ⬜ | |
+| #   | Task                                                                  | Status | Notes                                             |
+| --- | --------------------------------------------------------------------- | ------ | ------------------------------------------------- |
+| 20  | Add `suggest_improvements!` method                                    | ⬜     | LLM reviews generated config, returns suggestions |
+| 21  | Pre-cache LLM responses for demo fallback                             | ⬜     | Black Bag Exemption + DVLA Motor Caravan          |
+| 22  | Add fallback logic: if `LlmClient.available?` is false, return cached | ⬜     |                                                   |
 
 **Done when:** Pipeline works live AND with cached fallback.
 

@@ -20,7 +20,7 @@ response = client.chat(
       { role: "system", content: "You are a government process analyst." },
       { role: "user", content: "Describe the steps in processing a UK visa application in 3 bullet points." }
     ],
-    max_tokens: 300
+    max_completion_tokens: 300
   }
 )
 

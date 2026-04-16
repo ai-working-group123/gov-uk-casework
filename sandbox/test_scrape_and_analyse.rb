@@ -130,7 +130,7 @@ analysis_response = client.chat(
       { role: "system", content: ANALYSIS_PROMPT },
       { role: "user", content: "Analyse this government process:\n\n#{scraped_text}" }
     ],
-    max_tokens: 2000,
+    max_completion_tokens: 2000,
     temperature: 0.3
   }
 )
@@ -163,7 +163,7 @@ gen_response = client.chat(
       { role: "system", content: GENERATION_PROMPT },
       { role: "user", content: "Generate config from this analysis:\n\n#{JSON.pretty_generate(analysis)}" }
     ],
-    max_tokens: 4000,
+    max_completion_tokens: 4000,
     temperature: 0.3
   }
 )

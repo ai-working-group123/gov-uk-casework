@@ -112,7 +112,7 @@ end
 CLIENT = OpenAI::Client.new(access_token: ENV.fetch("OPENAI_API_KEY"))
 TOTAL_TOKENS = { prompt: 0, completion: 0 }
 
-def llm_call(system_prompt, user_prompt, max_tokens: 2000)
+def llm_call(system_prompt, user_prompt, max_completion_tokens: 2000)
   start = Time.now
   response = CLIENT.chat(
     parameters: {
@@ -121,7 +121,7 @@ def llm_call(system_prompt, user_prompt, max_tokens: 2000)
         { role: "system", content: system_prompt },
         { role: "user", content: user_prompt }
       ],
-      max_tokens: max_tokens,
+      max_completion_tokens: max_completion_tokens,
       temperature: 0.3
     }
   )
@@ -378,7 +378,7 @@ wait_for_enter
 step_header(2, "ANALYSIS — Understanding the process")
 
 puts "  Sending #{all_content.length} chars to GPT-4o for analysis..."
-analysis_text = llm_call(ANALYSIS_PROMPT, "Analyse this government process:\n\n#{all_content}", max_tokens: 3000)
+analysis_text = llm_call(ANALYSIS_PROMPT, "Analyse this government process:\n\n#{all_content}", max_completion_tokens: 3000)
 analysis = SandboxHelpers.parse_llm_json(analysis_text)
 
 puts
@@ -482,7 +482,7 @@ if questions.any?
       enriched_text = llm_call(
         ENRICHMENT_PROMPT,
         "Update this analysis with the admin's answers:\n\n#{JSON.pretty_generate(enrichment_input)}",
-        max_tokens: 3000
+        max_completion_tokens: 3000
       )
       analysis = SandboxHelpers.parse_llm_json(enriched_text)
 
@@ -540,7 +540,7 @@ puts "  Sending enriched analysis to GPT-4o for config generation..."
 gen_text = llm_call(
   GENERATION_PROMPT,
   "Generate a complete case type configuration:\n\n#{JSON.pretty_generate(analysis)}",
-  max_tokens: 4000
+  max_completion_tokens: 4000
 )
 config = SandboxHelpers.parse_llm_json(gen_text)
 
@@ -579,7 +579,7 @@ sections.each do |key, title|
   if choice =~ /Regenerate/
     puts "  #{C.yellow("⏳")} Regenerating #{title}..."
     regen_prompt = "Regenerate ONLY the #{key} section for this case type. Return ONLY the markdown content for this section, no JSON wrapper.\n\nFull analysis:\n#{JSON.pretty_generate(analysis)}\n\nCurrent version:\n#{config[key]}\n\nMake it more detailed and specific."
-    new_content = llm_call("You are an expert government service designer.", regen_prompt, max_tokens: 2000)
+    new_content = llm_call("You are an expert government service designer.", regen_prompt, max_completion_tokens: 2000)
     config[key] = new_content.gsub(/\A\s*```(?:markdown)?\s*\n?/, "").gsub(/\n?\s*```\s*\z/, "").strip
     puts
     config[key].each_line { |line| puts "  #{C.green(line)}" }
