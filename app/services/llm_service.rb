@@ -6,6 +6,26 @@ class LlmService
 
   MAX_COMPLETION_TOKENS = ENV.fetch("LLM_MAX_COMPLETION_TOKENS", 16_000).to_i
 
+  # ── Model Tiers ────────────────────────────────────────────
+  # Assign cheaper/faster models to simpler tasks, reserve the
+  # flagship model for tasks that genuinely need it.
+
+  MODEL_TIERS = {
+    light:  ENV.fetch("LLM_MODEL_LIGHT",  "gpt-5.4-nano"),
+    medium: ENV.fetch("LLM_MODEL_MEDIUM", "gpt-5.4-mini"),
+    heavy:  ENV.fetch("LLM_MODEL_HEAVY",  "gpt-5.4")
+  }.freeze
+
+  # Maps each operation to a complexity tier.
+  OPERATION_TIERS = {
+    link_relevance:      :light,   # simple classification of URLs
+    analysis:            :heavy,   # deep extraction from raw text
+    enrichment:          :medium,  # structured merge of answers
+    generation:          :heavy,   # creative structured output
+    suggest_improvements: :medium, # review & critique existing config
+    apply_suggestions:   :medium   # targeted rewrite of sections
+  }.freeze
+
   # ── Prompts ──────────────────────────────────────────────────
 
   CASE_EVALUATION_PROMPT = <<~PROMPT
@@ -228,8 +248,8 @@ class LlmService
 
   # ── Public API ─────────────────────────────────────────────
 
-  def initialize(model: "gpt-5.4", temperature: 0.3)
-    @model = model
+  def initialize(model: nil, temperature: 0.3)
+    @default_model = model # nil means use tiered selection
     @temperature = temperature
     @client = OpenAI::Client.new(
       access_token: ENV["OPENAI_API_KEY"] ||
@@ -289,6 +309,7 @@ class LlmService
     response = chat(
       ANALYSIS_PROMPT,
       "Analyse this government process:\n\n#{combined}",
+      operation: :analysis,
       max_completion_tokens: MAX_COMPLETION_TOKENS
     )
     total_tokens += response[:tokens_used]
@@ -299,7 +320,7 @@ class LlmService
       analysis: analysis,
       questions: build_questions_from_analysis(analysis),
       metadata: {
-        model: @model,
+        model: response[:model],
         tokens_used: total_tokens,
         pages_scraped: scraped_pages.length
       }
@@ -328,6 +349,7 @@ class LlmService
     enriched_response = chat(
       ENRICHMENT_PROMPT,
       "Update this analysis with the admin's answers:\n\n#{JSON.generate(enrichment_input)}",
+      operation: :enrichment,
       max_completion_tokens: MAX_COMPLETION_TOKENS
     )
     total_tokens += enriched_response[:tokens_used]
@@ -338,6 +360,7 @@ class LlmService
     gen_response = chat(
       GENERATION_PROMPT,
       "Generate a complete case type configuration:\n\n#{JSON.pretty_generate(enriched_analysis)}",
+      operation: :generation,
       max_completion_tokens: MAX_COMPLETION_TOKENS
     )
     total_tokens += gen_response[:tokens_used]
@@ -345,7 +368,7 @@ class LlmService
     config = parse_json(gen_response[:content])
 
     config.symbolize_keys.merge(
-      metadata: { model: @model, tokens_used: total_tokens }
+      metadata: { model: gen_response[:model], tokens_used: total_tokens }
     )
   end
 
@@ -365,6 +388,7 @@ class LlmService
     response = chat(
       SUGGESTIONS_PROMPT,
       "Review this case type configuration and suggest improvements:\n\n#{JSON.pretty_generate(config_snapshot)}",
+      operation: :suggest_improvements,
       max_completion_tokens: MAX_COMPLETION_TOKENS
     )
 
@@ -372,7 +396,7 @@ class LlmService
 
     {
       suggestions: result["suggestions"].map(&:symbolize_keys),
-      metadata: { model: @model, tokens_used: response[:tokens_used] }
+      metadata: { model: response[:model], tokens_used: response[:tokens_used] }
     }
   end
 
@@ -395,13 +419,14 @@ class LlmService
     response = chat(
       APPLY_SUGGESTIONS_PROMPT,
       "Apply these accepted suggestions to the case type configuration:\n\n#{JSON.pretty_generate(input)}",
+      operation: :apply_suggestions,
       max_completion_tokens: MAX_COMPLETION_TOKENS
     )
 
     result = parse_json(response[:content])
 
     result.symbolize_keys.merge(
-      metadata: { model: @model, tokens_used: response[:tokens_used] }
+      metadata: { model: response[:model], tokens_used: response[:tokens_used] }
     )
   end
 
@@ -447,12 +472,13 @@ class LlmService
 
   # ── LLM Client ─────────────────────────────────────────────
 
-  def chat(system_prompt, user_message, max_completion_tokens: MAX_COMPLETION_TOKENS)
+  def chat(system_prompt, user_message, operation: nil, max_completion_tokens: MAX_COMPLETION_TOKENS)
+    model = model_for(operation)
     start = Time.now
 
     response = @client.chat(
       parameters: {
-        model: @model,
+        model: model,
         messages: [
           { role: "system", content: system_prompt },
           { role: "user", content: user_message }
@@ -466,13 +492,15 @@ class LlmService
     usage = response["usage"] || {}
     content = response.dig("choices", 0, "message", "content")
 
+    tier = operation ? OPERATION_TIERS[operation] : :override
     Rails.logger.info(
-      "Llm: #{@model} call completed in #{elapsed}s " \
+      "Llm: #{model} (#{tier}) call completed in #{elapsed}s " \
       "(#{usage['total_tokens'] || '?'} tokens)"
     )
 
     {
       content: content,
+      model: model,
       tokens_used: usage["total_tokens"] || 0,
       elapsed: elapsed
     }
@@ -480,6 +508,17 @@ class LlmService
     raise RateLimitError, "OpenAI rate limit exceeded: #{e.message}"
   rescue Faraday::TimeoutError, Net::OpenTimeout, Net::ReadTimeout => e
     raise TimeoutError, "OpenAI request timed out: #{e.message}"
+  end
+
+  # Returns the model to use for a given operation.
+  # If a default_model was explicitly passed to the constructor, always use it.
+  # Otherwise, look up the tier for the operation.
+  def model_for(operation)
+    return @default_model if @default_model
+    return MODEL_TIERS[:heavy] unless operation
+
+    tier = OPERATION_TIERS.fetch(operation, :heavy)
+    MODEL_TIERS.fetch(tier)
   end
 
   # ── JSON Parsing ───────────────────────────────────────────
@@ -538,7 +577,8 @@ class LlmService
 
     response = chat(
       LINK_RELEVANCE_PROMPT,
-      "Main page content:\n#{existing_content[0, 2000]}\n\nLinks found:\n#{links_text}"
+      "Main page content:\n#{existing_content[0, 2000]}\n\nLinks found:\n#{links_text}",
+      operation: :link_relevance
     )
 
     links = parse_json(response[:content])
