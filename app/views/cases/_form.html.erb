@@ -1,8 +1,8 @@
 <%= form_with(model: @case) do |form| %>
   <% if @case.errors.any? %>
-    <div class="bg-red-50 text-red-500 px-4 py-3 rounded mb-4">
-      <h2><%= pluralize(@case.errors.count, "error") %> prohibited this case from being saved:</h2>
-      <ul class="list-disc ml-5 mt-2">
+    <div class="notification-error mb-6">
+      <p><%= pluralize(@case.errors.count, "error") %> prohibited this case from being saved:</p>
+      <ul class="list-disc ml-5 mt-2 text-sm">
         <% @case.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -10,52 +10,52 @@
     </div>
   <% end %>
 
-  <div class="mb-4">
-    <%= form.label :applicant_name, class: "block font-medium mb-1" %>
-    <%= form.text_field :applicant_name, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :applicant_name %>
+    <%= form.text_field :applicant_name %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :applicant_email, class: "block font-medium mb-1" %>
-    <%= form.email_field :applicant_email, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :applicant_email %>
+    <%= form.email_field :applicant_email %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :nationality, class: "block font-medium mb-1" %>
-    <%= form.text_field :nationality, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :nationality %>
+    <%= form.text_field :nationality %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :case_type_config_id, "Case Type", class: "block font-medium mb-1" %>
-    <%= form.collection_select :case_type_config_id, CaseTypeConfig.all, :id, :name, { prompt: "Select type" }, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :case_type_config_id, "Case Type" %>
+    <%= form.collection_select :case_type_config_id, CaseTypeConfig.all, :id, :name, { prompt: "Select type" } %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :status, class: "block font-medium mb-1" %>
-    <%= form.select :status, Case.statuses.keys.map { |s| [s.humanize, s] }, {}, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :status %>
+    <%= form.select :status, Case.statuses.keys.map { |s| [s.humanize, s] }, {} %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :priority, class: "block font-medium mb-1" %>
-    <%= form.select :priority, Case.priorities.keys.map { |p| [p.humanize, p] }, {}, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :priority %>
+    <%= form.select :priority, Case.priorities.keys.map { |p| [p.humanize, p] }, {} %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :risk_score, class: "block font-medium mb-1" %>
-    <%= form.number_field :risk_score, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :risk_score %>
+    <%= form.number_field :risk_score %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :assigned_to_id, "Assigned to", class: "block font-medium mb-1" %>
-    <%= form.collection_select :assigned_to_id, Caseworker.all, :id, :name, { prompt: "Unassigned", include_blank: true }, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :assigned_to_id, "Assigned to" %>
+    <%= form.collection_select :assigned_to_id, Caseworker.all, :id, :name, { prompt: "Unassigned", include_blank: true } %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :sla_deadline, class: "block font-medium mb-1" %>
-    <%= form.datetime_local_field :sla_deadline, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :sla_deadline %>
+    <%= form.datetime_local_field :sla_deadline %>
   </div>
 
-  <div>
-    <%= form.submit class: "bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700" %>
+  <div class="pt-6 mt-6" style="border-top: 1px solid var(--color-gds-mid-grey);">
+    <%= form.submit class: "btn-primary cursor-pointer" %>
   </div>
 <% end %>
