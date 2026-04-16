@@ -1,0 +1,26 @@
+<%= form_with(model: team) do |form| %>
+  <% if team.errors.any? %>
+    <div class="bg-red-50 text-red-500 px-4 py-3 rounded mb-4">
+      <h2><%= pluralize(team.errors.count, "error") %> prohibited this team from being saved:</h2>
+      <ul class="list-disc ml-5 mt-2">
+        <% team.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= form.label :name, class: "block font-medium mb-1" %>
+    <%= form.text_field :name, class: "border rounded px-3 py-2 w-full" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :leader_id, class: "block font-medium mb-1" %>
+    <%= form.text_field :leader_id, class: "border rounded px-3 py-2 w-full" %>
+  </div>
+
+  <div>
+    <%= form.submit class: "bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700" %>
+  </div>
+<% end %>

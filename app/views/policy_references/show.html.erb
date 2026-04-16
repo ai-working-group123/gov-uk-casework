@@ -1,0 +1,27 @@
+<div class="max-w-4xl mx-auto py-8">
+  <p class="text-green-600 mb-4"><%= notice %></p>
+
+  <h1 class="text-2xl font-bold mb-4"><%= @policy_reference.title %></h1>
+
+  <dl class="mb-6">
+    <dt class="font-medium">Code</dt>
+    <dd class="mb-2"><%= @policy_reference.code %></dd>
+    <dt class="font-medium">Parent Code</dt>
+    <dd class="mb-2"><%= @policy_reference.parent_code || "\u2014" %></dd>
+    <dt class="font-medium">Policy Area</dt>
+    <dd class="mb-2"><%= @policy_reference.policy_area %></dd>
+    <dt class="font-medium">Case Types</dt>
+    <dd class="mb-2"><%= @policy_reference.case_types %></dd>
+    <dt class="font-medium">Summary</dt>
+    <dd class="mb-2"><%= @policy_reference.summary %></dd>
+    <dt class="font-medium">Criteria</dt>
+    <dd class="mb-2"><%= @policy_reference.criteria %></dd>
+    <dt class="font-medium">GOV.UK URL</dt>
+    <dd class="mb-2"><%= link_to @policy_reference.govuk_url, @policy_reference.govuk_url if @policy_reference.govuk_url.present? %></dd>
+  </dl>
+
+  <div class="flex gap-4">
+    <%= link_to "Edit", edit_policy_reference_path(@policy_reference), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Back to Policy References", policy_references_path, class: "text-blue-600 hover:underline" %>
+  </div>
+</div>

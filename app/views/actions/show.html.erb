@@ -1,0 +1,30 @@
+<div class="max-w-4xl mx-auto py-8">
+  <p class="text-green-600 mb-4"><%= notice %></p>
+
+  <h1 class="text-2xl font-bold mb-4"><%= @action.title %></h1>
+
+  <dl class="mb-6">
+    <dt class="font-medium">Type</dt>
+    <dd class="mb-2"><%= @action.action_type.humanize %></dd>
+    <dt class="font-medium">Status</dt>
+    <dd class="mb-2"><%= @action.status.humanize %></dd>
+    <dt class="font-medium">Description</dt>
+    <dd class="mb-2"><%= @action.description || "\u2014" %></dd>
+    <dt class="font-medium">Due Date</dt>
+    <dd class="mb-2"><%= @action.due_date&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
+    <dt class="font-medium">Completed</dt>
+    <dd class="mb-2"><%= @action.completed_at&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
+    <dt class="font-medium">Blocked By</dt>
+    <dd class="mb-2"><%= @action.blocked_by || "\u2014" %></dd>
+    <dt class="font-medium">Policy Reference</dt>
+    <dd class="mb-2"><%= @action.policy_reference&.title || "\u2014" %></dd>
+    <dt class="font-medium">Caseworker Guidance</dt>
+    <dd class="mb-2"><%= @action.caseworker_guidance || "\u2014" %></dd>
+  </dl>
+
+  <div class="flex gap-4 mb-8">
+    <%= link_to "Edit", edit_case_action_path(@case, @action), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Correspondences", case_action_correspondences_path(@case, @action), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Back to Actions", case_actions_path(@case), class: "text-blue-600 hover:underline" %>
+  </div>
+</div>

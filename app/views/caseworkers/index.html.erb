@@ -1,0 +1,39 @@
+<div class="max-w-4xl mx-auto py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">Caseworkers</h1>
+    <%= link_to "New Caseworker", new_caseworker_path, class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+  </div>
+
+  <% if @caseworkers.any? %>
+    <table class="min-w-full border">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-2 text-left">Name</th>
+          <th class="px-4 py-2 text-left">Email</th>
+          <th class="px-4 py-2 text-left">Role</th>
+          <th class="px-4 py-2 text-left">Team</th>
+          <th class="px-4 py-2 text-left">Capacity</th>
+          <th class="px-4 py-2 text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @caseworkers.each do |caseworker| %>
+          <tr class="border-t">
+            <td class="px-4 py-2"><%= caseworker.name %></td>
+            <td class="px-4 py-2"><%= caseworker.email %></td>
+            <td class="px-4 py-2"><%= caseworker.role.humanize %></td>
+            <td class="px-4 py-2"><%= caseworker.team.name %></td>
+            <td class="px-4 py-2"><%= caseworker.capacity %></td>
+            <td class="px-4 py-2 flex gap-2">
+              <%= link_to "Show", caseworker, class: "text-blue-600 hover:underline" %>
+              <%= link_to "Edit", edit_caseworker_path(caseworker), class: "text-blue-600 hover:underline" %>
+              <%= button_to "Delete", caseworker, method: :delete, class: "text-red-600 hover:underline", data: { turbo_confirm: "Are you sure?" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-gray-500">No caseworkers yet.</p>
+  <% end %>
+</div>

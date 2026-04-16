@@ -1,0 +1,7 @@
+<div class="max-w-2xl mx-auto py-8">
+  <h1 class="text-2xl font-bold mb-6">Edit Evidence</h1>
+  <%= render "form", evidence: @evidence %>
+  <div class="mt-4">
+    <%= link_to "Back to Evidence", case_evidence_path(@case, @evidence), class: "text-blue-600 hover:underline" %>
+  </div>
+</div>

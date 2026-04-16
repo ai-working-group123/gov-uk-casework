@@ -1,0 +1,35 @@
+<div class="max-w-4xl mx-auto py-8">
+  <p class="text-green-600 mb-4"><%= notice %></p>
+
+  <h1 class="text-2xl font-bold mb-4">Case: <%= @case.reference %></h1>
+
+  <dl class="mb-6">
+    <dt class="font-medium">Applicant</dt>
+    <dd class="mb-2"><%= @case.applicant_name %> (<%= @case.applicant_email %>)</dd>
+    <dt class="font-medium">Nationality</dt>
+    <dd class="mb-2"><%= @case.nationality || "\u2014" %></dd>
+    <dt class="font-medium">Type</dt>
+    <dd class="mb-2"><%= @case.case_type.humanize %></dd>
+    <dt class="font-medium">Status</dt>
+    <dd class="mb-2"><%= @case.status.humanize %></dd>
+    <dt class="font-medium">Priority</dt>
+    <dd class="mb-2"><%= @case.priority.humanize %></dd>
+    <dt class="font-medium">Risk Score</dt>
+    <dd class="mb-2"><%= @case.risk_score %></dd>
+    <dt class="font-medium">Assigned To</dt>
+    <dd class="mb-2"><%= @case.assigned_to&.name || "Unassigned" %></dd>
+    <dt class="font-medium">SLA Deadline</dt>
+    <dd class="mb-2"><%= @case.sla_deadline&.strftime("%d %b %Y %H:%M") %></dd>
+    <dt class="font-medium">Submitted</dt>
+    <dd class="mb-2"><%= @case.submitted_at&.strftime("%d %b %Y %H:%M") %></dd>
+  </dl>
+
+  <div class="flex gap-4 mb-8">
+    <%= link_to "Edit", edit_case_path(@case), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Evidences", case_evidences_path(@case), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Notes", case_case_notes_path(@case), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Actions", case_actions_path(@case), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Evidence Requests", case_evidence_requests_path(@case), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Back to Cases", cases_path, class: "text-blue-600 hover:underline" %>
+  </div>
+</div>
