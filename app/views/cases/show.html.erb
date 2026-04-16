@@ -1,3 +1,5 @@
+<%= turbo_stream_from @case %>
+
 <div class="max-w-5xl mx-auto py-8 w-full">
   <% if notice.present? %>
     <p class="text-green-600 mb-4"><%= notice %></p>
@@ -6,17 +8,19 @@
     <p class="text-red-600 mb-4"><%= alert %></p>
   <% end %>
 
-  <% if @case.evaluation_in_progress? %>
-    <div class="border border-blue-300 bg-blue-50 rounded p-4 mb-6 flex items-center gap-3">
-      <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-      </svg>
-      <div>
-        <p class="text-blue-800 font-semibold text-sm">Rules engine evaluation in progress</p>
-        <p class="text-blue-600 text-xs">The case is being analysed against its case type rules. Actions may be updated shortly.</p>
+  <%= turbo_frame_tag "case_evaluation_banner" do %>
+    <% if @case.evaluation_in_progress? %>
+      <div class="border border-blue-300 bg-blue-50 rounded p-4 mb-6 flex items-center gap-3">
+        <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+        </svg>
+        <div>
+          <p class="text-blue-800 font-semibold text-sm">Rules engine evaluation in progress</p>
+          <p class="text-blue-600 text-xs">The case is being analysed against its case type rules. Actions may be updated shortly.</p>
+        </div>
       </div>
-    </div>
+    <% end %>
   <% end %>
 
   <%# Back to dashboard link %>

@@ -17,12 +17,24 @@ class CaseEvaluationJob < ApplicationJob
     Rails.logger.error("CaseEvaluationJob: Failed for case #{case_id}: #{e.message}")
     raise
   ensure
-    kase&.update_column(:evaluation_in_progress, false)
+    if kase
+      kase.update_column(:evaluation_in_progress, false)
+      broadcast_banner_removal(kase)
+    end
   end
 
   private
 
   def clear_flag(kase)
     kase.update_column(:evaluation_in_progress, false)
+    broadcast_banner_removal(kase)
+  end
+
+  def broadcast_banner_removal(kase)
+    Turbo::StreamsChannel.broadcast_replace_to(
+      kase,
+      target: "case_evaluation_banner",
+      html: '<turbo-frame id="case_evaluation_banner"></turbo-frame>'
+    )
   end
 end
