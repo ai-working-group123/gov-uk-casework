@@ -1,35 +1,35 @@
-<div class="max-w-4xl mx-auto py-8">
+<div >
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold">Policy References</h1>
-    <%= link_to "New Policy Reference", new_policy_reference_path, class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+    <h1 class="text-3xl font-bold mb-2">Policy References</h1>
+    <%= link_to "New Policy Reference", new_policy_reference_path, class: "btn-secondary" %>
   </div>
 
   <% if @policy_references.any? %>
-    <table class="min-w-full border">
-      <thead class="bg-gray-50">
+    <table class="gds-table">
+      <thead>
         <tr>
-          <th class="px-4 py-2 text-left">Code</th>
-          <th class="px-4 py-2 text-left">Title</th>
-          <th class="px-4 py-2 text-left">Policy Area</th>
-          <th class="px-4 py-2 text-left">Actions</th>
+          <th>Code</th>
+          <th>Title</th>
+          <th>Policy Area</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <% @policy_references.each do |pr| %>
-          <tr class="border-t">
-            <td class="px-4 py-2"><%= pr.code %></td>
-            <td class="px-4 py-2"><%= pr.title %></td>
-            <td class="px-4 py-2"><%= pr.policy_area %></td>
-            <td class="px-4 py-2 flex gap-2">
-              <%= link_to "Show", pr, class: "text-blue-600 hover:underline" %>
-              <%= link_to "Edit", edit_policy_reference_path(pr), class: "text-blue-600 hover:underline" %>
-              <%= button_to "Delete", pr, method: :delete, class: "text-red-600 hover:underline", data: { turbo_confirm: "Are you sure?" } %>
+          <tr>
+            <td><%= pr.code %></td>
+            <td><%= pr.title %></td>
+            <td><%= pr.policy_area %></td>
+            <td class="flex gap-3">
+              <%= link_to "Show", pr, class: "link" %>
+              <%= link_to "Edit", edit_policy_reference_path(pr), class: "link" %>
+              <%= button_to "Delete", pr, method: :delete, class: "link text-gds-red", data: { turbo_confirm: "Are you sure?" } %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% else %>
-    <p class="text-gray-500">No policy references yet.</p>
+    <p class="text-gds-dark-grey">No policy references yet.</p>
   <% end %>
 </div>

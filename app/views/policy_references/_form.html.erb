@@ -1,6 +1,6 @@
 <%= form_with(model: policy_reference) do |form| %>
   <% if policy_reference.errors.any? %>
-    <div class="bg-red-50 text-red-500 px-4 py-3 rounded mb-4">
+    <div class="notification-error">
       <h2><%= pluralize(policy_reference.errors.count, "error") %> prohibited this policy reference from being saved:</h2>
       <ul class="list-disc ml-5 mt-2">
         <% policy_reference.errors.each do |error| %>
@@ -10,67 +10,67 @@
     </div>
   <% end %>
 
-  <div class="mb-4">
-    <%= form.label :code, class: "block font-medium mb-1" %>
-    <%= form.text_field :code, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :code, class: "form-label" %>
+    <%= form.text_field :code, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :parent_code, class: "block font-medium mb-1" %>
-    <%= form.text_field :parent_code, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :parent_code, class: "form-label" %>
+    <%= form.text_field :parent_code, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :title, class: "block font-medium mb-1" %>
-    <%= form.text_field :title, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :policy_area, class: "block font-medium mb-1" %>
-    <%= form.text_field :policy_area, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :policy_area, class: "form-label" %>
+    <%= form.text_field :policy_area, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :case_types, class: "block font-medium mb-1" %>
-    <%= form.text_field :case_types, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :case_types, class: "form-label" %>
+    <%= form.text_field :case_types, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :summary, class: "block font-medium mb-1" %>
-    <%= form.text_area :summary, rows: 3, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :summary, class: "form-label" %>
+    <%= form.text_area :summary, rows: 3, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :criteria, class: "block font-medium mb-1" %>
-    <%= form.text_area :criteria, rows: 3, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :criteria, class: "form-label" %>
+    <%= form.text_area :criteria, rows: 3, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :govuk_url, "GOV.UK URL", class: "block font-medium mb-1" %>
-    <%= form.url_field :govuk_url, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :govuk_url, "GOV.UK URL", class: "form-label" %>
+    <%= form.url_field :govuk_url, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :legislation_url, class: "block font-medium mb-1" %>
-    <%= form.url_field :legislation_url, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :legislation_url, class: "form-label" %>
+    <%= form.url_field :legislation_url, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :internal_guidance_url, class: "block font-medium mb-1" %>
-    <%= form.url_field :internal_guidance_url, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :internal_guidance_url, class: "form-label" %>
+    <%= form.url_field :internal_guidance_url, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :applicant_summary, class: "block font-medium mb-1" %>
-    <%= form.text_area :applicant_summary, rows: 3, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :applicant_summary, class: "form-label" %>
+    <%= form.text_area :applicant_summary, rows: 3, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :applicant_url, class: "block font-medium mb-1" %>
-    <%= form.url_field :applicant_url, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :applicant_url, class: "form-label" %>
+    <%= form.url_field :applicant_url, class: "w-full" %>
   </div>
 
   <div>
-    <%= form.submit class: "bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700" %>
+    <%= form.submit class: "btn-primary cursor-pointer" %>
   </div>
 <% end %>

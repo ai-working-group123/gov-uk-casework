@@ -1,41 +1,41 @@
-<div class="max-w-4xl mx-auto py-8">
+<div >
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold">Evidence Request Items</h1>
-    <%= link_to "New Item", new_case_evidence_request_evidence_request_item_path(@case, @evidence_request), class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+    <h1 class="text-3xl font-bold mb-2">Evidence Request Items</h1>
+    <%= link_to "New Item", new_case_evidence_request_evidence_request_item_path(@case, @evidence_request), class: "btn-secondary" %>
   </div>
 
   <% if @evidence_request_items.any? %>
-    <table class="min-w-full border">
-      <thead class="bg-gray-50">
+    <table class="gds-table">
+      <thead>
         <tr>
-          <th class="px-4 py-2 text-left">Evidence</th>
-          <th class="px-4 py-2 text-left">Method</th>
-          <th class="px-4 py-2 text-left">Status</th>
-          <th class="px-4 py-2 text-left">Reason</th>
-          <th class="px-4 py-2 text-left">Actions</th>
+          <th>Evidence</th>
+          <th>Method</th>
+          <th>Status</th>
+          <th>Reason</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <% @evidence_request_items.each do |item| %>
-          <tr class="border-t">
-            <td class="px-4 py-2"><%= item.evidence.evidence_type.humanize %></td>
-            <td class="px-4 py-2"><%= item.submission_method.humanize %></td>
-            <td class="px-4 py-2"><%= item.status.humanize %></td>
-            <td class="px-4 py-2"><%= truncate(item.reason, length: 60) %></td>
-            <td class="px-4 py-2 flex gap-2">
-              <%= link_to "Show", case_evidence_request_evidence_request_item_path(@case, @evidence_request, item), class: "text-blue-600 hover:underline" %>
-              <%= link_to "Edit", edit_case_evidence_request_evidence_request_item_path(@case, @evidence_request, item), class: "text-blue-600 hover:underline" %>
-              <%= button_to "Delete", case_evidence_request_evidence_request_item_path(@case, @evidence_request, item), method: :delete, class: "text-red-600 hover:underline", data: { turbo_confirm: "Are you sure?" } %>
+          <tr>
+            <td><%= item.evidence.evidence_type.humanize %></td>
+            <td><%= item.submission_method.humanize %></td>
+            <td><%= item.status.humanize %></td>
+            <td><%= truncate(item.reason, length: 60) %></td>
+            <td class="flex gap-3">
+              <%= link_to "Show", case_evidence_request_evidence_request_item_path(@case, @evidence_request, item), class: "link" %>
+              <%= link_to "Edit", edit_case_evidence_request_evidence_request_item_path(@case, @evidence_request, item), class: "link" %>
+              <%= button_to "Delete", case_evidence_request_evidence_request_item_path(@case, @evidence_request, item), method: :delete, class: "link text-gds-red", data: { turbo_confirm: "Are you sure?" } %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% else %>
-    <p class="text-gray-500">No items yet.</p>
+    <p class="text-gds-dark-grey">No items yet.</p>
   <% end %>
 
   <div class="mt-4">
-    <%= link_to "Back to Evidence Request", case_evidence_request_path(@case, @evidence_request), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Back to Evidence Request", case_evidence_request_path(@case, @evidence_request), class: "link" %>
   </div>
 </div>
