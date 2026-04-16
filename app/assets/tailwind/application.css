@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+.prose {
+  overflow: hidden;
+  overflow-x: auto;
+}
+
 /* Prose styles for rendered markdown content */
 .prose h1 {
   @apply text-3xl font-bold leading-9 mt-0 mb-3 text-gray-900;
@@ -109,4 +114,9 @@
 
 .prose img {
   @apply max-w-full h-auto rounded-lg mt-3 mb-3;
+}
+
+/* When there's only one p in a .prose, add these styles:  */
+.prose:has(> p:only-child) > p {
+  @apply font-mono text-sm leading-2 whitespace-pre;
 }
