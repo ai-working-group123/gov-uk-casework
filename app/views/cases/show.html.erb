@@ -50,6 +50,17 @@
     </div>
   </div>
 
+  <%# ── Case Data ── %>
+  <% if @case.case_data.present? %>
+    <div class="border border-gray-300 rounded p-6 mb-6">
+      <h2 class="text-lg font-bold mb-4 border-b border-gray-200 pb-2">Case Data</h2>
+
+      <% @case.case_data.deep_symbolize_keys.each do |key, value| %>
+        <%= render partial: "cases/data_value", locals: { key: key, value: value, depth: 0 } %>
+      <% end %>
+    </div>
+  <% end %>
+
   <%# ── What you need to do ── %>
   <% outstanding_actions = @case.actions.reject { |a| a.completed? || a.cancelled? } %>
   <div class="border border-gray-300 rounded p-6 mb-6">
