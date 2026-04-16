@@ -1,0 +1,620 @@
+{
+  "name": "Change vehicle details on a V5C registration certificate",
+  "description": "Process for notifying DVLA of mistakes or specified vehicle changes so the V5C log book can be updated, with supporting evidence where required.",
+  "applicant_type": "Registered keeper of a vehicle who needs to correct mistakes on a V5C or report specified changes made to the vehicle",
+  "caseworker_type": "DVLA vehicle registration casework team handling V5C amendments and related inspection referrals",
+  "application_tracks": [
+    {
+      "track": "Postal V5C update for engine size, fuel type, weight of a goods vehicle, or number of seats on a bus",
+      "fee_gbp": 0,
+      "fee_detail": "No application fee stated for updating the V5C by post; £25 only mentioned if a replacement log book is needed after 6 weeks and DVLA was not notified",
+      "processing_time": "Up to 2 to 4 weeks to get a replacement certificate if applying by post",
+      "priority_available": false,
+      "additional_requirements": [
+        "Fill in section 1 on a new style log book with multi-coloured numbered blocks on the front cover, or section 7 on an older style log book",
+        "Send any necessary evidence",
+        "Send to DVLA, Swansea, SA99 1DZ"
+      ]
+    },
+    {
+      "track": "Postal V5C update for all other listed vehicle changes",
+      "fee_gbp": 0,
+      "fee_detail": "No application fee stated for updating the V5C by post; £25 only mentioned if a replacement log book is needed after 6 weeks and DVLA was not notified",
+      "processing_time": "Up to 2 to 4 weeks to get a replacement certificate if applying by post",
+      "priority_available": false,
+      "additional_requirements": [
+        "Fill in section 1 on a new style log book with multi-coloured numbered blocks on the front cover, or section 7 on an older style log book",
+        "If the change is not listed in section 1 or 7, add notes to the 'vehicle details' section",
+        "Send evidence and a letter explaining the change if not listed in section 1 or 7",
+        "Send to DVLA, Swansea, SA99 1BA"
+      ]
+    },
+    {
+      "track": "Postal notification of like-for-like chassis, monocoque bodyshell, or motorcycle frame replacement without changing original appearance or dimensions",
+      "fee_gbp": 0,
+      "fee_detail": "No fee stated",
+      "processing_time": "Not specifically stated; general postal replacement certificate timeline is up to 2 to 4 weeks",
+      "priority_available": false,
+      "additional_requirements": [
+        "Do not update the V5C",
+        "Tell DVLA using a Vehicle parts statement (V627/1)",
+        "Provide specified supporting documents and photos"
+      ]
+    },
+    {
+      "track": "Postal V5C update for structural modification or electric conversion",
+      "fee_gbp": 0,
+      "fee_detail": "No fee stated",
+      "processing_time": "Not specifically stated; general postal replacement certificate timeline is up to 2 to 4 weeks",
+      "priority_available": false,
+      "additional_requirements": [
+        "Send V627/3 modified vehicle statement",
+        "Send evidence of a current MOT if the vehicle needs one",
+        "Send motorcycle single vehicle approval (MSVA) if the motorcycle needs one",
+        "DVLA may require an inspection"
+      ]
+    }
+  ],
+  "eligibility_criteria": [
+    {
+      "criterion": "Applicant must update the V5C to tell DVLA about mistakes on the V5C",
+      "type": "pass_fail",
+      "details": "Mistakes on the registration certificate must be corrected by updating the V5C",
+      "exemptions": "None stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Applicant must update the V5C for most changes made to the vehicle",
+      "type": "pass_fail",
+      "details": "Specified changes include colour, engine cylinder capacity (cc), fuel type, seating capacity, weight of a large vehicle, chassis, monocoque bodyshell, or motorcycle frame where size or appearance is different from when the vehicle was made",
+      "exemptions": "Like-for-like replacement of chassis, combined chassis and bodyshell, or motorcycle frame without changing original appearance or dimensions does not require updating the V5C, but DVLA must still be told using V627/1",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Tax class cannot be changed by updating the V5C",
+      "type": "conditional",
+      "details": "Tax class must be changed by changing vehicle tax, including where changing to an exempt tax class such as 'disabled'",
+      "exemptions": "None stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Applicant must update the V5C when changing colour",
+      "type": "pass_fail",
+      "details": "Colour change must be notified",
+      "exemptions": "None stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Applicant must update the V5C when changing engine cylinder capacity",
+      "type": "pass_fail",
+      "details": "Engine cylinder capacity is specified as cc",
+      "exemptions": "None stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Applicant must update the V5C when changing fuel type",
+      "type": "pass_fail",
+      "details": "Includes conversion to run on electricity",
+      "exemptions": "None stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Applicant must update the V5C when changing seating capacity",
+      "type": "pass_fail",
+      "details": "Seating capacity change must be notified",
+      "exemptions": "None stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Applicant must update the V5C when changing the weight of a large vehicle",
+      "type": "pass_fail",
+      "details": "Examples given are goods vehicle or campervan",
+      "exemptions": "None stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Applicant must update the V5C when changing chassis, monocoque bodyshell, or motorcycle frame if size or appearance is different from when the vehicle was made",
+      "type": "conditional",
+      "details": "Structural changes affecting size or appearance require V5C update",
+      "exemptions": "If original look and size are not changed, do not update the V5C but notify DVLA using V627/1",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Applicant must tell DVLA about like-for-like restoration or replacement of chassis, combined chassis and bodyshell, or motorcycle frame",
+      "type": "conditional",
+      "details": "Even if original appearance or dimensions do not change, DVLA must be told using Vehicle parts statement (V627/1)",
+      "exemptions": "No exemption from notifying DVLA is stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Applicant must update the V5C when changing wheel plan",
+      "type": "pass_fail",
+      "details": "Wheel plan change may need inspection",
+      "exemptions": "None stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Applicant must update the V5C when changing body type",
+      "type": "conditional",
+      "details": "Example given is converting a van to a campervan or 'motor caravan'; DVLA gives a body type description based on the vehicle's external appearance",
+      "exemptions": "None stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Applicant must update the V5C when changing vehicle identification number, chassis number, or frame number for motorbikes",
+      "type": "pass_fail",
+      "details": "VIN, chassis number, and frame number changes may need inspection",
+      "exemptions": "None stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Applicant must provide evidence or written confirmation for specified changes",
+      "type": "pass_fail",
+      "details": "V5C update will be rejected if evidence is not provided for listed changes",
+      "exemptions": "None stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Structural modification includes alteration of original dimensions or appearance involving chassis, monocoque bodyshell, or frame",
+      "type": "conditional",
+      "details": "If original dimensions or appearance are altered and any of chassis, monocoque bodyshell, or frame are involved, it is a structural modification",
+      "exemptions": "None stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Electric conversion counts as a modification",
+      "type": "pass_fail",
+      "details": "If a vehicle is converted to run on electricity, it counts as a modification",
+      "exemptions": "None stated",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Current MOT evidence is required if the vehicle needs one",
+      "type": "conditional",
+      "details": "MOT evidence only required where the vehicle needs an MOT",
+      "exemptions": "Vehicles that do not need an MOT",
+      "lower_threshold": ""
+    },
+    {
+      "criterion": "Motorcycle single vehicle approval is required if the motorcycle needs one",
+      "type": "conditional",
+      "details": "MSVA required only where applicable",
+      "exemptions": "Motorcycles that do not need MSVA",
+      "lower_threshold": ""
+    }
+  ],
+  "evidence_requirements": [
+    {
+      "name": "Receipt for the replacement engine",
+      "required": true,
+      "conditional_on": "Required as one of the acceptable documents for change of engine number or cylinder capacity (cc)",
+      "source": "Third party",
+      "verification_method": "Check receipt includes the engine number and cylinder capacity",
+      "validity_period": "Not stated",
+      "notes": "Must include engine number and cylinder capacity"
+    },
+    {
+      "name": "Written evidence from the manufacturer",
+      "required": true,
+      "conditional_on": "Accepted for change of engine number or cylinder capacity (cc)",
+      "source": "Third party",
+      "verification_method": "Check manufacturer evidence supports engine number or cylinder capacity change",
+      "validity_period": "Not stated",
+      "notes": "Specific format not stated"
+    },
+    {
+      "name": "Inspection report provided for insurance purposes",
+      "required": true,
+      "conditional_on": "Accepted for change of engine number or cylinder capacity (cc)",
+      "source": "Third party",
+      "verification_method": "Check report identifies the relevant engine change details",
+      "validity_period": "Not stated",
+      "notes": "Must be an inspection report provided for insurance purposes"
+    },
+    {
+      "name": "Written confirmation on headed paper from a garage",
+      "required": true,
+      "conditional_on": "Accepted for change of engine number or cylinder capacity if the change took place before the applicant bought the vehicle; also required for fuel type change where existing engine is converted",
+      "source": "Third party",
+      "verification_method": "Check headed paper and that garage confirms the work/change",
+      "validity_period": "Not stated",
+      "notes": "For fuel type conversion, confirmation must be on headed paper from the garage that did the work"
+    },
+    {
+      "name": "Receipt for a new engine fitted",
+      "required": true,
+      "conditional_on": "Required for change of fuel type where a new engine is fitted",
+      "source": "Third party",
+      "verification_method": "Check receipt supports new engine installation",
+      "validity_period": "Not stated",
+      "notes": "Specific content requirements not stated"
+    },
+    {
+      "name": "Evidence of electric conversion",
+      "required": true,
+      "conditional_on": "Required where the vehicle has been converted to run on electricity",
+      "source": "Applicant",
+      "verification_method": "Check submitted evidence supports electric conversion",
+      "validity_period": "Not stated",
+      "notes": "Specific document type not fully specified in the fuel type section; structural modification/electric conversion section requires V627/3 and possibly MOT/MSVA"
+    },
+    {
+      "name": "Latest V5C registration certificate",
+      "required": true,
+      "conditional_on": "Required if chassis, monocoque bodyshell, or frame has been replaced without changing dimensions or appearance since first made; alternative is V62 application form",
+      "source": "Applicant",
+      "verification_method": "Check latest V5C accompanies the notification",
+      "validity_period": "Current/latest",
+      "notes": "Can be replaced by V62 application form if latest V5C not available"
+    },
+    {
+      "name": "V62 application form",
+      "required": true,
+      "conditional_on": "Alternative to latest V5C registration certificate for like-for-like chassis, monocoque bodyshell, or frame replacement without change to dimensions or appearance",
+      "source": "Applicant",
+      "verification_method": "Check form is completed and submitted",
+      "validity_period": "Not stated",
+      "notes": "Used where latest V5C is not provided"
+    },
+    {
+      "name": "V627/1 Vehicle parts statement",
+      "required": true,
+      "conditional_on": "Required when replacing chassis, monocoque bodyshell, or frame without changing original look and size; also used to tell DVLA about like-for-like changes where V5C does not need updating",
+      "source": "Applicant",
+      "verification_method": "Check form is completed and matches declared parts changes",
+      "validity_period": "Not stated",
+      "notes": "Scraped text contains a stray apostrophe in 'Vehicle parts statement’ (V627/1)"
+    },
+    {
+      "name": "V5C of the vehicle that any replacement part comes from",
+      "required": true,
+      "conditional_on": "Required if replacement parts used in like-for-like chassis, monocoque bodyshell, or frame replacement are not new parts",
+      "source": "Applicant",
+      "verification_method": "Check donor vehicle V5C corresponds to replacement part source",
+      "validity_period": "Not stated",
+      "notes": "Only needed if not using new parts"
+    },
+    {
+      "name": "Invoice or receipt including the specification of the replacement chassis",
+      "required": true,
+      "conditional_on": "Required for like-for-like chassis, monocoque bodyshell, or frame replacement without change to dimensions or appearance",
+      "source": "Third party",
+      "verification_method": "Check specification of replacement chassis is included",
+      "validity_period": "Not stated",
+      "notes": "Original or photocopy can be sent"
+    },
+    {
+      "name": "Photos of the whole vehicle, including front, back, sides, interior and registration number plate",
+      "required": true,
+      "conditional_on": "Required for like-for-like chassis, monocoque bodyshell, or frame replacement without change to dimensions or appearance",
+      "source": "Applicant",
+      "verification_method": "Check all listed views are included",
+      "validity_period": "Current at time of application",
+      "notes": "Must include front, back, sides, interior and registration number plate"
+    },
+    {
+      "name": "Photo of the vehicle's engine number",
+      "required": true,
+      "conditional_on": "Required for like-for-like chassis, monocoque bodyshell, or frame replacement without change to dimensions or appearance",
+      "source": "Applicant",
+      "verification_method": "Check engine number is visible in photo",
+      "validity_period": "Current at time of application",
+      "notes": ""
+    },
+    {
+      "name": "Photo of the vehicle registration identification number (VIN) stamp or plate on the old chassis or frame being replaced",
+      "required": true,
+      "conditional_on": "Required for like-for-like chassis, monocoque bodyshell, or frame replacement without change to dimensions or appearance",
+      "source": "Applicant",
+      "verification_method": "Check VIN stamp or plate is visible and relates to old chassis or frame",
+      "validity_period": "Current at time of application",
+      "notes": ""
+    },
+    {
+      "name": "Photo of the old VIN sticker",
+      "required": true,
+      "conditional_on": "Required for like-for-like chassis, monocoque bodyshell, or frame replacement without change to dimensions or appearance",
+      "source": "Applicant",
+      "verification_method": "Check old VIN sticker is visible",
+      "validity_period": "Current at time of application",
+      "notes": "Usually found near the driver's door or on the dashboard near the windscreen on the driver's side"
+    },
+    {
+      "name": "V627/3 modified vehicle statement",
+      "required": true,
+      "conditional_on": "Required if the applicant has made a structural modification or electric conversion",
+      "source": "Applicant",
+      "verification_method": "Check statement includes the registration number and details of the modification",
+      "validity_period": "Not stated",
+      "notes": "Must include registration number and details of the modification"
+    },
+    {
+      "name": "Evidence of a current MOT",
+      "required": true,
+      "conditional_on": "Required for structural modification or electric conversion if the vehicle needs an MOT",
+      "source": "Applicant",
+      "verification_method": "Check MOT is current",
+      "validity_period": "Current",
+      "notes": "Only if vehicle needs one"
+    },
+    {
+      "name": "Motorcycle single vehicle approval (MSVA)",
+      "required": true,
+      "conditional_on": "Required for structural modification or electric conversion if the motorcycle needs one",
+      "source": "Applicant",
+      "verification_method": "Check MSVA is provided where applicable",
+      "validity_period": "Not stated",
+      "notes": "Only if motorcycle needs one"
+    },
+    {
+      "name": "Plating certificate",
+      "required": true,
+      "conditional_on": "Required as one of the acceptable documents when changing the weight of a large vehicle",
+      "source": "Third party",
+      "verification_method": "Check certificate supports revised vehicle weight",
+      "validity_period": "Not stated",
+      "notes": "Alternative is a design weight certificate"
+    },
+    {
+      "name": "Design weight certificate",
+      "required": true,
+      "conditional_on": "Required as one of the acceptable documents when changing the weight of a large vehicle",
+      "source": "Third party",
+      "verification_method": "Check certificate supports revised vehicle weight",
+      "validity_period": "Not stated",
+      "notes": "Alternative to a plating certificate"
+    },
+    {
+      "name": "Letter explaining the change",
+      "required": true,
+      "conditional_on": "Required where the change is not listed in section 1 or section 7 of the V5C",
+      "source": "Applicant",
+      "verification_method": "Check letter explains the unlisted change",
+      "validity_period": "Not stated",
+      "notes": "Must be sent with evidence"
+    }
+  ],
+  "workflow_stages": [
+    {
+      "stage": "Identify whether the change must be reported",
+      "description": "Determine whether the issue is a mistake on the V5C, a reportable vehicle change, a like-for-like replacement requiring V627/1 only, or a tax class change that must be handled through vehicle tax instead.",
+      "typical_duration": "Not stated",
+      "decision_points": [
+        "Is it a mistake on the V5C?",
+        "Is it one of the listed vehicle changes?",
+        "Is it a tax class change instead of a V5C change?",
+        "Is it a like-for-like chassis/monocoque bodyshell/frame replacement without change to original look and size?"
+      ],
+      "next_stages": [
+        "Gather evidence",
+        "Complete V5C or alternative form",
+        "Redirect to vehicle tax process"
+      ],
+      "caseworker_actions": [
+        "Assess whether the reported change falls within V5C amendment scope",
+        "Identify whether V5C update is required or whether V627/1 notification is the correct route",
+        "Identify whether inspection may be needed"
+      ]
+    },
+    {
+      "stage": "Gather supporting evidence",
+      "description": "Applicant collects the required evidence or written confirmation for the specific change.",
+      "typical_duration": "Not stated",
+      "decision_points": [
+        "Has the applicant provided one of the acceptable documents for engine number or cylinder capacity change?",
+        "Has the applicant provided the correct evidence for fuel type change?",
+        "Is the change a structural modification or electric conversion requiring V627/3 and possibly MOT/MSVA?",
+        "Is the weight change supported by a plating certificate or design weight certificate?"
+      ],
+      "next_stages": [
+        "Complete V5C sections",
+        "Submit by post",
+        "Reject for missing evidence"
+      ],
+      "caseworker_actions": [
+        "Check that required evidence is present",
+        "Reject V5C update if required evidence is missing",
+        "Assess whether evidence supports the declared change"
+      ]
+    },
+    {
+      "stage": "Complete form or V5C",
+      "description": "Applicant completes the relevant section of the log book or uses the appropriate supporting form.",
+      "typical_duration": "Not stated",
+      "decision_points": [
+        "Is the log book new style or older style?",
+        "Is the change listed in section 1 or section 7?",
+        "Is V62 needed instead of latest V5C?",
+        "Is V627/1 or V627/3 required?"
+      ],
+      "next_stages": [
+        "Postal submission"
+      ],
+      "caseworker_actions": [
+        "Check section 1 is used for new style log books",
+        "Check section 7 is used for older style log books",
+        "Check notes were added to the 'vehicle details' section where needed",
+        "Check explanatory letter is included for unlisted changes"
+      ]
+    },
+    {
+      "stage": "Postal submission to correct DVLA address",
+      "description": "Applicant sends the V5C and evidence to the relevant DVLA Swansea address.",
+      "typical_duration": "Postal transit time not stated",
+      "decision_points": [
+        "Does the change fall under SA99 1DZ routing?",
+        "Does the change fall under SA99 1BA routing?"
+      ],
+      "next_stages": [
+        "DVLA review"
+      ],
+      "caseworker_actions": [
+        "Confirm correspondence was routed to the correct address",
+        "Associate evidence with the V5C amendment request"
+      ]
+    },
+    {
+      "stage": "DVLA review and inspection triage",
+      "description": "DVLA reviews the change and decides whether to confirm it or require inspection.",
+      "typical_duration": "Not stated",
+      "decision_points": [
+        "Can the change be confirmed on the evidence submitted?",
+        "Does the change need an inspection?",
+        "Does the change mean more vehicle tax is payable?"
+      ],
+      "next_stages": [
+        "Issue replacement certificate",
+        "Inspection",
+        "Notify tax consequences",
+        "Reject update"
+      ],
+      "caseworker_actions": [
+        "Review evidence against the declared change",
+        "Determine whether inspection is required for changes such as wheel plan, body type, VIN, chassis number, or frame number",
+        "Notify applicant of confirmation, inspection requirement, or tax implications"
+      ]
+    },
+    {
+      "stage": "Issue replacement certificate",
+      "description": "DVLA issues a replacement V5C showing the updated details.",
+      "typical_duration": "Up to 2 to 4 weeks if applying by post",
+      "decision_points": [
+        "Has the replacement certificate been issued within 4 weeks?",
+        "Has the applicant contacted DVLA after 4 weeks?",
+        "Has 6 weeks passed without applicant notifying DVLA?"
+      ],
+      "next_stages": [
+        "Case closure",
+        "Replacement log book fee scenario"
+      ],
+      "caseworker_actions": [
+        "Issue updated certificate",
+        "Handle follow-up where certificate not received",
+        "Apply £25 replacement charge if more than 6 weeks have passed and applicant did not notify DVLA"
+      ]
+    }
+  ],
+  "possible_outcomes": [
+    "V5C updated and replacement certificate issued",
+    "DVLA confirms the change",
+    "DVLA requests or arranges an inspection",
+    "Applicant is told the change means more vehicle tax must be paid",
+    "V5C update rejected due to missing required evidence",
+    "Applicant redirected to change vehicle tax instead of updating tax class on V5C",
+    "Replacement log book not received within 4 weeks and applicant contacts DVLA",
+    "Replacement log book requested after 6 weeks without prior notification and £25 replacement fee applies"
+  ],
+  "typical_timeline": {
+    "outside_uk": "Not applicable",
+    "inside_uk": "Up to 2 to 4 weeks to get a replacement certificate if applying by post",
+    "priority_service": "Not stated",
+    "super_priority": "Not stated"
+  },
+  "communication_touchpoints": [
+    {
+      "trigger": "DVLA has reviewed the submitted change",
+      "channel": "Not stated",
+      "recipient": "applicant",
+      "content_summary": "DVLA confirms the change or tells the applicant if it needs an inspection",
+      "includes_deadline": false,
+      "deadline_days": null
+    },
+    {
+      "trigger": "DVLA determines the change affects vehicle tax",
+      "channel": "Not stated",
+      "recipient": "applicant",
+      "content_summary": "DVLA tells the applicant if the change means they have to pay more vehicle tax",
+      "includes_deadline": false,
+      "deadline_days": null
+    },
+    {
+      "trigger": "Applicant has not received the log book after applying by post",
+      "channel": "Not stated",
+      "recipient": "applicant",
+      "content_summary": "Applicant should contact DVLA if the log book has not been received and it has been 4 weeks since applying",
+      "includes_deadline": true,
+      "deadline_days": 28
+    },
+    {
+      "trigger": "Applicant has not received the log book after 6 weeks and did not notify DVLA",
+      "channel": "Not stated",
+      "recipient": "applicant",
+      "content_summary": "Applicant will have to pay £25 to get a replacement if they did not notify DVLA within 6 weeks",
+      "includes_deadline": true,
+      "deadline_days": 42
+    }
+  ],
+  "risk_indicators": [
+    {
+      "indicator": "Required evidence or written confirmation missing for a listed change",
+      "severity": "high",
+      "caseworker_action": "Reject the V5C update"
+    },
+    {
+      "indicator": "Applicant attempts to change tax class by updating the V5C",
+      "severity": "medium",
+      "caseworker_action": "Redirect applicant to the vehicle tax change process"
+    },
+    {
+      "indicator": "Structural modification or electric conversion declared without V627/3 modified vehicle statement",
+      "severity": "high",
+      "caseworker_action": "Do not process amendment until required evidence is provided"
+    },
+    {
+      "indicator": "Vehicle may require inspection due to wheel plan, body type, VIN, chassis number, or motorbike frame number change",
+      "severity": "medium",
+      "caseworker_action": "Refer for inspection decision and notify applicant"
+    },
+    {
+      "indicator": "Like-for-like chassis, monocoque bodyshell, or frame replacement reported as a standard V5C update instead of V627/1 notification",
+      "severity": "medium",
+      "caseworker_action": "Correct the route and request V627/1 and associated evidence/photos"
+    },
+    {
+      "indicator": "Replacement parts are not new and donor vehicle V5C is missing",
+      "severity": "high",
+      "caseworker_action": "Request or require the V5C of the vehicle that the replacement part comes from"
+    },
+    {
+      "indicator": "Photos do not show all required views or identifiers",
+      "severity": "medium",
+      "caseworker_action": "Request complete photo set showing whole vehicle, engine number, VIN stamp or plate, and old VIN sticker"
+    },
+    {
+      "indicator": "Application sent to wrong DVLA Swansea address",
+      "severity": "low",
+      "caseworker_action": "Reroute internally if possible or advise applicant of correct address"
+    }
+  ],
+  "related_processes": [
+    "Change your vehicle's tax class",
+    "Repairs and restorations",
+    "Structural modifications",
+    "Convert a van to a campervan or motor caravan"
+  ],
+  "confidence_scores": {
+    "eligibility": 0.95,
+    "evidence": 0.96,
+    "workflow": 0.88,
+    "timeline": 0.9,
+    "fees": 0.84
+  },
+  "clarifying_questions": [],
+  "data_gaps": [
+    "No named online application route is provided; process appears postal only from the scraped content",
+    "No explicit application fee is stated for updating the V5C itself",
+    "No service standard for inspection cases is stated",
+    "No channel is stated for DVLA communications such as whether contact is by letter, email, phone, or SMS",
+    "No refusal review, reconsideration, complaint, or appeal process is described",
+    "No identity verification requirements for the registered keeper are described",
+    "No signature requirements are described",
+    "No detailed evidence list is provided for change of body type to motor caravan; content only refers to checking separate guidance",
+    "No specific evidence document is named for electric conversion in the fuel type section beyond general evidence; more specific requirements appear only in the structural modification/electric conversion section",
+    "No definition is given for what counts as a 'large vehicle' beyond examples such as campervan, goods vehicle, and bus seating changes",
+    "No exact inspection criteria are given, only that DVLA will tell the applicant if inspection is needed",
+    "No replacement certificate dispatch method is stated",
+    "No explicit handling instructions are given for mistakes on the V5C beyond the general update process",
+    "No details are given on whether photocopies are accepted for documents other than the invoice or receipt for replacement chassis",
+    "No exact form completion fields are provided for section 1, section 7, V62, V627/1, or V627/3"
+  ]
+}
