@@ -1,0 +1,52 @@
+# tc-04: TB certificate (not received)
+tc04_tb_cert:
+  case: tc_04
+  evidence_type: 2
+  status: 0
+  policy_reference: tb_certificate
+
+# tc-07: Bank statements (not received)
+tc07_bank_statements:
+  case: tc_07
+  evidence_type: 3
+  status: 0
+  policy_reference: bank_statements
+
+# tc-10: Accommodation proof (not received)
+tc10_accommodation:
+  case: tc_10
+  evidence_type: 7
+  status: 0
+  policy_reference: accommodation_proof
+
+# tc-15: Three missing items
+tc15_sponsorship:
+  case: tc_15
+  evidence_type: 4
+  status: 0
+  policy_reference: sponsorship_certificate
+
+tc15_bank_statements:
+  case: tc_15
+  evidence_type: 3
+  status: 0
+  policy_reference: bank_statements
+
+tc15_tb_cert:
+  case: tc_15
+  evidence_type: 2
+  status: 0
+  policy_reference: tb_certificate
+
+# tc-18: Two missing items
+tc18_bank_statements:
+  case: tc_18
+  evidence_type: 3
+  status: 0
+  policy_reference: bank_statements
+
+tc18_english_language:
+  case: tc_18
+  evidence_type: 1
+  status: 0
+  policy_reference: english_language

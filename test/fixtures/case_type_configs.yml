@@ -1,0 +1,27 @@
+skilled_worker:
+  name: "Skilled Worker"
+  slug: "t2"
+  decision_tree_md: "Skilled Worker decision tree"
+  state_transitions_md: "Skilled Worker state transitions"
+  status: 1
+
+student:
+  name: "Student"
+  slug: "t4"
+  decision_tree_md: "Student decision tree"
+  state_transitions_md: "Student state transitions"
+  status: 1
+
+family_spouse:
+  name: "Family (Spouse)"
+  slug: "fv"
+  decision_tree_md: "Family Spouse decision tree"
+  state_transitions_md: "Family Spouse state transitions"
+  status: 1
+
+visitor:
+  name: "Visitor"
+  slug: "vs"
+  decision_tree_md: "Visitor decision tree"
+  state_transitions_md: "Visitor state transitions"
+  status: 1

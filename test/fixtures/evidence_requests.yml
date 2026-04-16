@@ -1,0 +1,34 @@
+tc04_request:
+  case: tc_04
+  requested_by: sarah
+  deadline: "2024-04-10"
+  status: 1
+  sent_at: "2024-03-01"
+
+tc07_request:
+  case: tc_07
+  requested_by: sarah
+  deadline: "2024-04-20"
+  status: 1
+  sent_at: "2024-03-15"
+
+tc10_request:
+  case: tc_10
+  requested_by: sarah
+  deadline: "2024-06-20"
+  status: 1
+  sent_at: "2024-04-01"
+
+tc15_request:
+  case: tc_15
+  requested_by: sarah
+  deadline: "2024-04-25"
+  status: 1
+  sent_at: "2024-02-15"
+
+tc18_request:
+  case: tc_18
+  requested_by: sarah
+  deadline: "2024-06-01"
+  status: 1
+  sent_at: "2024-04-10"

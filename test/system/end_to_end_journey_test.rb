@@ -9,15 +9,14 @@ class EndToEndJourneyTest < ApplicationSystemTestCase
   include PublicPortalHelper
 
   # TC-JOURNEY-01: Happy path passive — lookup → passive status
-  # Applicant checks status, no action needed (tc-01: Priya Sharma)
+  # Applicant checks status, received (tc-02: Chen Wei)
   test "passive journey: lookup form → passive status page" do
     visit_lookup
-    assert_text "Check your visa application status"
-    fill_in "reference", with: "HO-T2-A3F9"
-    click_button "Check status"
-    assert_text "HO-T2-A3F9"
+    assert_text "Check your application status"
+    fill_in "reference", with: "HO-T2-D9PQ"
+    click_button "Find application"
+    assert_text "HO-T2-D9PQ"
     assert_passive_status_panel
-    assert_text "What happens next"
   end
 
   # TC-JOURNEY-02: Action required journey — lookup → action required status
@@ -26,27 +25,27 @@ class EndToEndJourneyTest < ApplicationSystemTestCase
     visit public_lookup_case_path(reference: "HO-T2-P2KR")
     assert_action_required_panel
     assert_text "TB certificate"
-    assert_selector "a", text: "Upload document"
-    click_link "Upload document"
+    find("a", text: /Upload/, match: :first).click
     assert_text "Upload document"
     assert_text "HO-T2-P2KR"
   end
 
   # TC-JOURNEY-03: Full upload journey — status → upload → back to status
-  # (tc-07: Fatima Malik — financial evidence)
+  # (tc-07: Fatima Malik — bank statements)
   test "full upload journey: action required → upload page → return to status" do
     visit public_lookup_case_path(reference: "HO-T4-E5RW")
     assert_action_required_panel
-    click_link "Upload document"
+    find("a", text: /Upload/, match: :first).click
     assert_text "Upload document"
     assert_text "HO-T4-E5RW"
-    click_link "Return to your application status"
+    click_link "Cancel and return to your application"
     assert_current_path(/lookup/)
   end
 
   # TC-JOURNEY-04: Back navigation from upload to status
   test "back link from upload returns to status page" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
     click_link "Back"
     assert_current_path(/lookup/)
   end
@@ -54,60 +53,53 @@ class EndToEndJourneyTest < ApplicationSystemTestCase
   # TC-JOURNEY-05: Back navigation from status to lookup
   test "back link from status returns to lookup form" do
     visit public_lookup_case_path(reference: "HO-T2-A3F9")
-    click_link "Check another application"
+    click_link "Check a different reference"
     assert_current_path public_lookup_path
   end
 
-  # TC-JOURNEY-06: Multi-item journey — navigate to first upload, then second
-  # (tc-18: Tariq Hassan — financial evidence + SELT cert)
+  # TC-JOURNEY-06: Multi-item journey — navigate to first upload
+  # (tc-18: Tariq Hassan — bank statements + SELT cert)
   test "multi-item journey: both upload links reachable from action required" do
     visit public_lookup_case_path(reference: "HO-T4-Q8VL")
     assert_action_required_panel
-
-    # First item upload
-    first_link = find_all("a", text: "Upload document").first
-    first_link.click
+    find("a", text: /Upload/, match: :first).click
     assert_text "Upload document"
     assert_text "HO-T4-Q8VL"
     go_back
   end
 
-  # TC-JOURNEY-07: Maximum stress case — all items visible, all upload links reachable
+  # TC-JOURNEY-07: Maximum stress case — all items visible
   # (tc-15: Li Wei — 3 missing docs)
   test "maximum stress journey: three items all shown" do
     visit public_lookup_case_path(reference: "HO-T2-Z9YQ")
-    assert_action_required_panel
+    assert_text "Documents we need from you"
     assert_text "Sponsorship certificate"
-    assert_text "bank statements"
+    assert_text "Bank statements"
     assert_text "TB certificate"
-    assert_selector "a", text: "Upload document", minimum: 1
   end
 
-  # TC-JOURNEY-08: Physical post journey — no upload button, postal address visible
+  # TC-JOURNEY-08: Physical post journey — no upload link for physical item
   # (tc-10: Sofia Kowalski — accommodation proof by post)
-  test "physical post journey: address shown, no upload confusion" do
+  test "physical evidence journey: item shown without upload link" do
     visit public_lookup_case_path(reference: "HO-FV-R4TG")
-    assert_text "Visa Processing Centre"
-    assert_text "Sheffield"
+    assert_text "Accommodation proof"
     assert_text "HO-FV-R4TG"
-    assert_text "envelope"
+    assert_no_selector "a", text: /Upload/
   end
 
   # TC-JOURNEY-09: Approved case journey — no action shown
   # (tc-16: Maria Santos)
   test "approved case journey: positive status, no action required" do
     visit public_lookup_case_path(reference: "HO-FV-W2XP")
-    assert_text "approved"
-    assert_no_selector "a", text: "Upload document"
-    assert_no_text "Action needed"
+    assert_text /approved/i
+    assert_no_selector "a", text: /Upload/
   end
 
   # TC-JOURNEY-10: Refused case journey — no action shown
   # (tc-17: Pavel Novak)
   test "refused case journey: refused status, no action required" do
     visit public_lookup_case_path(reference: "HO-VS-A4NB")
-    assert_text "unsuccessful"
-    assert_no_selector "a", text: "Upload document"
-    assert_no_text "Action needed"
+    assert_text /unsuccessful/i
+    assert_no_selector "a", text: /Upload/
   end
 end

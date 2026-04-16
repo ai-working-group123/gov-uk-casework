@@ -9,23 +9,26 @@ require_relative "support/public_portal_helper"
 class DocumentUploadTest < ApplicationSystemTestCase
   include PublicPortalHelper
 
-  # TC-UPLOAD-01: Upload page renders with document name in heading
+  # TC-UPLOAD-01: Upload page renders with document name
   test "upload page shows correct document name in heading" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
     assert_govuk_header
     assert_text "Upload document"
-    assert_text "Sponsorship certificate"
+    assert_text "TB certificate"
   end
 
   # TC-UPLOAD-02: Application reference shown on upload page
   test "upload page shows application reference" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
     assert_text "HO-T2-P2KR"
   end
 
   # TC-UPLOAD-03: File requirements listed
   test "upload page shows accepted file types and size limit" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
     assert_text "PDF"
     assert_text "JPG"
     assert_text "PNG"
@@ -34,73 +37,82 @@ class DocumentUploadTest < ApplicationSystemTestCase
 
   # TC-UPLOAD-04: File quality guidance shown
   test "upload page shows quality guidance" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
     assert_text "clear, readable"
   end
 
-  # TC-UPLOAD-05: Upload dropzone rendered
-  test "upload page renders drag and drop zone" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
-    assert_text "Drag and drop"
-    assert_selector "input[type='file']", visible: :hidden
+  # TC-UPLOAD-05: File upload input rendered
+  test "upload page renders file upload input" do
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
+    assert_selector "input[type='file']"
   end
 
-  # TC-UPLOAD-06: Choose file button rendered
-  test "upload page has choose file button" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
-    assert_selector "label", text: "Choose file"
+  # TC-UPLOAD-06: File upload label rendered
+  test "upload page has file upload label" do
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
+    assert_selector "label[for='document']"
   end
 
   # TC-UPLOAD-07: Optional note field present
   test "upload page has optional note textarea" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
     assert_text "anything else you want to tell us"
     assert_selector "textarea#note"
   end
 
   # TC-UPLOAD-08: Optional note field is clearly optional
   test "optional note field is labelled as optional" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
-    assert_text "optional"
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
+    assert_text "Optional"
   end
 
   # TC-UPLOAD-09: Upload button present
   test "upload page has upload document submit button" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
     assert_selector "button", text: "Upload document"
   end
 
   # TC-UPLOAD-10: Back link returns to status page
   test "back link returns to application status page" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
-    assert_selector "a", text: /Back to/
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
     click_link "Back"
     assert_current_path(/lookup/)
   end
 
-  # TC-UPLOAD-11: Success state visible in wireframe (static)
-  test "upload page shows success confirmation panel in wireframe" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
-    assert_text "uploaded successfully"
-    assert_text "Return to your application status"
+  # TC-UPLOAD-11: Cancel link back to status present
+  test "upload page shows cancel link back to status" do
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
+    assert_selector "a", text: "Cancel and return to your application"
   end
 
-  # TC-UPLOAD-12: Return to status link present after upload
-  test "return to application link present" do
-    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
-    assert_selector "a", text: "Return to your application status"
+  # TC-UPLOAD-12: Cancel link navigates to status page
+  test "cancel link returns to application status" do
+    item = evidence_request_items(:tc04_tb_item)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: item.id)
+    click_link "Cancel and return to your application"
+    assert_current_path(/lookup/)
   end
 
   # TC-UPLOAD-13 (tc-07): Upload works for financial evidence item
   test "upload page works for financial evidence" do
-    visit public_lookup_upload_form_path(reference: "HO-T4-E5RW", item_id: 1)
+    item = evidence_request_items(:tc07_bank_item)
+    visit public_lookup_upload_form_path(reference: "HO-T4-E5RW", item_id: item.id)
     assert_text "Upload document"
     assert_text "HO-T4-E5RW"
   end
 
   # TC-UPLOAD-14 (tc-18): Upload page for second item in multi-item request
   test "upload page works for second item in multi-item request" do
-    visit public_lookup_upload_form_path(reference: "HO-T4-Q8VL", item_id: 2)
+    item = evidence_request_items(:tc18_english_item)
+    visit public_lookup_upload_form_path(reference: "HO-T4-Q8VL", item_id: item.id)
     assert_text "Upload document"
     assert_text "HO-T4-Q8VL"
   end

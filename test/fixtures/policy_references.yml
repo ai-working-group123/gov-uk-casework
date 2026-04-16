@@ -1,0 +1,39 @@
+tb_certificate:
+  code: "HC-TB-01"
+  title: "TB certificate from an approved clinic"
+  summary: "Applicants from listed countries must provide a TB test certificate"
+  criteria: "TB test from approved clinic within 6 months"
+  case_types: "Skilled Worker,Student,Family"
+  policy_area: "Health"
+
+bank_statements:
+  code: "FIN-BS-01"
+  title: "Bank statements"
+  summary: "Applicants must show sufficient funds"
+  criteria: "3 months bank statements showing minimum required balance"
+  case_types: "Skilled Worker,Student,Family"
+  policy_area: "Financial"
+
+sponsorship_certificate:
+  code: "EMP-SC-01"
+  title: "Sponsorship certificate"
+  summary: "Certificate of Sponsorship from employer"
+  criteria: "Valid CoS reference from A-rated sponsor"
+  case_types: "Skilled Worker"
+  policy_area: "Employment"
+
+accommodation_proof:
+  code: "ACC-AP-01"
+  title: "Accommodation proof"
+  summary: "Evidence of adequate accommodation"
+  criteria: "Tenancy agreement or surveyor report"
+  case_types: "Family"
+  policy_area: "Accommodation"
+
+english_language:
+  code: "ENG-SL-01"
+  title: "SELT certificate"
+  summary: "Secure English Language Test certificate"
+  criteria: "CEFR B2 or above from approved provider"
+  case_types: "Student,Skilled Worker"
+  policy_area: "English Language"

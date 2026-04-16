@@ -1,0 +1,68 @@
+# tc-04: TB certificate — digital upload
+tc04_tb_item:
+  evidence_request: tc04_request
+  evidence: tc04_tb_cert
+  submission_method: 0
+  reason: "Please provide your TB certificate from an approved clinic"
+  status: 0
+  policy_reference: tb_certificate
+
+# tc-07: Bank statements — digital upload
+tc07_bank_item:
+  evidence_request: tc07_request
+  evidence: tc07_bank_statements
+  submission_method: 0
+  reason: "Please provide 3 months additional bank statements"
+  status: 0
+  policy_reference: bank_statements
+
+# tc-10: Accommodation proof — physical post only
+tc10_accommodation_item:
+  evidence_request: tc10_request
+  evidence: tc10_accommodation
+  submission_method: 1
+  reason: "Tenancy agreement or surveyor report confirming adequate accommodation"
+  status: 0
+  policy_reference: accommodation_proof
+
+# tc-15: Three items — all digital
+tc15_sponsorship_item:
+  evidence_request: tc15_request
+  evidence: tc15_sponsorship
+  submission_method: 0
+  reason: "Please provide your Certificate of Sponsorship"
+  status: 0
+  policy_reference: sponsorship_certificate
+
+tc15_bank_item:
+  evidence_request: tc15_request
+  evidence: tc15_bank_statements
+  submission_method: 0
+  reason: "Please provide 3 months bank statements"
+  status: 0
+  policy_reference: bank_statements
+
+tc15_tb_item:
+  evidence_request: tc15_request
+  evidence: tc15_tb_cert
+  submission_method: 0
+  reason: "Please provide your TB certificate from approved clinic"
+  status: 0
+  policy_reference: tb_certificate
+
+# tc-18: Two items — both digital
+tc18_bank_item:
+  evidence_request: tc18_request
+  evidence: tc18_bank_statements
+  submission_method: 0
+  reason: "Financial evidence - bank statements showing minimum required balance"
+  status: 0
+  policy_reference: bank_statements
+
+tc18_english_item:
+  evidence_request: tc18_request
+  evidence: tc18_english_language
+  submission_method: 0
+  reason: "SELT certificate (CEFR B2)"
+  status: 0
+  policy_reference: english_language
