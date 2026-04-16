@@ -48,6 +48,12 @@
 
     <dt>Assigned to</dt>
     <dd><%= @case.assigned_to&.name || "Unassigned" %></dd>
+
+    <dt>Assigned to</dt>
+    <dd><%= @case.assigned_to&.name || "Unassigned" %></dd>
+
+    <dt>Last evaluated</dt>
+    <dd><%= @case.last_evaluated_at&.strftime("%d %b %Y %H:%M") || "Never" %></dd>
   </dl>
 
   <%# ── Case Data ── %>
@@ -252,5 +258,6 @@
   <div class="mt-8 flex gap-4">
     <%= link_to "Edit case", edit_case_path(@case), class: "link" %>
     <%= link_to "Evidence requests", case_evidence_requests_path(@case), class: "link" %>
+    <%= button_to "Run Workflow", run_workflow_case_path(@case), method: :post, class: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" %>
   </div>
 </div>

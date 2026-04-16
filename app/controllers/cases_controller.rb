@@ -1,11 +1,12 @@
 class CasesController < ApplicationController
-  before_action :set_case, only: [ :show, :edit, :update, :destroy, :evaluate ]
+  before_action :set_case, only: [ :show, :edit, :update, :destroy, :evaluate, :run_workflow ]
 
   def index
     @cases = Case.all
   end
 
   def show
+    # @case.evaluate_if_stale!
   end
 
   def new
@@ -53,6 +54,11 @@ class CasesController < ApplicationController
     end
   rescue LlmService::Error => e
     redirect_to case_path(@case), alert: "Rules engine error: #{e.message}"
+  end
+
+  def run_workflow
+    @case.force_evaluate!
+    redirect_to case_path(@case), notice: "Workflow evaluation queued."
   end
 
   private
