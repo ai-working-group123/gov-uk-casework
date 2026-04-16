@@ -23,8 +23,21 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="bg-gds-page-bg min-h-screen text-gds-black">
+    <!-- GDS-style blue header -->
+    <header class="bg-gds-blue">
+      <div class="max-w-[960px] mx-auto px-4 py-3 flex items-baseline justify-between">
+        <a href="<%= root_path %>" class="text-white font-bold text-lg no-underline hover:underline decoration-1">
+          Case Management Service
+        </a>
+        <nav class="flex items-center gap-6 text-sm">
+          <%= link_to "Cases", cases_path, class: "text-white no-underline hover:underline" %>
+          <%= link_to "Case Types", case_type_configs_path, class: "text-white no-underline hover:underline" %>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-[960px] mx-auto px-4 py-8">
       <%= yield %>
     </main>
   </body>
