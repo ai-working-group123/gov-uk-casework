@@ -3,7 +3,7 @@
 # Shared helpers for all public portal system tests
 module PublicPortalHelper
   def visit_lookup
-    visit lookup_path
+    visit public_lookup_path
   end
 
   def submit_reference(reference)

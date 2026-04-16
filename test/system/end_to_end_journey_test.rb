@@ -23,7 +23,7 @@ class EndToEndJourneyTest < ApplicationSystemTestCase
   # TC-JOURNEY-02: Action required journey — lookup → action required status
   # Single upload item (tc-04: Amara Diallo — TB cert)
   test "action required journey: lookup → action required with upload" do
-    visit lookup_case_path("HO-T2-P2KR", action_required: true)
+    visit public_lookup_case_path(reference: "HO-T2-P2KR")
     assert_action_required_panel
     assert_text "TB certificate"
     assert_selector "a", text: "Upload document"
@@ -35,7 +35,7 @@ class EndToEndJourneyTest < ApplicationSystemTestCase
   # TC-JOURNEY-03: Full upload journey — status → upload → back to status
   # (tc-07: Fatima Malik — financial evidence)
   test "full upload journey: action required → upload page → return to status" do
-    visit lookup_case_path("HO-T4-E5RW", action_required: true)
+    visit public_lookup_case_path(reference: "HO-T4-E5RW")
     assert_action_required_panel
     click_link "Upload document"
     assert_text "Upload document"
@@ -46,22 +46,22 @@ class EndToEndJourneyTest < ApplicationSystemTestCase
 
   # TC-JOURNEY-04: Back navigation from upload to status
   test "back link from upload returns to status page" do
-    visit lookup_upload_form_path("HO-T2-P2KR", 1)
+    visit public_lookup_upload_form_path(reference: "HO-T2-P2KR", item_id: 1)
     click_link "Back"
     assert_current_path(/lookup/)
   end
 
   # TC-JOURNEY-05: Back navigation from status to lookup
   test "back link from status returns to lookup form" do
-    visit lookup_case_path("HO-T2-A3F9")
+    visit public_lookup_case_path(reference: "HO-T2-A3F9")
     click_link "Check another application"
-    assert_current_path lookup_path
+    assert_current_path public_lookup_path
   end
 
   # TC-JOURNEY-06: Multi-item journey — navigate to first upload, then second
   # (tc-18: Tariq Hassan — financial evidence + SELT cert)
   test "multi-item journey: both upload links reachable from action required" do
-    visit lookup_case_path("HO-T4-Q8VL", action_required: true)
+    visit public_lookup_case_path(reference: "HO-T4-Q8VL")
     assert_action_required_panel
 
     # First item upload
@@ -75,7 +75,7 @@ class EndToEndJourneyTest < ApplicationSystemTestCase
   # TC-JOURNEY-07: Maximum stress case — all items visible, all upload links reachable
   # (tc-15: Li Wei — 3 missing docs)
   test "maximum stress journey: three items all shown" do
-    visit lookup_case_path("HO-T2-Z9YQ", action_required: true)
+    visit public_lookup_case_path(reference: "HO-T2-Z9YQ")
     assert_action_required_panel
     assert_text "Sponsorship certificate"
     assert_text "bank statements"
@@ -86,7 +86,7 @@ class EndToEndJourneyTest < ApplicationSystemTestCase
   # TC-JOURNEY-08: Physical post journey — no upload button, postal address visible
   # (tc-10: Sofia Kowalski — accommodation proof by post)
   test "physical post journey: address shown, no upload confusion" do
-    visit lookup_case_path("HO-FV-R4TG", action_required: true)
+    visit public_lookup_case_path(reference: "HO-FV-R4TG")
     assert_text "Visa Processing Centre"
     assert_text "Sheffield"
     assert_text "HO-FV-R4TG"
@@ -96,7 +96,7 @@ class EndToEndJourneyTest < ApplicationSystemTestCase
   # TC-JOURNEY-09: Approved case journey — no action shown
   # (tc-16: Maria Santos)
   test "approved case journey: positive status, no action required" do
-    visit lookup_case_path("HO-FV-W2XP")
+    visit public_lookup_case_path(reference: "HO-FV-W2XP")
     assert_text "approved"
     assert_no_selector "a", text: "Upload document"
     assert_no_text "Action needed"
@@ -105,7 +105,7 @@ class EndToEndJourneyTest < ApplicationSystemTestCase
   # TC-JOURNEY-10: Refused case journey — no action shown
   # (tc-17: Pavel Novak)
   test "refused case journey: refused status, no action required" do
-    visit lookup_case_path("HO-VS-A4NB")
+    visit public_lookup_case_path(reference: "HO-VS-A4NB")
     assert_text "unsuccessful"
     assert_no_selector "a", text: "Upload document"
     assert_no_text "Action needed"
