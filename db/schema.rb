@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_16_092305) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_16_120000) do
   create_table "actions", force: :cascade do |t|
     t.integer "action_type", null: false
     t.string "blocked_by"
@@ -97,7 +97,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_092305) do
     t.string "applicant_name", null: false
     t.datetime "assigned_at"
     t.integer "assigned_to_id"
-    t.integer "case_type", null: false
+    t.integer "case_type_config_id"
     t.datetime "created_at", null: false
     t.datetime "decided_at"
     t.string "nationality"
@@ -109,6 +109,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_092305) do
     t.datetime "submitted_at", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "updated_at", null: false
     t.index ["assigned_to_id"], name: "index_cases_on_assigned_to_id"
+    t.index ["case_type_config_id"], name: "index_cases_on_case_type_config_id"
     t.index ["reference"], name: "index_cases_on_reference", unique: true
   end
 
@@ -221,6 +222,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_092305) do
   add_foreign_key "case_type_generation_logs", "case_type_configs"
   add_foreign_key "case_type_suggestions", "case_type_configs"
   add_foreign_key "case_type_suggestions", "caseworkers", column: "resolved_by_id"
+  add_foreign_key "cases", "case_type_configs"
   add_foreign_key "cases", "caseworkers", column: "assigned_to_id"
   add_foreign_key "caseworkers", "teams"
   add_foreign_key "correspondences", "actions"

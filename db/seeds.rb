@@ -25,7 +25,7 @@ skilled_worker_policy_references = [
 		parent_code: nil,
 		title: "Skilled Worker Visa",
 		policy_area: "Skilled Worker Visa",
-		case_types: "tier2_work",
+		case_types: "skilled-worker-visa",
 		summary: "Core requirements for Skilled Worker visa applications.",
 		criteria: "Valid CoS, licensed sponsor, English, maintenance, conditional evidence checks, and refusal grounds.",
 		govuk_url: "https://www.gov.uk/skilled-worker-visa",
@@ -38,7 +38,7 @@ skilled_worker_policy_references = [
 		parent_code: "SW",
 		title: "Valid passport",
 		policy_area: "Skilled Worker Visa",
-		case_types: "tier2_work",
+		case_types: "skilled-worker-visa",
 		summary: "Applicant must provide a valid passport.",
 		criteria: "Passport identity details and expiry date must be valid for application processing.",
 		govuk_url: "https://www.gov.uk/skilled-worker-visa",
@@ -50,7 +50,7 @@ skilled_worker_policy_references = [
 		parent_code: "SW",
 		title: "Certificate of Sponsorship",
 		policy_area: "Skilled Worker Visa",
-		case_types: "tier2_work",
+		case_types: "skilled-worker-visa",
 		summary: "A valid Certificate of Sponsorship (CoS) is mandatory.",
 		criteria: "CoS must be assigned to applicant, unspent, and issued by a currently licensed sponsor.",
 		govuk_url: "https://www.gov.uk/skilled-worker-visa/your-job",
@@ -62,7 +62,7 @@ skilled_worker_policy_references = [
 		parent_code: "SW",
 		title: "English language evidence",
 		policy_area: "Skilled Worker Visa",
-		case_types: "tier2_work",
+		case_types: "skilled-worker-visa",
 		summary: "English language requirement must be met.",
 		criteria: "Evidence must show CEFR B1+ or a valid exemption route.",
 		govuk_url: "https://www.gov.uk/skilled-worker-visa/knowledge-of-english",
@@ -74,7 +74,7 @@ skilled_worker_policy_references = [
 		parent_code: "SW",
 		title: "TB test certificate",
 		policy_area: "Skilled Worker Visa",
-		case_types: "tier2_work",
+		case_types: "skilled-worker-visa",
 		summary: "TB certificate is required only for specific nationalities.",
 		criteria: "If applicant is from a listed country, valid TB certificate from approved clinic is required.",
 		govuk_url: "https://www.gov.uk/tb-test-visa/countries-where-you-need-a-tb-test",
@@ -86,7 +86,7 @@ skilled_worker_policy_references = [
 		parent_code: "SW",
 		title: "Criminal record certificate",
 		policy_area: "Skilled Worker Visa",
-		case_types: "tier2_work",
+		case_types: "skilled-worker-visa",
 		summary: "Criminal record certificate is conditional for specified occupations.",
 		criteria: "Required where job involves working with vulnerable groups under route rules.",
 		govuk_url: "https://www.gov.uk/skilled-worker-visa",
@@ -98,7 +98,7 @@ skilled_worker_policy_references = [
 		parent_code: "SW",
 		title: "Maintenance funds evidence",
 		policy_area: "Skilled Worker Visa",
-		case_types: "tier2_work",
+		case_types: "skilled-worker-visa",
 		summary: "Financial requirement evidence is conditional.",
 		criteria: "Show GBP 1,270 for 28 consecutive days unless sponsor certifies maintenance.",
 		govuk_url: "https://www.gov.uk/skilled-worker-visa/money",
@@ -110,7 +110,7 @@ skilled_worker_policy_references = [
 		parent_code: "SW",
 		title: "Academic qualifications",
 		policy_area: "Skilled Worker Visa",
-		case_types: "tier2_work",
+		case_types: "skilled-worker-visa",
 		summary: "Academic evidence may be needed where role-specific qualifications apply.",
 		criteria: "Provide qualification evidence where sponsor role or route rules require it.",
 		govuk_url: "https://www.gov.uk/skilled-worker-visa",
@@ -122,7 +122,7 @@ skilled_worker_policy_references = [
 		parent_code: "SW",
 		title: "Biometric enrolment",
 		policy_area: "Skilled Worker Visa",
-		case_types: "tier2_work",
+		case_types: "skilled-worker-visa",
 		summary: "Biometric enrolment is mandatory.",
 		criteria: "Applicant must complete biometric enrolment (photo and fingerprints) via VAC/UKVCAS.",
 		govuk_url: "https://www.gov.uk/skilled-worker-visa",
@@ -134,7 +134,7 @@ skilled_worker_policy_references = [
 		parent_code: "SW",
 		title: "ATAS certificate",
 		policy_area: "Skilled Worker Visa",
-		case_types: "tier2_work",
+		case_types: "skilled-worker-visa",
 		summary: "ATAS evidence is conditional for specified research roles.",
 		criteria: "ATAS certificate is required for certain roles where route guidance says so.",
 		govuk_url: "https://www.gov.uk/academic-technology-approval-scheme",
@@ -292,4 +292,183 @@ suggestions = [
 suggestions.each do |attrs|
 	suggestion = CaseTypeSuggestion.find_or_initialize_by(case_type_config: case_type_config, title: attrs[:title])
 	suggestion.update!(attrs)
+end
+
+# --- Caseworkers ---
+
+sarah = Caseworker.find_or_create_by!(email: "sarah.chen@homeoffice.gov.uk") do |cw|
+	cw.name = "Sarah Chen"
+	cw.team = team
+	cw.role = :caseworker
+	cw.capacity = 15
+end
+
+fatima = Caseworker.find_or_create_by!(email: "fatima.ali@homeoffice.gov.uk") do |cw|
+	cw.name = "Fatima Ali"
+	cw.team = team
+	cw.role = :caseworker
+	cw.capacity = 15
+end
+
+david = Caseworker.find_or_create_by!(email: "david.park@homeoffice.gov.uk") do |cw|
+	cw.name = "David Park"
+	cw.team = team
+	cw.role = :caseworker
+	cw.capacity = 15
+end
+
+tom = Caseworker.find_or_create_by!(email: "tom.hughes@homeoffice.gov.uk") do |cw|
+	cw.name = "Tom Hughes"
+	cw.team = team
+	cw.role = :caseworker
+	cw.capacity = 15
+end
+
+nia = Caseworker.find_or_create_by!(email: "nia.williams@homeoffice.gov.uk") do |cw|
+	cw.name = "Nia Williams"
+	cw.team = team
+	cw.role = :caseworker
+	cw.capacity = 15
+end
+
+# --- Cases ---
+
+demo_cases = [
+	{
+		applicant_name: "Priya Sharma",
+		applicant_email: "priya.sharma@example.com",
+		nationality: "Indian",
+		status: :awaiting_evidence,
+		priority: :urgent,
+		risk_score: 85,
+		assigned_to: sarah,
+		submitted_at: 71.days.ago,
+		assigned_at: 70.days.ago,
+		sla_deadline: 13.days.ago
+	},
+	{
+		applicant_name: "Marco Rossi",
+		applicant_email: "marco.rossi@example.com",
+		nationality: "Italian",
+		status: :in_review,
+		priority: :medium,
+		risk_score: 30,
+		assigned_to: sarah,
+		submitted_at: 20.days.ago,
+		assigned_at: 19.days.ago,
+		sla_deadline: 36.days.from_now
+	},
+	{
+		applicant_name: "Aisha Hassan",
+		applicant_email: "aisha.hassan@example.com",
+		nationality: "Sudanese",
+		status: :in_review,
+		priority: :medium,
+		risk_score: 15,
+		assigned_to: fatima,
+		submitted_at: 30.days.ago,
+		assigned_at: 29.days.ago,
+		sla_deadline: 26.days.from_now
+	},
+	{
+		applicant_name: "James O'Brien",
+		applicant_email: "james.obrien@example.com",
+		nationality: "Irish",
+		status: :submitted,
+		priority: :low,
+		risk_score: 5,
+		assigned_to: david,
+		submitted_at: Time.current,
+		assigned_at: Time.current,
+		sla_deadline: 56.days.from_now
+	},
+	{
+		applicant_name: "Li Wei",
+		applicant_email: "li.wei@example.com",
+		nationality: "Chinese",
+		status: :in_review,
+		priority: :high,
+		risk_score: 70,
+		assigned_to: fatima,
+		submitted_at: 90.days.ago,
+		assigned_at: 88.days.ago,
+		sla_deadline: 34.days.ago
+	},
+	{
+		applicant_name: "Elena Vasquez",
+		applicant_email: "elena.vasquez@example.com",
+		nationality: "Colombian",
+		status: :awaiting_evidence,
+		priority: :medium,
+		risk_score: 40,
+		assigned_to: fatima,
+		submitted_at: 45.days.ago,
+		assigned_at: 44.days.ago,
+		sla_deadline: 5.days.from_now
+	},
+	{
+		applicant_name: "Yuki Tanaka",
+		applicant_email: "yuki.tanaka@example.com",
+		nationality: "Japanese",
+		status: :ready_for_decision,
+		priority: :low,
+		risk_score: 10,
+		assigned_to: david,
+		submitted_at: 40.days.ago,
+		assigned_at: 39.days.ago,
+		sla_deadline: 16.days.from_now
+	},
+	{
+		applicant_name: "Ahmed Osman",
+		applicant_email: "ahmed.osman@example.com",
+		nationality: "Egyptian",
+		status: :assigned,
+		priority: :medium,
+		risk_score: 20,
+		assigned_to: tom,
+		submitted_at: 5.days.ago,
+		assigned_at: 4.days.ago,
+		sla_deadline: 51.days.from_now
+	},
+	{
+		applicant_name: "Sofia Andersson",
+		applicant_email: "sofia.andersson@example.com",
+		nationality: "Swedish",
+		status: :decided_approved,
+		priority: :low,
+		risk_score: 0,
+		assigned_to: sarah,
+		submitted_at: 60.days.ago,
+		assigned_at: 59.days.ago,
+		sla_deadline: 4.days.ago,
+		decided_at: 10.days.ago
+	},
+	{
+		applicant_name: "Kwame Mensah",
+		applicant_email: "kwame.mensah@example.com",
+		nationality: "Ghanaian",
+		status: :awaiting_evidence,
+		priority: :high,
+		risk_score: 55,
+		assigned_to: nia,
+		submitted_at: 50.days.ago,
+		assigned_at: 49.days.ago,
+		sla_deadline: 6.days.from_now
+	}
+]
+
+demo_cases.each do |attrs|
+	Case.find_or_create_by!(applicant_name: attrs[:applicant_name]) do |kase|
+		kase.case_type_config = case_type_config
+		kase.applicant_email = attrs[:applicant_email]
+		kase.nationality = attrs[:nationality]
+		kase.status = attrs[:status]
+		kase.priority = attrs[:priority]
+		kase.risk_score = attrs[:risk_score]
+		kase.assigned_to = attrs[:assigned_to]
+		kase.submitted_at = attrs[:submitted_at]
+		kase.assigned_at = attrs[:assigned_at]
+		kase.sla_deadline = attrs[:sla_deadline]
+		kase.decided_at = attrs[:decided_at]
+	end
 end

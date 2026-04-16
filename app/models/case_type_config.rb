@@ -1,5 +1,6 @@
 class CaseTypeConfig < ApplicationRecord
   belongs_to :created_by, class_name: "Caseworker", optional: true
+  has_many :cases, dependent: :restrict_with_error
   has_many :case_type_generation_logs, dependent: :destroy
   has_many :case_type_suggestions, dependent: :destroy
 
