@@ -182,10 +182,10 @@ class CaseTypeConfigsController < ApplicationController
     when 4 then suggestions_case_type_config_path(@case_type_config)
     when 3 then review_case_type_config_path(@case_type_config)
     when 2 then questions_case_type_config_path(@case_type_config)
-    else nil
+    else edit_case_type_config_path(@case_type_config)
     end
 
-    redirect_to(redirect_path) and return if redirect_path
+    redirect_to redirect_path
   end
 
   # GET /admin/case_type_configs/:id/review
