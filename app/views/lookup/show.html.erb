@@ -1,41 +1,99 @@
-<div class="max-w-2xl mx-auto py-16">
-  <h1 class="text-3xl font-bold mb-2">Application Status</h1>
-  <p class="text-gray-500 mb-8">Reference: <span class="font-mono font-semibold"><%= @case.reference %></span></p>
+<% content_for :title, "Application #{@case.reference}" %>
 
-  <div class="border rounded-lg p-6 mb-8">
-    <dl>
-      <dt class="font-medium text-gray-500">Applicant</dt>
-      <dd class="mb-4 text-lg"><%= @case.applicant_name %></dd>
+<% content_for :back_link do %>
+  <%= link_to "Back", public_lookup_path, class: "govuk-back-link" %>
+<% end %>
 
-      <dt class="font-medium text-gray-500">Application Type</dt>
-      <dd class="mb-4"><%= @case.case_type.humanize %></dd>
+<%
+  PUBLIC_STATUS = {
+    "submitted"          => { tag: "blue",   label: "Received",          message: "We have received your application and it is being processed." },
+    "assigned"           => { tag: "blue",   label: "In progress",       message: "Your application has been assigned to a caseworker and will be reviewed shortly." },
+    "in_review"          => { tag: "blue",   label: "Under review",      message: "A caseworker is currently reviewing your application and supporting documents." },
+    "awaiting_evidence"  => { tag: "yellow", label: "Action required",   message: "We are waiting for documents or information from you. Please check below." },
+    "ready_for_decision" => { tag: "blue",   label: "Decision pending",  message: "We have everything we need and a decision is being prepared." },
+    "decided_approved"   => { tag: "green",  label: "Approved",          message: "Your application has been successful. You will receive confirmation separately." },
+    "decided_refused"    => { tag: "red",    label: "Unsuccessful",      message: "Your application has not been successful. See your decision letter for details." },
+    "withdrawn"          => { tag: "grey",   label: "Withdrawn",         message: "This application has been withdrawn." }
+  }.freeze
 
-      <dt class="font-medium text-gray-500">Current Status</dt>
-      <dd class="mb-4">
-        <span class="inline-block px-3 py-1 rounded-full text-sm font-medium
-          <% case @case.status
-             when 'submitted' then %>bg-gray-100 text-gray-800<%
-             when 'assigned', 'in_review' then %>bg-blue-100 text-blue-800<%
-             when 'awaiting_evidence' then %>bg-yellow-100 text-yellow-800<%
-             when 'ready_for_decision' then %>bg-purple-100 text-purple-800<%
-             when 'decided_approved' then %>bg-green-100 text-green-800<%
-             when 'decided_refused' then %>bg-red-100 text-red-800<%
-             when 'withdrawn' then %>bg-gray-100 text-gray-500<%
-             end %>">
-          <%= @case.status.humanize %>
-        </span>
-      </dd>
+  status_info  = PUBLIC_STATUS[@case.status] || { tag: "blue", label: @case.status.humanize, message: "Your application is being processed." }
+  action_items = @case.evidence_requests
+                      .where(status: [:sent, :partially_fulfilled])
+                      .includes(evidence_request_items: :evidence)
+                      .flat_map { |er| er.evidence_request_items.pending }
+%>
 
-      <dt class="font-medium text-gray-500">Submitted</dt>
-      <dd class="mb-4"><%= @case.submitted_at&.strftime("%d %B %Y") %></dd>
+<h1 class="govuk-heading-xl">Your application status</h1>
 
-      <dt class="font-medium text-gray-500">Priority</dt>
-      <dd class="mb-4"><%= @case.priority.humanize %></dd>
-    </dl>
+<dl class="govuk-summary-list govuk-!-margin-bottom-6">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Reference</dt>
+    <dd class="govuk-summary-list__value govuk-!-font-weight-bold"><%= @case.reference %></dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Application type</dt>
+    <dd class="govuk-summary-list__value"><%= @case.case_type_label %></dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Applicant name</dt>
+    <dd class="govuk-summary-list__value"><%= @case.applicant_name %></dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Date submitted</dt>
+    <dd class="govuk-summary-list__value"><%= @case.submitted_at&.strftime("%-d %B %Y") %></dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Status</dt>
+    <dd class="govuk-summary-list__value">
+      <strong class="govuk-tag govuk-tag--<%= status_info[:tag] %>"><%= status_info[:label] %></strong>
+    </dd>
+  </div>
+</dl>
+
+<% if @case.status == "awaiting_evidence" && action_items.any? %>
+  <div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-visually-hidden">Warning</span>
+      You need to provide <%= action_items.size == 1 ? "a document" : "#{action_items.size} documents" %> before we can continue.
+    </strong>
   </div>
 
-  <div class="flex gap-4">
-    <%= link_to "Search again", public_lookup_path, class: "text-blue-600 hover:underline" %>
-    <%= link_to "Back to Home", root_path, class: "text-blue-600 hover:underline" %>
+  <h2 class="govuk-heading-m">Documents we need from you</h2>
+
+  <ul class="govuk-list govuk-list--spaced">
+    <% action_items.each do |item| %>
+      <li>
+        <strong class="govuk-body govuk-!-font-weight-bold"><%= item.evidence.evidence_type.humanize %></strong>
+        <% if item.reason.present? %>
+          <p class="govuk-body govuk-!-margin-bottom-1"><%= item.reason %></p>
+        <% end %>
+        <% if item.allows_upload? %>
+          <%= link_to "Upload #{item.evidence.evidence_type.humanize.downcase}",
+              public_lookup_upload_form_path(reference: @case.reference, item_id: item.id),
+              class: "govuk-link" %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <div class="govuk-inset-text">
+    <%= status_info[:message] %>
   </div>
-</div>
+<% end %>
+
+<% if @case.decided_approved? || @case.decided_refused? %>
+  <h2 class="govuk-heading-m">What happens next</h2>
+  <% if @case.decided_approved? %>
+    <p class="govuk-body">Your application has been approved. You will receive your decision letter by post or email.</p>
+  <% else %>
+    <p class="govuk-body">Your application has not been approved. Your decision letter will explain the reasons and tell you about any rights of appeal or administrative review.</p>
+    <p class="govuk-body">
+      <a class="govuk-link" href="https://www.gov.uk/ask-for-a-visa-administrative-review">Find out about administrative review</a>
+    </p>
+  <% end %>
+<% end %>
+
+<p class="govuk-body govuk-!-margin-top-6">
+  <%= link_to "Check a different reference", public_lookup_path, class: "govuk-link" %>
+</p>

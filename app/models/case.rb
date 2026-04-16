@@ -18,12 +18,24 @@ class Case < ApplicationRecord
     "visitor"      => "VS"
   }.freeze
 
+  CASE_TYPE_LABELS = {
+    "tier2_work"    => "Skilled Worker visa",
+    "tier4_student" => "Student visa",
+    "family_visa"   => "Family visa",
+    "settlement"    => "Settlement (Indefinite Leave to Remain)",
+    "visitor"       => "Visitor visa"
+  }.freeze
+
   REFERENCE_CHARS = ("A".."Z").to_a - %w[I O] + ("2".."9").to_a
 
   before_validation :generate_reference, on: :create
 
   scope :overdue, -> { where("sla_deadline < ?", Time.current).where.not(status: %i[decided_approved decided_refused withdrawn]) }
   scope :approaching_sla, -> { where(sla_deadline: Time.current..7.days.from_now).where.not(status: %i[decided_approved decided_refused withdrawn]) }
+
+  def case_type_label
+    CASE_TYPE_LABELS[case_type] || case_type.humanize
+  end
 
   private
 

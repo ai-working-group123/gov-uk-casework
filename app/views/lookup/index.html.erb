@@ -1,31 +1,44 @@
-<div class="max-w-2xl mx-auto py-16">
-  <h1 class="text-3xl font-bold mb-2">Check your application status</h1>
-  <p class="text-gray-600 mb-8">Enter your case reference number (e.g. HO-T2-A3F9) to view the current status of your application.</p>
+<% content_for :title, "Check your application status" %>
 
-  <% if flash[:alert] %>
-    <div class="bg-red-50 text-red-700 px-4 py-3 rounded mb-6">
-      <%= flash[:alert] %>
+<h1 class="govuk-heading-xl">Check your application status</h1>
+<p class="govuk-body-l">Enter your application reference number to see the current status of your case.</p>
+
+<% if flash[:alert] %>
+  <div class="govuk-error-summary" data-module="govuk-error-summary">
+    <div role="alert">
+      <h2 class="govuk-error-summary__title">There is a problem</h2>
+      <div class="govuk-error-summary__body">
+        <ul class="govuk-list govuk-error-summary__list">
+          <li><%= flash[:alert] %></li>
+        </ul>
+      </div>
     </div>
-  <% end %>
-
-  <%= form_tag public_lookup_case_path(reference: "__REF__"), method: :get, id: "lookup-form", class: "flex gap-4" do %>
-    <input type="text" name="reference" id="reference-input" placeholder="HO-T2-A3F9"
-           class="border rounded px-4 py-3 flex-1 text-lg uppercase" required
-           pattern="HO-[A-Z0-9]{2}-[A-Z2-9]{4}" title="Format: HO-XX-XXXX">
-    <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded text-lg hover:bg-blue-700">
-      Search
-    </button>
-  <% end %>
-
-  <div class="mt-8">
-    <%= link_to "Back to Home", root_path, class: "text-blue-600 hover:underline" %>
   </div>
-</div>
+<% end %>
+
+<%= form_tag public_lookup_path, method: :get, id: "lookup-form" do %>
+  <div class="govuk-form-group">
+    <label class="govuk-label govuk-label--m" for="reference">
+      Application reference number
+    </label>
+    <div id="reference-hint" class="govuk-hint">
+      For example, HO-T2-A3F9. You can find this on your acknowledgement letter or email.
+    </div>
+    <input class="govuk-input govuk-input--width-20" id="reference" name="reference"
+           type="text" autocomplete="off" spellcheck="false"
+           aria-describedby="reference-hint"
+           value="<%= params[:reference] %>">
+  </div>
+
+  <button type="submit" class="govuk-button" data-module="govuk-button">
+    Find application
+  </button>
+<% end %>
 
 <script>
   document.getElementById('lookup-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    var ref = document.getElementById('reference-input').value.trim().toUpperCase();
+    var ref = document.getElementById('reference').value.trim().toUpperCase();
     if (ref) {
       window.location.href = '<%= public_lookup_path %>/' + encodeURIComponent(ref);
     }

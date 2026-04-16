@@ -1,29 +1,42 @@
-<%# Screen 7: Document Upload Page %>
-
-<% reference = params[:reference] || "HO-T2-A3F9" %>
+<% document_name = @evidence_item ? @evidence_item.evidence.evidence_type.humanize : "Document" %>
+<% content_for :title, "Upload #{document_name.downcase}" %>
 
 <% content_for :back_link do %>
-  <a href="/lookup/<%= reference %>?action_required=true" class="govuk-back-link">Back</a>
+  <%= link_to "Back", public_lookup_case_path(reference: @case.reference), class: "govuk-back-link" %>
 <% end %>
 
 <h1 class="govuk-heading-l">Upload document</h1>
-<p class="govuk-body"><strong>Document:</strong> Sponsorship certificate</p>
-<p class="govuk-body"><strong>Application:</strong> <%= reference %></p>
 
-<p class="govuk-body">Upload a copy of your Certificate of Sponsorship.</p>
+<dl class="govuk-summary-list govuk-summary-list--no-border govuk-!-margin-bottom-6">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Document needed</dt>
+    <dd class="govuk-summary-list__value govuk-!-font-weight-bold"><%= document_name %></dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Application reference</dt>
+    <dd class="govuk-summary-list__value"><%= @case.reference %></dd>
+  </div>
+</dl>
 
+<% if @evidence_item&.reason.present? %>
+  <div class="govuk-inset-text">
+    <%= @evidence_item.reason %>
+  </div>
+<% end %>
+
+<p class="govuk-body">You can upload:</p>
 <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
-  <li>a PDF, JPG, or PNG</li>
-  <li>smaller than 10MB</li>
+  <li>a PDF, JPG, or PNG file</li>
+  <li>a file smaller than 10MB</li>
   <li>a clear, readable scan or photograph</li>
 </ul>
 
-<form action="/lookup/<%= reference %>/upload/<%= params[:item_id] %>" method="post" enctype="multipart/form-data">
-  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+<%= form_tag public_lookup_upload_path(reference: @case.reference, item_id: params[:item_id]),
+             method: :post, multipart: true do %>
 
   <div class="govuk-form-group">
-    <label class="govuk-label" for="document">
-      Upload a file
+    <label class="govuk-label govuk-label--m" for="document">
+      Upload <%= document_name.downcase %>
     </label>
     <input class="govuk-file-upload" id="document" name="document" type="file" accept=".pdf,.jpg,.jpeg,.png">
   </div>
@@ -39,15 +52,8 @@
   <button type="submit" class="govuk-button" data-module="govuk-button">
     Upload document
   </button>
-</form>
+<% end %>
 
-<%# Success state — static wireframe preview %>
-<div class="govuk-panel govuk-panel--confirmation govuk-!-margin-top-6">
-  <h1 class="govuk-panel__title">Document uploaded successfully</h1>
-  <div class="govuk-panel__body">Reference: <%= reference %></div>
-</div>
-<p class="govuk-body-s govuk-!-color-secondary">(Success panel shown for wireframe — will only appear after upload in production)</p>
-
-<p class="govuk-body govuk-!-margin-top-4">
-  <a href="/lookup/<%= reference %>?action_required=true" class="govuk-link">Return to your application status</a>
+<p class="govuk-body">
+  <%= link_to "Cancel and return to your application", public_lookup_case_path(reference: @case.reference), class: "govuk-link" %>
 </p>
