@@ -214,6 +214,9 @@ select:focus-visible {
   @apply py-4 pl-4 text-sm text-gds-dark-grey;
   border-left: 4px solid var(--color-gds-mid-grey);
 }
+.inset-text.border-l-gds-blue {
+  border-left-color: var(--color-gds-blue);
+}
 
 /* ─── GDS Details (collapsible) ─── */
 details.gds-details > summary {

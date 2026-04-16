@@ -20,12 +20,30 @@
       <% saved = @saved_answers[qid] %>
       <% is_answered = saved.present? %>
       <div
-        class="mb-6 pb-6 question-card"
+        class="mb-6 pb-6 question-card border-b border-gds-mid-grey"
         data-questions-target="card"
         data-index="<%= index %>"
         data-answered="<%= is_answered %>"
-        style="border-bottom: 1px solid var(--color-gds-mid-grey); <%= 'display: none;' unless index == first_unanswered %>"
+        style="<%= 'display: none;' unless is_answered || index == first_unanswered %>"
       >
+        <% if is_answered && index < first_unanswered %>
+          <%# Collapsed summary for already-answered questions %>
+          <div class="flex items-start justify-between">
+            <div>
+              <p class="text-sm font-semibold text-gds-black">Question <%= index + 1 %>: <%= question[:text].truncate(80) %></p>
+              <p class="text-sm text-gds-dark-grey mt-1">
+                <% if saved["skip"] == "1" %>
+                  Skipped
+                <% elsif saved["custom"].present? %>
+                  <%= saved["custom"].truncate(60) %>
+                <% elsif saved["selected"].present? %>
+                  <%= saved["selected"].truncate(60) %>
+                <% end %>
+              </p>
+            </div>
+            <span class="tag-green">Answered</span>
+          </div>
+        <% else %>
         <div class="flex items-start justify-between mb-4">
           <h2 class="text-xl font-bold text-gds-black">
             Question <%= index + 1 %> of <%= @questions.length %>
@@ -41,7 +59,7 @@
 
         <fieldset class="space-y-3 mb-4">
           <% question[:suggested_answers].each_with_index do |answer, ai| %>
-            <label class="flex items-start gap-3 p-3 cursor-pointer hover:bg-gds-light-grey transition-colors" style="border: 2px solid var(--color-gds-mid-grey); <%= saved && saved['selected'] == answer ? "border-color: var(--color-gds-blue); background: #e8f0fe;" : "" %>">
+            <label class="flex items-start gap-3 p-3 border-2 border-gds-mid-grey cursor-pointer hover:bg-gds-light-grey transition-colors <%= saved && saved['selected'] == answer ? 'border-gds-blue bg-gds-blue/10' : '' %>">
               <input
                 type="radio"
                 name="answers[<%= question[:id] %>][selected]"
@@ -101,6 +119,7 @@
             <% end %>
           </div>
         </div>
+        <% end %>
       </div>
     <% end %>
 
