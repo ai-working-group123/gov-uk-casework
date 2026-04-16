@@ -9,6 +9,11 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  root "lookup#index"
+
+  # Public applicant portal
+  get  "lookup",                            to: "lookup#index",       as: :lookup
+  get  "lookup/:reference",                 to: "lookup#show",        as: :lookup_case
+  get  "lookup/:reference/upload/:item_id", to: "lookup#upload_form", as: :lookup_upload_form
+  post "lookup/:reference/upload/:item_id", to: "lookup#upload",      as: :lookup_upload
 end

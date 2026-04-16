@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" class="govuk-template">
+  <head>
+    <title><%= content_for(:title) || "GOV.UK" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="bg-white text-gray-900 font-sans">
+
+    <%# GOV.UK Crown Banner — 2025 rebrand: primary blue + teal dot %>
+    <div style="background-color:#1D70B8;" class="px-6 py-3 flex items-center">
+      <a href="/" class="flex items-center gap-1 no-underline">
+        <%# Crown SVG (simplified) %>
+        <svg aria-hidden="true" focusable="false" class="h-8 w-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 97">
+          <path fill="white" d="M25 30.5c4.5 0 8.5 2.7 10.4 6.6C37.6 28.4 45.9 22 55.7 22c10.6 0 19.4 7.5 21.1 17.4 2-3.6 5.8-6 10.2-6 6.4 0 11.6 5.2 11.6 11.6 0 .9-.1 1.8-.3 2.6H34c-.2-.8-.3-1.7-.3-2.6C33.7 38.6 29 33 23 33c0 0 .8-2.5 2-2.5z"/>
+          <rect fill="white" x="10" y="50" width="112" height="8" rx="2"/>
+          <rect fill="white" x="10" y="63" width="112" height="26" rx="2"/>
+        </svg>
+        <%# Wordmark with teal dot %>
+        <span class="text-white font-bold text-xl tracking-wide">
+          GOV<span style="color:#00FFE0;">.</span>UK
+        </span>
+      </a>
+    </div>
+
+    <%# Service name bar %>
+    <div class="border-b-4 px-6 py-3" style="border-color:#1D70B8;">
+      <span class="text-lg font-bold text-gray-900">Check the status of your visa application</span>
+    </div>
+
+    <main class="max-w-2xl mx-auto px-6 py-8">
+      <%= yield %>
+    </main>
+
+    <footer class="mt-16 border-t border-gray-300 px-6 py-6 text-xs text-gray-500">
+      <div class="max-w-2xl mx-auto">
+        <span class="font-bold">GOV.UK</span> — Crown copyright
+      </div>
+    </footer>
+
+  </body>
+</html>
