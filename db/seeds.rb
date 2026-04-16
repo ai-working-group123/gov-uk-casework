@@ -563,6 +563,33 @@ seed_cases = [
 			{ evidence_type: :sponsorship_certificate, status: :not_received, policy_code: "SW-COS", required_by: 10.days.from_now },
 			{ evidence_type: :english_language, status: :not_received, policy_code: "SW-ENGLISH", required_by: 10.days.from_now }
 		]
+	},
+	{
+		reference: "HO-T2-DEMO",
+		applicant_name: "James Okafor",
+		applicant_email: "james.okafor@example.com",
+		nationality: "Nigerian",
+		assigned_to_email: "nia.williams@gov.uk",
+		status: :awaiting_evidence,
+		priority: :medium,
+		submitted_at: 3.weeks.ago,
+		assigned_at: 2.weeks.ago,
+		sla_deadline: 5.weeks.from_now,
+		case_type_config: case_type_config,
+		skip_evaluation: true,
+		case_data: {
+			applicant: { date_of_birth: "1991-07-22", passport_number: "NG8765432", phone: "+234 812 345 6789", current_address: "15 Adeola Odeku Street, Victoria Island, Lagos, Nigeria" },
+			sponsor: { name: "Digital Futures Ltd", licence_number: "DFL456LIC", is_a_rated: true },
+			job: { title: "Software Engineer", soc_code: "2136", annual_salary: 48000, weekly_hours: 37.5, start_date: "2026-07-01" },
+			english_language: { test_type: "IELTS", score: nil, test_date: nil, reference: nil },
+			maintenance: { sponsor_certified: false, funds_held: nil }
+		},
+		evidence_items: [
+			{ evidence_type: :passport,                status: :not_received, policy_code: "SW-PASSPORT",  required_by: 2.weeks.from_now },
+			{ evidence_type: :sponsorship_certificate, status: :not_received, policy_code: "SW-COS",       required_by: 2.weeks.from_now },
+			{ evidence_type: :english_language,        status: :not_received, policy_code: "SW-ENGLISH",   required_by: 2.weeks.from_now },
+			{ evidence_type: :bank_statements,         status: :not_received, policy_code: "SW-MAINTENANCE", required_by: 2.weeks.from_now }
+		]
 	}
 ]
 
@@ -572,6 +599,7 @@ seed_cases.each do |case_attrs|
 	assigned_caseworker = case_attrs[:assigned_to_email] ? caseworker_by_email[case_attrs[:assigned_to_email]] : nil
 
 	kase = Case.find_or_initialize_by(reference: case_attrs[:reference])
+	kase.skip_evaluation = case_attrs[:skip_evaluation] || false
 	kase.update!(
 		applicant_name: case_attrs[:applicant_name],
 		applicant_email: case_attrs[:applicant_email],
@@ -602,6 +630,31 @@ seed_cases.each do |case_attrs|
 			required_by: evidence_attrs[:required_by],
 			received_at: evidence_attrs[:received_at],
 			reviewed_at: evidence_attrs[:reviewed_at]
+		)
+	end
+end
+
+# Seed an EvidenceRequest with items for HO-T2-DEMO so upload links appear on the portal
+demo_case = seed_case_records["HO-T2-DEMO"]
+if demo_case
+	demo_caseworker = caseworker_by_email["nia.williams@gov.uk"]
+	er = EvidenceRequest.find_or_initialize_by(case: demo_case)
+	er.update!(
+		requested_by: demo_caseworker,
+		status: :sent,
+		deadline: 2.weeks.from_now,
+		notify_via: :email,
+		cover_message: "We need the following documents to process your application. Please upload them as soon as possible.",
+		sent_at: 1.week.ago
+	)
+
+	demo_case.evidences.each do |evidence|
+		item = EvidenceRequestItem.find_or_initialize_by(evidence_request: er, evidence: evidence)
+		item.update!(
+			status: :pending,
+			submission_method: :digital,
+			policy_reference: evidence.policy_reference,
+			reason: "Please provide your #{evidence.evidence_type.humanize.downcase} so we can verify your eligibility."
 		)
 	end
 end
