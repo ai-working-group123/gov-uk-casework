@@ -1,6 +1,6 @@
 <%= form_with(model: [@case, action], scope: :action_record) do |form| %>
   <% if action.errors.any? %>
-    <div class="bg-red-50 text-red-500 px-4 py-3 rounded mb-4">
+    <div class="notification-error">
       <h2><%= pluralize(action.errors.count, "error") %> prohibited this action from being saved:</h2>
       <ul class="list-disc ml-5 mt-2">
         <% action.errors.each do |error| %>
@@ -10,47 +10,47 @@
     </div>
   <% end %>
 
-  <div class="mb-4">
-    <%= form.label :title, class: "block font-medium mb-1" %>
-    <%= form.text_field :title, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :description, class: "block font-medium mb-1" %>
-    <%= form.text_area :description, rows: 3, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, rows: 3, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :action_type, class: "block font-medium mb-1" %>
-    <%= form.select :action_type, Action.action_types.keys.map { |t| [t.humanize, t] }, { prompt: "Select type" }, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :action_type, class: "form-label" %>
+    <%= form.select :action_type, Action.action_types.keys.map { |t| [t.humanize, t] }, { prompt: "Select type" }, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :status, class: "block font-medium mb-1" %>
-    <%= form.select :status, Action.statuses.keys.map { |s| [s.humanize, s] }, {}, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :status, class: "form-label" %>
+    <%= form.select :status, Action.statuses.keys.map { |s| [s.humanize, s] }, {}, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :due_date, class: "block font-medium mb-1" %>
-    <%= form.datetime_local_field :due_date, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :due_date, class: "form-label" %>
+    <%= form.datetime_local_field :due_date, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :blocked_by, class: "block font-medium mb-1" %>
-    <%= form.text_field :blocked_by, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :blocked_by, class: "form-label" %>
+    <%= form.text_field :blocked_by, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :policy_reference_id, "Policy Reference", class: "block font-medium mb-1" %>
-    <%= form.collection_select :policy_reference_id, PolicyReference.all, :id, :title, { prompt: "None", include_blank: true }, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :policy_reference_id, "Policy Reference", class: "form-label" %>
+    <%= form.collection_select :policy_reference_id, PolicyReference.all, :id, :title, { prompt: "None", include_blank: true }, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :caseworker_guidance, class: "block font-medium mb-1" %>
-    <%= form.text_area :caseworker_guidance, rows: 3, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :caseworker_guidance, class: "form-label" %>
+    <%= form.text_area :caseworker_guidance, rows: 3, class: "w-full" %>
   </div>
 
   <div>
-    <%= form.submit class: "bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700" %>
+    <%= form.submit class: "btn-primary cursor-pointer" %>
   </div>
 <% end %>

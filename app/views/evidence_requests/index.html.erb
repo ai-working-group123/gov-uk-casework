@@ -1,41 +1,41 @@
-<div class="max-w-4xl mx-auto py-8">
+<div >
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold">Evidence Requests for Case: <%= @case.reference %></h1>
-    <%= link_to "New Evidence Request", new_case_evidence_request_path(@case), class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+    <h1 class="text-3xl font-bold mb-2">Evidence Requests for Case: <%= @case.reference %></h1>
+    <%= link_to "New Evidence Request", new_case_evidence_request_path(@case), class: "btn-secondary" %>
   </div>
 
   <% if @evidence_requests.any? %>
-    <table class="min-w-full border">
-      <thead class="bg-gray-50">
+    <table class="gds-table">
+      <thead>
         <tr>
-          <th class="px-4 py-2 text-left">Requested By</th>
-          <th class="px-4 py-2 text-left">Status</th>
-          <th class="px-4 py-2 text-left">Deadline</th>
-          <th class="px-4 py-2 text-left">Sent</th>
-          <th class="px-4 py-2 text-left">Actions</th>
+          <th>Requested By</th>
+          <th>Status</th>
+          <th>Deadline</th>
+          <th>Sent</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <% @evidence_requests.each do |er| %>
-          <tr class="border-t">
-            <td class="px-4 py-2"><%= er.requested_by.name %></td>
-            <td class="px-4 py-2"><%= er.status.humanize %></td>
-            <td class="px-4 py-2"><%= er.deadline.strftime("%d %b %Y") %></td>
-            <td class="px-4 py-2"><%= er.sent_at&.strftime("%d %b %Y") || "\u2014" %></td>
-            <td class="px-4 py-2 flex gap-2">
-              <%= link_to "Show", case_evidence_request_path(@case, er), class: "text-blue-600 hover:underline" %>
-              <%= link_to "Edit", edit_case_evidence_request_path(@case, er), class: "text-blue-600 hover:underline" %>
-              <%= button_to "Delete", case_evidence_request_path(@case, er), method: :delete, class: "text-red-600 hover:underline", data: { turbo_confirm: "Are you sure?" } %>
+          <tr>
+            <td><%= er.requested_by.name %></td>
+            <td><%= er.status.humanize %></td>
+            <td><%= er.deadline.strftime("%d %b %Y") %></td>
+            <td><%= er.sent_at&.strftime("%d %b %Y") || "\u2014" %></td>
+            <td class="flex gap-3">
+              <%= link_to "Show", case_evidence_request_path(@case, er), class: "link" %>
+              <%= link_to "Edit", edit_case_evidence_request_path(@case, er), class: "link" %>
+              <%= button_to "Delete", case_evidence_request_path(@case, er), method: :delete, class: "link text-gds-red", data: { turbo_confirm: "Are you sure?" } %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% else %>
-    <p class="text-gray-500">No evidence requests yet.</p>
+    <p class="text-gds-dark-grey">No evidence requests yet.</p>
   <% end %>
 
   <div class="mt-4">
-    <%= link_to "Back to Case", @case, class: "text-blue-600 hover:underline" %>
+    <%= link_to "Back to Case", @case, class: "link" %>
   </div>
 </div>

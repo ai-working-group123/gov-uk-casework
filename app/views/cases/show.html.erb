@@ -1,9 +1,20 @@
-<div>
-  <% if @case.evaluation_in_progress? %>
-    <div class="inset-text mb-6" style="border-left-color: var(--color-gds-blue);">
-      <p class="font-semibold text-sm text-gds-black">Rules engine evaluation in progress</p>
-      <p class="text-sm text-gds-dark-grey">The case is being analysed against its case type rules. Actions may be updated shortly.</p>
-    </div>
+<%= turbo_stream_from @case %>
+
+<div class="max-w-5xl mx-auto py-8 w-full">
+  <% if notice.present? %>
+    <div class="notification-success"><p><%= notice %></p></div>
+  <% end %>
+  <% if alert.present? %>
+    <div class="notification-error"><p><%= alert %></p></div>
+  <% end %>
+
+  <%= turbo_frame_tag "case_evaluation_banner" do %>
+    <% if @case.evaluation_in_progress? %>
+      <div class="inset-text mb-6" style="border-left-color: var(--color-gds-blue);">
+        <p class="font-semibold text-sm text-gds-black">Rules engine evaluation in progress</p>
+        <p class="text-sm text-gds-dark-grey">The case is being analysed against its case type rules. Actions may be updated shortly.</p>
+      </div>
+    <% end %>
   <% end %>
 
   <div class="mb-6">
