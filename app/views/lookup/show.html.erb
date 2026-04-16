@@ -17,10 +17,20 @@
   }
 
   status_info  = public_status[@case.status] || { tag: "blue", label: @case.status.humanize, message: "Your application is being processed." }
-  action_items = @case.evidence_requests
-                      .where(status: [:sent, :partially_fulfilled])
-                      .includes(evidence_request_items: :evidence)
-                      .flat_map { |er| er.evidence_request_items.pending }
+
+  # Drive from Evidence model — same source of truth as the admin view.
+  # Shows anything the applicant still needs to provide (not_received or rejected).
+  outstanding_evidence = @case.evidences
+                              .where(status: [:not_received, :rejected])
+                              .includes(:policy_reference)
+
+  # Build a lookup of evidence_id -> EvidenceRequestItem so we can offer upload links
+  # where a formal request exists and allows digital submission
+  upload_items = EvidenceRequestItem
+                   .joins(:evidence_request)
+                   .where(evidence_requests: { case_id: @case.id })
+                   .where(status: [:pending, :received])
+                   .index_by(&:evidence_id)
 %>
 
 <h1 class="govuk-heading-xl">Your application status</h1>
@@ -61,37 +71,47 @@
   </div>
 </dl>
 
-<% if @case.status == "awaiting_evidence" && action_items.any? %>
+<% if outstanding_evidence.any? %>
   <div class="govuk-warning-text">
     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
     <strong class="govuk-warning-text__text">
       <span class="govuk-visually-hidden">Warning</span>
-      You need to provide <%= action_items.size == 1 ? "a document" : "#{action_items.size} documents" %> before we can continue.
+      You need to provide <%= outstanding_evidence.size == 1 ? "a document" : "#{outstanding_evidence.size} documents" %> before we can continue.
     </strong>
   </div>
 
   <h2 class="govuk-heading-m">Documents we need from you</h2>
 
   <ul class="govuk-list govuk-list--spaced">
-    <% action_items.each do |item| %>
+    <% outstanding_evidence.each do |evidence| %>
+      <%
+        doc_label = evidence.policy_reference&.title ||
+                    evidence.evidence_type&.humanize ||
+                    "Document"
+        upload_item = upload_items[evidence.id]
+        rejected = evidence.rejected?
+      %>
       <li>
-        <strong class="govuk-body govuk-!-font-weight-bold"><%= item.evidence.evidence_type.humanize %></strong>
-        <% if item.reason.present? %>
-          <p class="govuk-body govuk-!-margin-bottom-1"><%= item.reason %></p>
+        <strong class="govuk-body govuk-!-font-weight-bold"><%= doc_label %></strong>
+        <% if rejected %>
+          <p class="govuk-body govuk-!-margin-bottom-1">We were unable to accept a previous submission. Please upload a replacement.</p>
         <% end %>
-        <% if item.allows_upload? %>
-          <%= link_to "Upload #{item.evidence.evidence_type.humanize.downcase}",
-              public_lookup_upload_form_path(reference: @case.reference, item_id: item.id),
+        <% if upload_item&.reason.present? %>
+          <p class="govuk-body govuk-!-margin-bottom-1"><%= upload_item.reason %></p>
+        <% end %>
+        <% if upload_item&.allows_upload? %>
+          <%= link_to "Upload #{doc_label.downcase}",
+              public_lookup_upload_form_path(reference: @case.reference, item_id: upload_item.id),
               class: "govuk-link" %>
         <% end %>
       </li>
     <% end %>
   </ul>
-<% else %>
-  <div class="govuk-inset-text">
-    <%= status_info[:message] %>
-  </div>
 <% end %>
+
+<div class="govuk-inset-text">
+  <%= status_info[:message] %>
+</div>
 
 <% if @case.decided_approved? || @case.decided_refused? %>
   <h2 class="govuk-heading-m">What happens next</h2>
