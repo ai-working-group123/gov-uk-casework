@@ -1,21 +1,22 @@
-<div class="py-8">
-  <h1 class="text-4xl font-bold mb-2">Home Office Casework System</h1>
-  <p class="text-lg text-gds-dark-grey mb-10">Select how you would like to proceed.</p>
+<div class="max-w-[640px]">
+  <h1 class="text-3xl font-bold mb-2">Case Management Service</h1>
+  <p class="text-lg text-gds-dark-grey mb-8">Internal tools for caseworkers and administrators.</p>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-8">
-    <a href="<%= cases_path %>" class="block py-6 border-t-4 border-gds-blue hover:bg-gds-light-grey transition-colors">
-      <h2 class="text-xl font-bold mb-2">Admin Portal</h2>
-      <p class="text-gds-dark-grey text-sm">Manage cases, evidence, actions and correspondence as a caseworker.</p>
-    </a>
+  <div class="gds-section">
+    <h2 class="gds-section-title">Casework</h2>
+    <p class="text-gds-dark-grey mb-4">View, manage, and progress active cases. Track evidence, actions, and correspondence.</p>
+    <%= link_to "Go to cases", cases_path, class: "btn-primary" %>
+  </div>
 
-    <a href="<%= public_lookup_path %>" class="block py-6 border-t-4 border-gds-green hover:bg-gds-light-grey transition-colors">
-      <h2 class="text-xl font-bold mb-2">Public Portal</h2>
-      <p class="text-gds-dark-grey text-sm">Look up the status of your application using your case reference number.</p>
-    </a>
+  <div class="gds-section">
+    <h2 class="gds-section-title">Case Type Builder</h2>
+    <p class="text-gds-dark-grey mb-4">Create and manage AI-generated case type configurations that define how cases are processed.</p>
+    <%= link_to "Manage case types", case_type_configs_path, class: "btn-secondary" %>
+  </div>
 
-    <a href="<%= case_type_configs_path %>" class="block py-6 border-t-4 border-gds-purple hover:bg-gds-light-grey transition-colors">
-      <h2 class="text-xl font-bold mb-2">Case Type Builder</h2>
-      <p class="text-gds-dark-grey text-sm">Create and manage AI-generated case type configurations.</p>
-    </a>
+  <div class="gds-section">
+    <h2 class="gds-section-title">Public status lookup</h2>
+    <p class="text-gds-dark-grey mb-4">Applicants can check the status of their application using a case reference number.</p>
+    <%= link_to "View public portal", public_lookup_path, class: "btn-secondary" %>
   </div>
 </div>

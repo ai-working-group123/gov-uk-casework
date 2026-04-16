@@ -335,6 +335,7 @@ details.gds-details > summary:hover {
 .prose blockquote li {
   color: inherit;
 }
+
 .prose hr {
   @apply border-0 my-6;
   border-top: 1px solid var(--color-gds-mid-grey);
@@ -346,6 +347,6 @@ details.gds-details > summary:hover {
   @apply max-w-full h-auto mt-3 mb-3;
 }
 
-.prose:has(> p:only-child) > p {
+.prose:not(:has(> :not(p))) > p {
   @apply font-mono text-sm leading-2 whitespace-pre;
 }
