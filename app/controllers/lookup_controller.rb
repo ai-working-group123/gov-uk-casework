@@ -2,6 +2,9 @@ class LookupController < ApplicationController
   layout "public"
 
   def index
+    if params[:reference].present?
+      redirect_to public_lookup_case_path(reference: params[:reference].strip.upcase)
+    end
   end
 
   def show

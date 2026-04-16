@@ -5,7 +5,7 @@
 <% end %>
 
 <%
-  PUBLIC_STATUS = {
+  public_status = {
     "submitted"          => { tag: "blue",   label: "Received",          message: "We have received your application and it is being processed." },
     "assigned"           => { tag: "blue",   label: "In progress",       message: "Your application has been assigned to a caseworker and will be reviewed shortly." },
     "in_review"          => { tag: "blue",   label: "Under review",      message: "A caseworker is currently reviewing your application and supporting documents." },
@@ -14,9 +14,9 @@
     "decided_approved"   => { tag: "green",  label: "Approved",          message: "Your application has been successful. You will receive confirmation separately." },
     "decided_refused"    => { tag: "red",    label: "Unsuccessful",      message: "Your application has not been successful. See your decision letter for details." },
     "withdrawn"          => { tag: "grey",   label: "Withdrawn",         message: "This application has been withdrawn." }
-  }.freeze
+  }
 
-  status_info  = PUBLIC_STATUS[@case.status] || { tag: "blue", label: @case.status.humanize, message: "Your application is being processed." }
+  status_info  = public_status[@case.status] || { tag: "blue", label: @case.status.humanize, message: "Your application is being processed." }
   action_items = @case.evidence_requests
                       .where(status: [:sent, :partially_fulfilled])
                       .includes(evidence_request_items: :evidence)
@@ -24,6 +24,17 @@
 %>
 
 <h1 class="govuk-heading-xl">Your application status</h1>
+
+<% if flash[:notice] %>
+  <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">Success</h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      <p class="govuk-body"><%= flash[:notice] %></p>
+    </div>
+  </div>
+<% end %>
 
 <dl class="govuk-summary-list govuk-!-margin-bottom-6">
   <div class="govuk-summary-list__row">
