@@ -65,10 +65,13 @@ The decision trees and state transitions are stored as **markdown** — the same
 5. **Parseable**: The engine can parse markdown decision trees and state tables at runtime to drive case workflow
 
 The `source_metadata` JSONB column stores the provenance:
+
 ```json
 {
   "source_type": "url",
-  "urls": ["https://www.swansea.gov.uk/article/5075/Apply-for-a-black-bag-limit-exemption"],
+  "urls": [
+    "https://www.swansea.gov.uk/article/5075/Apply-for-a-black-bag-limit-exemption"
+  ],
   "user_description": null,
   "scraped_content": "If you recycle all accepted kerbside materials...",
   "generation_model": "claude-sonnet-4",
@@ -233,66 +236,66 @@ Given the Swansea Council URL, the LLM would generate:
 BLACK BAG LIMIT EXEMPTION APPLICATION
 │
 ├─ Is the applicant a Swansea Council resident?
-│   ├─ NO → REJECT (not eligible — service area restriction)
-│   └─ YES ↓
+│ ├─ NO → REJECT (not eligible — service area restriction)
+│ └─ YES ↓
 │
 ├─ What is the exemption reason?
-│   ├─ NAPPIES → Continue ↓
-│   ├─ PET LITTER → Continue ↓
-│   ├─ PET BEDDING → Continue ↓
-│   └─ OTHER / NOT SPECIFIED → REQUEST clarification from applicant
+│ ├─ NAPPIES → Continue ↓
+│ ├─ PET LITTER → Continue ↓
+│ ├─ PET BEDDING → Continue ↓
+│ └─ OTHER / NOT SPECIFIED → REQUEST clarification from applicant
 │
 ├─ Is the applicant currently recycling all accepted kerbside materials?
-│   ├─ NO / UNKNOWN → REJECT (precondition not met)
-│   │   └─ Correspondence: "You must recycle all accepted materials before
-│   │      applying for an exemption. See swansea.gov.uk/recycling"
-│   └─ YES ↓
+│ ├─ NO / UNKNOWN → REJECT (precondition not met)
+│ │ └─ Correspondence: "You must recycle all accepted materials before
+│ │ applying for an exemption. See swansea.gov.uk/recycling"
+│ └─ YES ↓
 │
 ├─ Does the applicant produce more than 3 bags of non-recyclable waste?
-│   ├─ NO → REJECT (exemption not needed)
-│   └─ YES ↓
+│ ├─ NO → REJECT (exemption not needed)
+│ └─ YES ↓
 │
 ├─ Are there any recyclable materials in the black bags?
-│   ├─ YES → REJECT (condition: no recyclable material in any bags)
-│   ├─ UNKNOWN → SCHEDULE monitoring visit
-│   └─ NO ↓
+│ ├─ YES → REJECT (condition: no recyclable material in any bags)
+│ ├─ UNKNOWN → SCHEDULE monitoring visit
+│ └─ NO ↓
 │
 └─ GRANT EXEMPTION
-    Duration: 1 year from date of approval
-    Conditions: waste may be monitored; terms and conditions apply
-    Review date: 12 months from grant
+Duration: 1 year from date of approval
+Conditions: waste may be monitored; terms and conditions apply
+Review date: 12 months from grant
 ```
 
 ### Generated State Transitions
 
 ```markdown
-| Current State | Trigger | Next State | Action |
-|---|---|---|---|
-| SUBMITTED | Application received | ASSIGNED | Auto-assign to waste team officer |
-| ASSIGNED | Officer opens case | IN_REVIEW | Begin eligibility checks |
-| IN_REVIEW | Recycling compliance unclear | MONITORING | Schedule monitoring visit |
-| IN_REVIEW | All checks pass | READY_FOR_DECISION | — |
-| IN_REVIEW | Incomplete form | AWAITING_INFO | Request missing info from applicant |
-| AWAITING_INFO | Info received | IN_REVIEW | Resume review |
-| AWAITING_INFO | No response 14 days | CLOSED_NO_RESPONSE | Auto-close |
-| MONITORING | Visit confirms compliance | READY_FOR_DECISION | — |
-| MONITORING | Visit finds recyclables in bags | REJECTED | Issue rejection notice |
-| READY_FOR_DECISION | Officer approves | GRANTED | Issue exemption for 1 year |
-| READY_FOR_DECISION | Officer rejects | REJECTED | Issue rejection notice |
-| GRANTED | 11 months elapsed | REVIEW_DUE | Notify officer: review upcoming |
-| REVIEW_DUE | Officer reviews + renews | GRANTED | Reset 1 year timer |
-| REVIEW_DUE | Officer reviews + revokes | REVOKED | Issue revocation notice |
+| Current State      | Trigger                         | Next State         | Action                              |
+| ------------------ | ------------------------------- | ------------------ | ----------------------------------- |
+| SUBMITTED          | Application received            | ASSIGNED           | Auto-assign to waste team officer   |
+| ASSIGNED           | Officer opens case              | IN_REVIEW          | Begin eligibility checks            |
+| IN_REVIEW          | Recycling compliance unclear    | MONITORING         | Schedule monitoring visit           |
+| IN_REVIEW          | All checks pass                 | READY_FOR_DECISION | —                                   |
+| IN_REVIEW          | Incomplete form                 | AWAITING_INFO      | Request missing info from applicant |
+| AWAITING_INFO      | Info received                   | IN_REVIEW          | Resume review                       |
+| AWAITING_INFO      | No response 14 days             | CLOSED_NO_RESPONSE | Auto-close                          |
+| MONITORING         | Visit confirms compliance       | READY_FOR_DECISION | —                                   |
+| MONITORING         | Visit finds recyclables in bags | REJECTED           | Issue rejection notice              |
+| READY_FOR_DECISION | Officer approves                | GRANTED            | Issue exemption for 1 year          |
+| READY_FOR_DECISION | Officer rejects                 | REJECTED           | Issue rejection notice              |
+| GRANTED            | 11 months elapsed               | REVIEW_DUE         | Notify officer: review upcoming     |
+| REVIEW_DUE         | Officer reviews + renews        | GRANTED            | Reset 1 year timer                  |
+| REVIEW_DUE         | Officer reviews + revokes       | REVOKED            | Issue revocation notice             |
 ```
 
 ### Generated Evidence Requirements
 
 ```markdown
-| Evidence | Required? | Source | Verification |
-|---|---|---|---|
-| Name and address | Mandatory | Applicant (form) | Check against council tax records |
-| Exemption reason (nappies/pet litter/pet bedding) | Mandatory | Applicant (form) | Self-declared |
-| Confirmation of kerbside recycling | Mandatory | Council systems | Check collection records |
-| Additional information | Optional | Applicant (form) | Officer review |
+| Evidence                                          | Required? | Source           | Verification                      |
+| ------------------------------------------------- | --------- | ---------------- | --------------------------------- |
+| Name and address                                  | Mandatory | Applicant (form) | Check against council tax records |
+| Exemption reason (nappies/pet litter/pet bedding) | Mandatory | Applicant (form) | Self-declared                     |
+| Confirmation of kerbside recycling                | Mandatory | Council systems  | Check collection records          |
+| Additional information                            | Optional  | Applicant (form) | Officer review                    |
 ```
 
 ---
@@ -435,16 +438,16 @@ When the LLM can't confidently infer part of the process, it asks before guessin
 
 The LLM asks when it detects:
 
-| Gap Type | Example | Why It Matters |
-|---|---|---|
-| **Missing timeout/non-response handling** | "What if the applicant never replies?" | Every casework process needs a dead-end escape |
-| **No appeal or reconsideration route** | "Can a rejected applicant challenge the decision?" | Fairness requirement in public services |
-| **Ambiguous eligibility boundary** | "Does 'resident' mean council tax payer, or anyone in the area?" | Decision tree can't branch without a clear test |
-| **Unclear role/responsibility** | "Who does the monitoring visit — same team or a different one?" | State transitions need to know who acts |
-| **Missing downstream notification** | "Who needs to know when the outcome is decided?" | Incomplete process if the decision doesn't reach the right people |
-| **Unclear evidence standard** | "What counts as proof of recycling compliance?" | Evidence checklist needs specifics |
-| **SLA not stated** | "How quickly should this be processed?" | Can't calculate risk or overdue status without a target |
-| **Volume/frequency unknown** | "How many of these do you handle per week?" | Affects risk scoring and capacity planning |
+| Gap Type                                  | Example                                                          | Why It Matters                                                    |
+| ----------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Missing timeout/non-response handling** | "What if the applicant never replies?"                           | Every casework process needs a dead-end escape                    |
+| **No appeal or reconsideration route**    | "Can a rejected applicant challenge the decision?"               | Fairness requirement in public services                           |
+| **Ambiguous eligibility boundary**        | "Does 'resident' mean council tax payer, or anyone in the area?" | Decision tree can't branch without a clear test                   |
+| **Unclear role/responsibility**           | "Who does the monitoring visit — same team or a different one?"  | State transitions need to know who acts                           |
+| **Missing downstream notification**       | "Who needs to know when the outcome is decided?"                 | Incomplete process if the decision doesn't reach the right people |
+| **Unclear evidence standard**             | "What counts as proof of recycling compliance?"                  | Evidence checklist needs specifics                                |
+| **SLA not stated**                        | "How quickly should this be processed?"                          | Can't calculate risk or overdue status without a target           |
+| **Volume/frequency unknown**              | "How many of these do you handle per week?"                      | Affects risk scoring and capacity planning                        |
 
 #### Question Generation Prompt
 
@@ -460,7 +463,7 @@ For each gap, generate a clarifying question with:
 - 2-4 suggested multiple-choice options (based on common government process patterns)
 - A free-text option for the admin to describe their own answer
 
-Prioritise questions that would most change the generated decision tree or state 
+Prioritise questions that would most change the generated decision tree or state
 transitions. Maximum 5 questions — do not ask about minor details.
 ```
 
@@ -555,20 +558,20 @@ After generating the config, the LLM reviews the complete process and proposes i
 
 The LLM evaluates the generated process against these lenses:
 
-| Category | What It Checks | Example Suggestions |
-|---|---|---|
-| **Customer experience** | Can the user self-serve? Do they get confirmation? Do they know what's happening? Is language plain? | Add status tracking; add confirmation email; simplify rejection wording |
-| **Process efficiency** | Are there unnecessary manual steps? Could anything be automated? Are there bottleneck states? | Auto-approve trivial cases; batch-process similar applications; add auto-reminders |
-| **Completeness** | Are all paths handled? What about edge cases, timeouts, re-submissions? | Add non-response timeout; handle duplicate applications; add resubmission path |
-| **Fairness & compliance** | Is there an appeal route? Are reasons given for refusal? Equalities considerations? Data retention? | Add appeal/reconsideration; include rejection reasons; add equalities monitoring |
-| **Operational visibility** | Can managers see workload? Are SLAs tracked? Are there alerts for problems? | Add team dashboard metrics; add SLA breach escalation; add volume reporting |
-| **Risk management** | What could go wrong? Missing escalation paths? No fraud checks? | Add escalation for disputed cases; add duplicate-applicant check; add audit log |
+| Category                   | What It Checks                                                                                       | Example Suggestions                                                                |
+| -------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Customer experience**    | Can the user self-serve? Do they get confirmation? Do they know what's happening? Is language plain? | Add status tracking; add confirmation email; simplify rejection wording            |
+| **Process efficiency**     | Are there unnecessary manual steps? Could anything be automated? Are there bottleneck states?        | Auto-approve trivial cases; batch-process similar applications; add auto-reminders |
+| **Completeness**           | Are all paths handled? What about edge cases, timeouts, re-submissions?                              | Add non-response timeout; handle duplicate applications; add resubmission path     |
+| **Fairness & compliance**  | Is there an appeal route? Are reasons given for refusal? Equalities considerations? Data retention?  | Add appeal/reconsideration; include rejection reasons; add equalities monitoring   |
+| **Operational visibility** | Can managers see workload? Are SLAs tracked? Are there alerts for problems?                          | Add team dashboard metrics; add SLA breach escalation; add volume reporting        |
+| **Risk management**        | What could go wrong? Missing escalation paths? No fraud checks?                                      | Add escalation for disputed cases; add duplicate-applicant check; add audit log    |
 
 #### Improvement Generation Prompt
 
 ```
-You have just generated a complete case type configuration for a government 
-service. Now review the configuration critically as a government service design 
+You have just generated a complete case type configuration for a government
+service. Now review the configuration critically as a government service design
 consultant. Consider:
 
 1. GDS Service Standard (https://www.gov.uk/service-manual/service-standard)
@@ -582,10 +585,10 @@ For each suggestion:
 - Explain the recommendation in plain English
 - Cite the relevant standard or best practice
 - Describe the specific impact on the configuration (which sections change)
-- Rate the priority: HIGH (process is broken without this), MEDIUM (significantly 
+- Rate the priority: HIGH (process is broken without this), MEDIUM (significantly
   better with it), LOW (nice-to-have polish)
 
-Return 3-6 suggestions, ordered by priority. Do not suggest changes that are 
+Return 3-6 suggestions, ordered by priority. Do not suggest changes that are
 already present in the configuration.
 ```
 
@@ -797,17 +800,17 @@ User instruction (natural language)
 
 The LLM interprets a wide range of natural language refinements. Examples:
 
-| User Says | Sections Affected | What Changes |
-|---|---|---|
-| "I'd like to be able to escalate the case to a more senior manager" | Decision tree, State transitions, Actions | New ESCALATED state, escalation branch in tree, new action type |
-| "Email recyclingteam@swansea.gov.uk each time a case is completed" | State transitions, Correspondence templates | Notification action on terminal states, new email template |
-| "Add a check for whether they've had an exemption before" | Decision tree, Evidence requirements | New decision node, new evidence type (previous exemption history) |
-| "Extend the SLA from 14 days to 21 days" | Config metadata | `default_sla_days` updated |
-| "If the applicant doesn't respond within 7 days instead of 14, close the case" | State transitions | Timeout trigger changed from 14 → 7 days |
-| "Add a monitoring visit after approval for the first 3 months" | State transitions, Actions | New POST_GRANT_MONITORING state, scheduled visit action |
-| "Remove the pet bedding option — we don't accept that anymore" | Decision tree, Evidence requirements | Remove branch, update valid exemption reasons |
-| "Make the rejection letter friendlier and include links to recycling info" | Correspondence templates | Tone/content update to rejection template |
-| "High-risk cases should go straight to a senior officer" | Decision tree, Risk scoring, State transitions | Conditional routing based on risk score |
+| User Says                                                                      | Sections Affected                              | What Changes                                                      |
+| ------------------------------------------------------------------------------ | ---------------------------------------------- | ----------------------------------------------------------------- |
+| "I'd like to be able to escalate the case to a more senior manager"            | Decision tree, State transitions, Actions      | New ESCALATED state, escalation branch in tree, new action type   |
+| "Email recyclingteam@swansea.gov.uk each time a case is completed"             | State transitions, Correspondence templates    | Notification action on terminal states, new email template        |
+| "Add a check for whether they've had an exemption before"                      | Decision tree, Evidence requirements           | New decision node, new evidence type (previous exemption history) |
+| "Extend the SLA from 14 days to 21 days"                                       | Config metadata                                | `default_sla_days` updated                                        |
+| "If the applicant doesn't respond within 7 days instead of 14, close the case" | State transitions                              | Timeout trigger changed from 14 → 7 days                          |
+| "Add a monitoring visit after approval for the first 3 months"                 | State transitions, Actions                     | New POST_GRANT_MONITORING state, scheduled visit action           |
+| "Remove the pet bedding option — we don't accept that anymore"                 | Decision tree, Evidence requirements           | Remove branch, update valid exemption reasons                     |
+| "Make the rejection letter friendlier and include links to recycling info"     | Correspondence templates                       | Tone/content update to rejection template                         |
+| "High-risk cases should go straight to a senior officer"                       | Decision tree, Risk scoring, State transitions | Conditional routing based on risk score                           |
 
 ### Versioning & Audit
 
@@ -882,7 +885,7 @@ Editing a published case type creates a **draft revision**. It does not modify l
 # app/models/case.rb (addition)
 class Case < ApplicationRecord
   belongs_to :case_type_config, optional: true
-  # Stores the version_number at time of case creation — 
+  # Stores the version_number at time of case creation —
   # case runs against this version even if config is updated later
   # column: case_type_config_version_number (integer)
 end

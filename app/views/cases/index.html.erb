@@ -22,7 +22,7 @@
           <tr class="border-t">
             <td class="px-4 py-2"><%= kase.reference %></td>
             <td class="px-4 py-2"><%= kase.applicant_name %></td>
-            <td class="px-4 py-2"><%= kase.case_type.humanize %></td>
+            <td class="px-4 py-2"><%= kase.case_type_config&.name || "Unassigned" %></td>
             <td class="px-4 py-2"><%= kase.status.humanize %></td>
             <td class="px-4 py-2"><%= kase.priority.humanize %></td>
             <td class="px-4 py-2"><%= kase.sla_deadline&.strftime("%d %b %Y") %></td>

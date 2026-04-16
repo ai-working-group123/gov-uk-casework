@@ -8,7 +8,7 @@
       <dd class="mb-4 text-lg"><%= @case.applicant_name %></dd>
 
       <dt class="font-medium text-gray-500">Application Type</dt>
-      <dd class="mb-4"><%= @case.case_type.humanize %></dd>
+      <dd class="mb-4"><%= @case.case_type_config&.name || "Unassigned" %></dd>
 
       <dt class="font-medium text-gray-500">Current Status</dt>
       <dd class="mb-4">
