@@ -1,0 +1,29 @@
+{
+  "id": "tc-15",
+  "reference": "HO-T2-Z9YQ",
+  "applicant_name": "Li Wei",
+  "nationality": "Chinese",
+  "case_type": "Skilled Worker",
+  "status": "in_review",
+  "priority": "urgent",
+  "risk_score": 90,
+  "sla_status": "OVERDUE 22 days",
+  "submitted_date": "2024-01-15",
+  "sla_deadline": "2024-03-25",
+  "scenario": "Maximum risk — multiple failures",
+  "evidence_summary": "3/6 received. MISSING: sponsorship cert, bank statements, TB cert. SLA breached 22 days.",
+  "next_action": "ESCALATE — multiple missing evidence items, SLA severely breached",
+  "public_status_message": "Awaiting evidence — we need several documents from you",
+  "action_required": true,
+  "documents_to_request": [
+    "Sponsorship certificate",
+    "3 months bank statements",
+    "TB certificate from approved clinic"
+  ],
+  "test_flows": [
+    "Maximum risk score display",
+    "Multiple action items",
+    "Escalate action",
+    "Multiple upload flows on public portal"
+  ]
+}

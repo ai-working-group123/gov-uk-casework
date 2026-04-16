@@ -1,0 +1,23 @@
+{
+  "id": "tc-05",
+  "reference": "HO-T2-F8WM",
+  "applicant_name": "Andrei Popescu",
+  "nationality": "Romanian",
+  "case_type": "Skilled Worker",
+  "status": "in_review",
+  "priority": "low",
+  "risk_score": 10,
+  "sla_status": "Within SLA",
+  "submitted_date": "2024-04-05",
+  "sla_deadline": "2024-06-05",
+  "scenario": "Nationality exempt from English and TB — smooth case",
+  "evidence_summary": "5/5 required docs received. No English test or TB cert needed (Romanian national).",
+  "next_action": "Review financial evidence — bank statements cover maintenance period",
+  "public_status_message": "Your application is being reviewed by a caseworker",
+  "action_required": false,
+  "documents_to_request": [],
+  "test_flows": [
+    "Evidence checklist shows correct conditional items absent",
+    "Policy sidebar shows exemptions"
+  ]
+}
