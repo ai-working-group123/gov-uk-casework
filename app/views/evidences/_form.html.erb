@@ -1,6 +1,6 @@
 <%= form_with(model: [@case, evidence]) do |form| %>
   <% if evidence.errors.any? %>
-    <div class="bg-red-50 text-red-500 px-4 py-3 rounded mb-4">
+    <div class="notification-error">
       <h2><%= pluralize(evidence.errors.count, "error") %> prohibited this evidence from being saved:</h2>
       <ul class="list-disc ml-5 mt-2">
         <% evidence.errors.each do |error| %>
@@ -10,42 +10,42 @@
     </div>
   <% end %>
 
-  <div class="mb-4">
-    <%= form.label :evidence_type, class: "block font-medium mb-1" %>
-    <%= form.select :evidence_type, Evidence.evidence_types.keys.map { |t| [t.humanize, t] }, { prompt: "Select type" }, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :evidence_type, class: "form-label" %>
+    <%= form.select :evidence_type, Evidence.evidence_types.keys.map { |t| [t.humanize, t] }, { prompt: "Select type" }, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :status, class: "block font-medium mb-1" %>
-    <%= form.select :status, Evidence.statuses.keys.map { |s| [s.humanize, s] }, {}, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :status, class: "form-label" %>
+    <%= form.select :status, Evidence.statuses.keys.map { |s| [s.humanize, s] }, {}, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :received_at, class: "block font-medium mb-1" %>
-    <%= form.datetime_local_field :received_at, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :received_at, class: "form-label" %>
+    <%= form.datetime_local_field :received_at, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :reviewed_at, class: "block font-medium mb-1" %>
-    <%= form.datetime_local_field :reviewed_at, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :reviewed_at, class: "form-label" %>
+    <%= form.datetime_local_field :reviewed_at, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :required_by, class: "block font-medium mb-1" %>
-    <%= form.datetime_local_field :required_by, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :required_by, class: "form-label" %>
+    <%= form.datetime_local_field :required_by, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :notes, class: "block font-medium mb-1" %>
-    <%= form.text_area :notes, rows: 3, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :notes, class: "form-label" %>
+    <%= form.text_area :notes, rows: 3, class: "w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :policy_reference_id, "Policy Reference", class: "block font-medium mb-1" %>
-    <%= form.collection_select :policy_reference_id, PolicyReference.all, :id, :title, { prompt: "None", include_blank: true }, class: "border rounded px-3 py-2 w-full" %>
+  <div class="form-group">
+    <%= form.label :policy_reference_id, "Policy Reference", class: "form-label" %>
+    <%= form.collection_select :policy_reference_id, PolicyReference.all, :id, :title, { prompt: "None", include_blank: true }, class: "w-full" %>
   </div>
 
   <div>
-    <%= form.submit class: "bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700" %>
+    <%= form.submit class: "btn-primary cursor-pointer" %>
   </div>
 <% end %>

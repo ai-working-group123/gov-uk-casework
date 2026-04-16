@@ -1,15 +1,15 @@
-<div class="max-w-4xl mx-auto py-8">
-  <p class="text-green-600 mb-4"><%= notice %></p>
+<div>
+  <% if notice.present? %><div class="notification-success"><%= notice %></div><% end %>
 
-  <h1 class="text-2xl font-bold mb-4"><%= @team.name %></h1>
+  <h1 class="text-3xl font-bold mb-6"><%= @team.name %></h1>
 
-  <dl class="mb-6">
-    <dt class="font-medium">Leader ID</dt>
-    <dd class="mb-2"><%= @team.leader_id || "\u2014" %></dd>
+  <dl class="summary-list">
+    <dt>Leader ID</dt>
+    <dd><%= @team.leader_id || "\u2014" %></dd>
   </dl>
 
   <div class="flex gap-4">
-    <%= link_to "Edit", edit_team_path(@team), class: "text-blue-600 hover:underline" %>
-    <%= link_to "Back to Teams", teams_path, class: "text-blue-600 hover:underline" %>
+    <%= link_to "Edit", edit_team_path(@team), class: "link" %>
+    <%= link_to "Back to Teams", teams_path, class: "link-back" %>
   </div>
 </div>

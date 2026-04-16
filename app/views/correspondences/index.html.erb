@@ -1,41 +1,41 @@
-<div class="max-w-4xl mx-auto py-8">
+<div >
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold">Correspondences for Action: <%= @action.title %></h1>
-    <%= link_to "New Correspondence", new_case_action_correspondence_path(@case, @action), class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+    <h1 class="text-3xl font-bold mb-2">Correspondences for Action: <%= @action.title %></h1>
+    <%= link_to "New Correspondence", new_case_action_correspondence_path(@case, @action), class: "btn-secondary" %>
   </div>
 
   <% if @correspondences.any? %>
-    <table class="min-w-full border">
-      <thead class="bg-gray-50">
+    <table class="gds-table">
+      <thead>
         <tr>
-          <th class="px-4 py-2 text-left">Subject</th>
-          <th class="px-4 py-2 text-left">Channel</th>
-          <th class="px-4 py-2 text-left">Direction</th>
-          <th class="px-4 py-2 text-left">Sent</th>
-          <th class="px-4 py-2 text-left">Actions</th>
+          <th>Subject</th>
+          <th>Channel</th>
+          <th>Direction</th>
+          <th>Sent</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <% @correspondences.each do |corr| %>
-          <tr class="border-t">
-            <td class="px-4 py-2"><%= corr.subject %></td>
-            <td class="px-4 py-2"><%= corr.channel.humanize %></td>
-            <td class="px-4 py-2"><%= corr.direction.humanize %></td>
-            <td class="px-4 py-2"><%= corr.sent_at&.strftime("%d %b %Y") || "\u2014" %></td>
-            <td class="px-4 py-2 flex gap-2">
-              <%= link_to "Show", case_action_correspondence_path(@case, @action, corr), class: "text-blue-600 hover:underline" %>
-              <%= link_to "Edit", edit_case_action_correspondence_path(@case, @action, corr), class: "text-blue-600 hover:underline" %>
-              <%= button_to "Delete", case_action_correspondence_path(@case, @action, corr), method: :delete, class: "text-red-600 hover:underline", data: { turbo_confirm: "Are you sure?" } %>
+          <tr>
+            <td><%= corr.subject %></td>
+            <td><%= corr.channel.humanize %></td>
+            <td><%= corr.direction.humanize %></td>
+            <td><%= corr.sent_at&.strftime("%d %b %Y") || "\u2014" %></td>
+            <td class="flex gap-3">
+              <%= link_to "Show", case_action_correspondence_path(@case, @action, corr), class: "link" %>
+              <%= link_to "Edit", edit_case_action_correspondence_path(@case, @action, corr), class: "link" %>
+              <%= button_to "Delete", case_action_correspondence_path(@case, @action, corr), method: :delete, class: "link text-gds-red", data: { turbo_confirm: "Are you sure?" } %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% else %>
-    <p class="text-gray-500">No correspondences yet.</p>
+    <p class="text-gds-dark-grey">No correspondences yet.</p>
   <% end %>
 
   <div class="mt-4">
-    <%= link_to "Back to Action", case_action_path(@case, @action), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Back to Action", case_action_path(@case, @action), class: "link" %>
   </div>
 </div>

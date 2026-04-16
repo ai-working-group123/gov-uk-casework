@@ -1,23 +1,23 @@
-<div class="max-w-4xl mx-auto py-8">
-  <p class="text-green-600 mb-4"><%= notice %></p>
+<div>
+  <% if notice.present? %><div class="notification-success"><%= notice %></div><% end %>
 
-  <h1 class="text-2xl font-bold mb-4"><%= @policy_reference.title %></h1>
+  <h1 class="text-3xl font-bold mb-6"><%= @policy_reference.title %></h1>
 
-  <dl class="mb-6">
-    <dt class="font-medium">Code</dt>
-    <dd class="mb-2"><%= @policy_reference.code %></dd>
-    <dt class="font-medium">Parent Code</dt>
-    <dd class="mb-2"><%= @policy_reference.parent_code || "\u2014" %></dd>
-    <dt class="font-medium">Policy Area</dt>
-    <dd class="mb-2"><%= @policy_reference.policy_area %></dd>
-    <dt class="font-medium">Case Types</dt>
-    <dd class="mb-2"><%= @policy_reference.case_types %></dd>
-    <dt class="font-medium">Summary</dt>
-    <dd class="mb-2"><%= @policy_reference.summary %></dd>
-    <dt class="font-medium">Criteria</dt>
-    <dd class="mb-2"><%= @policy_reference.criteria %></dd>
-    <dt class="font-medium">GOV.UK URL</dt>
-    <dd class="mb-2"><% if @policy_reference.govuk_url.present? %>
+  <dl class="summary-list">
+    <dt>Code</dt>
+    <dd><%= @policy_reference.code %></dd>
+    <dt>Parent Code</dt>
+    <dd><%= @policy_reference.parent_code || "\u2014" %></dd>
+    <dt>Policy Area</dt>
+    <dd><%= @policy_reference.policy_area %></dd>
+    <dt>Case Types</dt>
+    <dd><%= @policy_reference.case_types %></dd>
+    <dt>Summary</dt>
+    <dd><%= @policy_reference.summary %></dd>
+    <dt>Criteria</dt>
+    <dd><%= @policy_reference.criteria %></dd>
+    <dt>GOV.UK URL</dt>
+    <dd><% if @policy_reference.govuk_url.present? %>
       <% url = URI.parse(@policy_reference.govuk_url) rescue nil %>
       <% if url&.host&.end_with?("gov.uk") && url&.scheme == "https" %>
         <%= link_to url.to_s, url.to_s %>
@@ -28,7 +28,7 @@
   </dl>
 
   <div class="flex gap-4">
-    <%= link_to "Edit", edit_policy_reference_path(@policy_reference), class: "text-blue-600 hover:underline" %>
-    <%= link_to "Back to Policy References", policy_references_path, class: "text-blue-600 hover:underline" %>
+    <%= link_to "Edit", edit_policy_reference_path(@policy_reference), class: "link" %>
+    <%= link_to "Back to Policy References", policy_references_path, class: "link-back" %>
   </div>
 </div>

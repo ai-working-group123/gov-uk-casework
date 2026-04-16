@@ -1,52 +1,53 @@
-<div class="max-w-5xl mx-auto py-8 w-full">
+<div>
   <div class="mb-6">
-    <%= link_to "← Back to case", case_path(@case), class: "text-blue-600 hover:underline text-sm" %>
+    <%= link_to "Back to case", case_path(@case), class: "link-back" %>
   </div>
 
-  <h1 class="text-xl font-bold mb-6">Rules Engine Evaluation — Case <%= @case.reference %></h1>
+  <h1 class="text-3xl font-bold mb-6">Rules Engine Evaluation — Case <%= @case.reference %></h1>
 
   <% if @evaluation[:operations].empty? %>
-    <div class="border border-gray-300 rounded p-6 bg-gray-50">
-      <p class="text-gray-600">No operations recommended. The case appears to be in the correct state.</p>
+    <div class="inset-text">
+      <p class="text-gds-dark-grey">No operations recommended. The case appears to be in the correct state.</p>
     </div>
   <% else %>
-    <div class="mb-4 text-sm text-gray-600">
-      <p><%= @evaluation[:operations].count { |op| op[:valid] } %> valid operation(s),
-         <%= @evaluation[:operations].count { |op| !op[:valid] } %> rejected.</p>
-    </div>
+    <p class="text-sm text-gds-dark-grey mb-4">
+      <%= @evaluation[:operations].count { |op| op[:valid] } %> valid operation(s),
+      <%= @evaluation[:operations].count { |op| !op[:valid] } %> rejected.
+    </p>
 
     <div class="space-y-4 mb-8">
       <% @evaluation[:operations].each_with_index do |op, i| %>
-        <div class="border rounded p-4 <%= op[:valid] ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50' %>">
+        <div class="mb-4 pb-4" style="border-bottom: 1px solid var(--color-gds-mid-grey);">
           <div class="flex items-center justify-between mb-2">
-            <span class="font-semibold text-sm">
+            <span class="font-bold text-sm">
               <%= op[:op].upcase %> <%= op[:model] %>
-              <% if op[:id] %>
-                #<%= op[:id] %>
-              <% end %>
+              <% if op[:id] %>#<%= op[:id] %><% end %>
             </span>
-            <span class="text-xs px-2 py-1 rounded <%= op[:valid] ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800' %>">
-              <%= op[:valid] ? 'Valid' : 'Rejected' %>
-            </span>
+            <strong class="<%= op[:valid] ? 'tag-green' : 'tag-red' %>">
+              <%= op[:valid] ? 'VALID' : 'REJECTED' %>
+            </strong>
           </div>
 
           <% if op[:attrs].present? %>
-            <div class="text-sm text-gray-700 mb-2">
-              <table class="text-xs">
+            <table class="gds-table text-sm mb-2">
+              <thead>
+                <tr><th>Attribute</th><th>Value</th></tr>
+              </thead>
+              <tbody>
                 <% op[:attrs].each do |attr, value| %>
                   <tr>
-                    <td class="pr-3 font-mono text-gray-500"><%= attr %></td>
+                    <td class="font-mono text-gds-dark-grey"><%= attr %></td>
                     <td><%= value %></td>
                   </tr>
                 <% end %>
-              </table>
-            </div>
+              </tbody>
+            </table>
           <% end %>
 
           <% if op[:errors].present? %>
-            <div class="text-xs text-red-700 mt-1">
+            <div class="text-sm text-gds-red mt-1">
               <% op[:errors].each do |error| %>
-                <p>⚠ <%= error %></p>
+                <p><%= error %></p>
               <% end %>
             </div>
           <% end %>
@@ -58,17 +59,17 @@
       <%= form_tag evaluate_case_path(@case), method: :post, class: "inline" do %>
         <%= hidden_field_tag :apply, "true" %>
         <%= submit_tag "Apply Valid Operations",
-            class: "bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded text-sm cursor-pointer",
+            class: "btn-primary cursor-pointer",
             data: { confirm: "This will apply all valid operations to the case. Continue?" } %>
       <% end %>
     <% end %>
   <% end %>
 
   <% if @evaluation[:metadata].present? %>
-    <div class="mt-8 text-xs text-gray-400">
+    <p class="mt-8 text-xs text-gds-mid-grey">
       Model: <%= @evaluation[:metadata][:model] %> |
       Tokens: <%= @evaluation[:metadata][:tokens_used] %> |
       Time: <%= @evaluation[:metadata][:elapsed] %>s
-    </div>
+    </p>
   <% end %>
 </div>

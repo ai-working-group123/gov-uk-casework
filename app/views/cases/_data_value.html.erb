@@ -5,7 +5,7 @@
 <% if value.is_a?(Hash) %>
   <div class="<%= depth > 0 ? 'ml-4' : '' %> mb-4">
     <% if local_assigns[:key] %>
-      <h<%= [3, 3 + depth].min + 1 %> class="text-sm font-semibold text-gray-700 mb-2"><%= key.to_s.humanize %></h<%= [3, 3 + depth].min + 1 %>>
+      <h<%= [3, 3 + depth].min + 1 %> class="text-sm font-semibold text-gds-dark-grey mb-2"><%= key.to_s.humanize %></h<%= [3, 3 + depth].min + 1 %>>
     <% end %>
     <div class="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
       <% value.each do |k, v| %>
@@ -15,7 +15,7 @@
           </div>
         <% else %>
           <div>
-            <span class="font-semibold text-gray-500"><%= k.to_s.humanize %>:</span>
+            <span class="font-semibold text-gds-dark-grey"><%= k.to_s.humanize %>:</span>
             <span><%= v %></span>
           </div>
         <% end %>
@@ -26,7 +26,7 @@
 <% elsif value.is_a?(Array) %>
   <div class="<%= depth > 0 ? 'ml-4' : '' %> mb-4">
     <% if local_assigns[:key] %>
-      <h<%= [3, 3 + depth].min + 1 %> class="text-sm font-semibold text-gray-700 mb-2"><%= key.to_s.humanize %></h<%= [3, 3 + depth].min + 1 %>>
+      <h<%= [3, 3 + depth].min + 1 %> class="text-sm font-semibold text-gds-dark-grey mb-2"><%= key.to_s.humanize %></h<%= [3, 3 + depth].min + 1 %>>
     <% end %>
     <% if value.first.is_a?(Hash) %>
       <% value.each_with_index do |item, i| %>
@@ -39,7 +39,7 @@
                 </div>
               <% else %>
                 <div>
-                  <span class="font-semibold text-gray-500"><%= k.to_s.humanize %>:</span>
+                  <span class="font-semibold text-gds-dark-grey"><%= k.to_s.humanize %>:</span>
                   <span><%= v %></span>
                 </div>
               <% end %>
@@ -48,7 +48,7 @@
         </div>
       <% end %>
     <% else %>
-      <ul class="list-disc list-inside text-sm text-gray-600">
+      <ul class="list-disc list-inside text-sm text-gds-dark-grey">
         <% value.each do |item| %>
           <li><%= item %></li>
         <% end %>
@@ -59,8 +59,8 @@
 <% else %>
   <div class="mb-4">
     <% if local_assigns[:key] %>
-      <span class="font-semibold text-gray-500 text-sm"><%= key.to_s.humanize %>:</span>
+      <span class="font-semibold text-gds-dark-grey text-sm"><%= key.to_s.humanize %>:</span>
     <% end %>
-    <span class="text-sm text-gray-600"><%= value %></span>
+    <span class="text-sm text-gds-dark-grey"><%= value %></span>
   </div>
 <% end %>
