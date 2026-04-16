@@ -82,13 +82,27 @@ select:focus-visible {
 .tag {
   @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide;
 }
-.tag-blue     { @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-blue/15 text-gds-dark-blue; }
-.tag-green    { @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-green/15 text-gds-green-dark; }
-.tag-red      { @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-red/15 text-gds-red-dark; }
-.tag-yellow   { @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-yellow/30 text-gds-black; }
-.tag-purple   { @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-purple/15 text-gds-purple; }
-.tag-grey     { @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-light-grey text-gds-dark-grey; }
-.tag-orange   { @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-orange/15 text-[#6e3619]; }
+.tag-blue {
+  @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-blue/15 text-gds-dark-blue;
+}
+.tag-green {
+  @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-green/15 text-gds-green-dark;
+}
+.tag-red {
+  @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-red/15 text-gds-red-dark;
+}
+.tag-yellow {
+  @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-yellow/30 text-gds-black;
+}
+.tag-purple {
+  @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-purple/15 text-gds-purple;
+}
+.tag-grey {
+  @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-light-grey text-gds-dark-grey;
+}
+.tag-orange {
+  @apply inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide bg-gds-orange/15 text-[#6e3619];
+}
 
 /* ─── GDS Table System ─── */
 .gds-table {
