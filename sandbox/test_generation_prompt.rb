@@ -104,7 +104,7 @@ SAMPLE_ANALYSIS = {
     { "criterion" => "Waste is genuinely non-recyclable", "type" => "subjective" },
     { "criterion" => "Household circumstances justify exemption", "type" => "subjective" }
   ],
-  "possible_outcomes" => ["Approved (12-month exemption)", "Refused", "Approved with conditions"],
+  "possible_outcomes" => [ "Approved (12-month exemption)", "Refused", "Approved with conditions" ],
   "typical_timeline_days" => 14,
   "communication_steps" => [
     { "stage" => "Receipt", "channel" => "email", "content" => "Application received confirmation" },
@@ -116,11 +116,11 @@ SAMPLE_ANALYSIS = {
 # Load input
 analysis = if ARGV[0] && File.exist?(ARGV[0])
               JSON.parse(File.read(ARGV[0]))
-            else
+else
               puts "Using built-in sample analysis (Black Bag Exemption)"
               puts "Tip: pass a JSON file as argument to test with different analysis\n\n"
               SAMPLE_ANALYSIS
-            end
+end
 
 client = OpenAI::Client.new(access_token: ENV.fetch("OPENAI_API_KEY"))
 

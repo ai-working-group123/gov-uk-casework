@@ -336,7 +336,7 @@ if result[:links].any?
     puts
     choice = prompt_user(
       "Follow these links to gather more info?",
-      options: ["Yes — scrape all #{relevant_links.length} links", "Let me pick which ones", "No — skip, use main page only"],
+      options: [ "Yes — scrape all #{relevant_links.length} links", "Let me pick which ones", "No — skip, use main page only" ],
       default: 1
     )
 
@@ -345,7 +345,7 @@ if result[:links].any?
       relevant_links
     when /pick/
       relevant_links.select.with_index do |link, i|
-        answer = prompt_user("Follow '#{link['url'].split('/').last(2).join('/')}'?", options: ["Yes", "No"], default: 1)
+        answer = prompt_user("Follow '#{link['url'].split('/').last(2).join('/')}'?", options: [ "Yes", "No" ], default: 1)
         answer == "Yes"
       end
     else
@@ -457,7 +457,7 @@ if questions.any?
     end
     puts
 
-    options = (q["options"] || []) + ["Skip this question", "Skip all remaining"]
+    options = (q["options"] || []) + [ "Skip this question", "Skip all remaining" ]
     selected = prompt_user("Your answer:", options: options, default: 1)
 
     case selected
@@ -572,7 +572,7 @@ sections.each do |key, title|
 
   choice = prompt_user(
     "Accept this section?",
-    options: ["Accept", "Regenerate (re-run LLM for this section)", "Edit manually later"],
+    options: [ "Accept", "Regenerate (re-run LLM for this section)", "Edit manually later" ],
     default: 1
   )
 
@@ -601,7 +601,7 @@ puts
 
 choice = prompt_user(
   "What would you like to do?",
-  options: ["Save as Draft", "Publish", "Discard"],
+  options: [ "Save as Draft", "Publish", "Discard" ],
   default: 1
 )
 

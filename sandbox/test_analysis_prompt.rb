@@ -80,11 +80,11 @@ TEXT
 # Load input
 input_text = if ARGV[0] && File.exist?(ARGV[0])
                File.read(ARGV[0])
-             else
+else
                puts "Using built-in sample text (Black Bag Exemption)"
                puts "Tip: pass a file path as argument to test with different content\n\n"
                SAMPLE_TEXT
-             end
+end
 
 client = OpenAI::Client.new(access_token: ENV.fetch("OPENAI_API_KEY"))
 
