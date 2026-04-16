@@ -58,7 +58,7 @@
 
           <!-- Rendered markdown view -->
           <div class="px-6 py-4 prose prose-sm max-w-none" data-markdown-section-target="preview">
-            <%== marksmithed(content) %>
+            <%= sanitize marksmithed(content) %>
           </div>
 
           <!-- Edit view (hidden by default) -->
