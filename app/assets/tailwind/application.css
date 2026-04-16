@@ -298,9 +298,14 @@ details.gds-details > summary:hover {
   @apply mt-1 mb-1;
 }
 .prose table {
-  @apply w-full text-sm mt-3 mb-4;
-  border-collapse: collapse;
+  @apply w-full text-sm mt-3 mb-4 text-left border-collapse border border-gds-mid-grey;
 }
+
+.prose table th,
+.prose table td {
+  @apply px-4 py-2 border border-gds-mid-grey;
+}
+
 .prose code {
   @apply font-mono text-sm px-1.5 py-0.5;
   background-color: var(--color-gds-light-grey);

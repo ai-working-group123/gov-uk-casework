@@ -1,15 +1,14 @@
 <% content_for(:title) { "Clarifying Questions — Admin" } %>
 
-<div class="max-w-3xl mx-auto" data-controller="questions">
+<div class="max-w-[640px]" data-controller="questions">
   <div class="mb-6">
-    <h2 class="text-2xl font-bold text-gray-900 mb-2">Clarifying Questions</h2>
-    <p class="text-gray-600">
+    <h1 class="text-3xl font-bold text-gds-black mb-2">Clarifying Questions</h1>
+    <p class="text-gds-dark-grey">
       We've analysed the source material but need a few more details to generate the best configuration.
       Answer each question or skip if unsure.
     </p>
   </div>
 
-  <!-- Progress indicator -->
   <%= render "progress", current_step: 2 %>
 
   <% first_unanswered = @questions.index { |q| !@saved_answers.key?(q[:id].to_s) } || 0 %>
@@ -21,71 +20,59 @@
       <% saved = @saved_answers[qid] %>
       <% is_answered = saved.present? %>
       <div
-        class="bg-white border border-gray-200 rounded-lg p-6 mb-4 shadow-sm question-card"
+        class="mb-6 pb-6 question-card"
         data-questions-target="card"
         data-index="<%= index %>"
         data-answered="<%= is_answered %>"
-        style="<%= 'display: none;' unless index == first_unanswered %>"
+        style="border-bottom: 1px solid var(--color-gds-mid-grey); <%= 'display: none;' unless index == first_unanswered %>"
       >
         <div class="flex items-start justify-between mb-4">
-          <h3 class="text-lg font-semibold text-gray-900">
+          <h2 class="text-xl font-bold text-gds-black">
             Question <%= index + 1 %> of <%= @questions.length %>
-          </h3>
-          <div class="flex items-center gap-2">
-            <% if is_answered %>
-              <span class="inline-flex items-center gap-1 text-xs text-green-600 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">
-                ✓ Answered
-              </span>
-            <% end %>
-            <span class="text-sm text-gray-400">
-              <%= index + 1 %>/<%= @questions.length %>
-            </span>
-          </div>
+          </h2>
+          <% if is_answered %>
+            <span class="tag-green">Answered</span>
+          <% end %>
         </div>
 
-        <p class="text-gray-700 mb-6 text-base"><%= question[:text] %></p>
+        <p class="text-gds-black mb-6 text-base"><%= question[:text] %></p>
 
-        <!-- Hidden field for question text -->
         <input type="hidden" name="answers[<%= question[:id] %>][question]" value="<%= question[:text] %>">
 
-        <!-- Suggested answers as radio buttons -->
-        <div class="space-y-3 mb-4">
+        <fieldset class="space-y-3 mb-4">
           <% question[:suggested_answers].each_with_index do |answer, ai| %>
-            <label class="flex items-start gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-colors has-[:checked]:bg-blue-50 has-[:checked]:border-blue-400">
+            <label class="flex items-start gap-3 p-3 cursor-pointer hover:bg-gds-light-grey transition-colors" style="border: 2px solid var(--color-gds-mid-grey); <%= saved && saved['selected'] == answer ? "border-color: var(--color-gds-blue); background: #e8f0fe;" : "" %>">
               <input
                 type="radio"
                 name="answers[<%= question[:id] %>][selected]"
                 value="<%= answer %>"
-                class="mt-0.5 text-blue-600"
+                class="mt-0.5"
                 data-action="change->questions#selectAnswer"
                 <%= "checked" if saved && saved["selected"] == answer %>
               >
-              <span class="text-sm text-gray-700"><%= answer %></span>
+              <span class="text-sm text-gds-black"><%= answer %></span>
             </label>
           <% end %>
-        </div>
+        </fieldset>
 
-        <!-- Custom answer -->
-        <div class="mb-4">
-          <label class="block text-sm text-gray-600 mb-1">Or provide your own answer:</label>
+        <div class="form-group mb-4">
+          <label class="form-label text-sm">Or provide your own answer:</label>
           <input
             type="text"
             name="answers[<%= question[:id] %>][custom]"
             value="<%= saved&.dig("custom") %>"
-            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            class="w-full"
             placeholder="Type your answer..."
             data-action="input->questions#customAnswer"
           >
         </div>
 
-        <!-- Skip -->
-        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-          <label class="flex items-center gap-2 text-sm text-gray-500 cursor-pointer">
+        <div class="flex items-center justify-between pt-4">
+          <label class="flex items-center gap-2 text-sm text-gds-dark-grey cursor-pointer">
             <input
               type="checkbox"
               name="answers[<%= question[:id] %>][skip]"
               value="1"
-              class="rounded text-gray-400"
               data-action="change->questions#skipAnswer"
               <%= "checked" if saved && saved["skip"] == "1" %>
             >
@@ -97,9 +84,8 @@
               <button
                 type="button"
                 data-action="questions#prev"
-                class="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-1"
+                class="btn-secondary text-sm px-3 py-2"
               >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 Previous
               </button>
             <% end %>
@@ -107,10 +93,9 @@
               <button
                 type="button"
                 data-action="questions#next"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-1"
+                class="btn-primary text-sm px-3 py-2"
               >
                 Next
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
               </button>
             <% end %>
           </div>
@@ -118,18 +103,14 @@
       </div>
     <% end %>
 
-    <!-- Submit (shown on last question) -->
     <div data-questions-target="submitArea" class="pt-4" style="<%= 'display: none;' if first_unanswered < @questions.length - 1 %>">
-      <button
-        type="submit"
-        class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-3 rounded-lg text-sm transition-colors inline-flex items-center gap-2"
-      >
+      <button type="submit" class="btn-primary">
         Generate Configuration
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
         </svg>
       </button>
-      <p class="text-sm text-gray-500 mt-2">
+      <p class="text-sm text-gds-dark-grey mt-2">
         This will generate the complete case type configuration. It may take a moment.
       </p>
     </div>
