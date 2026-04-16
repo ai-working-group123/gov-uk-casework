@@ -1,5 +1,11 @@
 class CasesController < ApplicationController
+  include RateLimitable
+
   before_action :set_case, only: [ :show, :edit, :update, :destroy, :evaluate ]
+
+  # Rate limit LLM evaluation: 5 requests per minute per IP
+  before_action -> { rate_limit!("case_evaluate", limit: 5, period: 1.minute) },
+    only: %i[evaluate]
 
   def index
     @cases = Case.all

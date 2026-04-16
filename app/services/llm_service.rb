@@ -1,3 +1,6 @@
+require "resolv"
+require "ipaddr"
+
 class LlmService
   class Error < StandardError; end
   class RateLimitError < Error; end
@@ -533,10 +536,41 @@ class LlmService
     raise ParseError, "Failed to parse LLM response as JSON: #{e.message}\nResponse: #{text&.first(200)}"
   end
 
+  # ── URL Validation (SSRF Protection) ────────────────────────
+
+  # Only allow scraping public .gov.uk domains by default.
+  # Override via LLM_ALLOWED_SCRAPE_HOSTS env var (comma-separated).
+  ALLOWED_SCRAPE_HOSTS = ENV.fetch(
+    "LLM_ALLOWED_SCRAPE_HOSTS",
+    "www.gov.uk,gov.uk"
+  ).split(",").map(&:strip).freeze
+
+  def validate_url!(url)
+    uri = URI.parse(url)
+
+    unless %w[http https].include?(uri.scheme)
+      raise Error, "Only HTTP(S) URLs are allowed: #{url}"
+    end
+
+    # Block private/internal IPs (SSRF protection)
+    resolved = Resolv.getaddress(uri.host)
+    ip = IPAddr.new(resolved)
+    if ip.private? || ip.loopback? || ip.link_local?
+      raise Error, "URL resolves to a private/internal address: #{url}"
+    end
+
+    unless ALLOWED_SCRAPE_HOSTS.any? { |allowed| uri.host == allowed || uri.host&.end_with?(".#{allowed}") }
+      raise Error, "Host not in allowlist: #{uri.host}. Allowed: #{ALLOWED_SCRAPE_HOSTS.join(', ')}"
+    end
+
+    uri
+  end
+
   # ── Scraping ───────────────────────────────────────────────
 
   def scrape_page(url)
-    uri = URI.parse(url)
+    uri = validate_url!(url)
+
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = uri.scheme == "https"
     http.open_timeout = 10

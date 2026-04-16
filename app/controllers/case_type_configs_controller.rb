@@ -1,5 +1,7 @@
 
 class CaseTypeConfigsController < ApplicationController
+  include RateLimitable
+
   layout "admin"
 
   before_action :set_case_type_config, only: [
@@ -7,6 +9,10 @@ class CaseTypeConfigsController < ApplicationController
     :suggestions, :apply_suggestions, :finalise, :publish,
     :processing, :generate
   ]
+
+  # Rate limit LLM-intensive actions: 5 requests per minute per IP
+  before_action -> { rate_limit!("llm_operations", limit: 5, period: 1.minute) },
+    only: %i[create update answer submit_review apply_suggestions]
 
   def index
     @case_type_configs = CaseTypeConfig.order(created_at: :desc)
@@ -107,16 +113,18 @@ class CaseTypeConfigsController < ApplicationController
   def answer
     analysis_json = @case_type_config.analysis
 
-    # Build answers text block from form params
-    answers = params[:answers]&.to_unsafe_h || {}
+    # Build answers text block from form params — permit known keys only
+    answers = (params[:answers] || {}).permit!.to_h.transform_values do |v|
+      v.is_a?(ActionController::Parameters) ? v.permit(:question, :skip, :custom, :selected).to_h : {}
+    end
     answers_text = answers.map { |qid, answer_data|
-      question_text = answer_data[:question]
-      response = if answer_data[:skip] == "1"
+      question_text = answer_data["question"]
+      response = if answer_data["skip"] == "1"
         "I don't know — use your best judgement"
-      elsif answer_data[:custom].present?
-        answer_data[:custom]
+      elsif answer_data["custom"].present?
+        answer_data["custom"]
       else
-        answer_data[:selected]
+        answer_data["selected"]
       end
       "Q: #{question_text}\nA: #{response}"
     }.join("\n\n")
