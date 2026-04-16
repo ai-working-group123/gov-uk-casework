@@ -63,12 +63,7 @@
 
           <!-- Edit view (hidden by default) -->
           <div class="px-6 py-4 hidden" data-markdown-section-target="editor">
-            <textarea
-              name="<%= section[:param] %>"
-              class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-y"
-              rows="12"
-              data-markdown-section-target="textarea"
-            ><%= content %></textarea>
+            <%= marksmith_tag section[:param], value: content, class: "w-full" %>
             <div class="flex justify-end gap-2 mt-3">
               <button
                 type="button"

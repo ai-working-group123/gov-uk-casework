@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :case_type_configs, only: [ :new, :create, :show, :index, :update ] do
+    resources :case_type_configs, only: [ :new, :create, :show, :index, :edit, :update ] do
       member do
         get :questions
         post :answer

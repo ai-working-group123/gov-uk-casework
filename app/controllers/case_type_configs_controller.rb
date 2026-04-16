@@ -3,7 +3,7 @@ class CaseTypeConfigsController < ApplicationController
   layout "admin"
 
   before_action :set_case_type_config, only: [
-    :show, :update, :questions, :answer, :review, :submit_review,
+    :show, :edit, :update, :questions, :answer, :review, :submit_review,
     :suggestions, :apply_suggestions, :finalise, :publish,
     :processing, :generate
   ]
@@ -14,6 +14,10 @@ class CaseTypeConfigsController < ApplicationController
 
   def new
     @case_type_config = CaseTypeConfig.new
+  end
+
+  # GET /admin/case_type_configs/:id/edit
+  def edit
   end
 
   # PATCH /admin/case_type_configs/:id
@@ -100,6 +104,7 @@ class CaseTypeConfigsController < ApplicationController
   # GET /admin/case_type_configs/:id/questions
   def questions
     @questions = @case_type_config.clarifying_questions.map(&:symbolize_keys)
+    @saved_answers = (@case_type_config.clarifying_answers || {}).transform_keys(&:to_s)
   end
 
   # POST /admin/case_type_configs/:id/answer
@@ -232,7 +237,7 @@ class CaseTypeConfigsController < ApplicationController
 
   # GET /admin/case_type_configs/:id/suggestions
   def suggestions
-    @suggestions = @case_type_config.case_type_suggestions.where(status: :suggested).order(:priority)
+    @suggestions = @case_type_config.case_type_suggestions.order(priority: :desc)
   end
 
   # POST /admin/case_type_configs/:id/apply_suggestions
@@ -240,16 +245,17 @@ class CaseTypeConfigsController < ApplicationController
   def apply_suggestions
     accepted_ids = []
     comments = {}
+    suggestion_params = params[:suggestions]&.to_unsafe_h || {}
 
-    (params[:suggestions] || {}).each do |suggestion_id, data|
-      suggestion = @case_type_config.case_type_suggestions.find(suggestion_id)
-      if data[:accepted] == "1"
+    @case_type_config.case_type_suggestions.each do |suggestion|
+      data = suggestion_params[suggestion.id.to_s]
+      if data && data["accepted"] == "1"
         suggestion.update!(status: :accepted)
-        accepted_ids << suggestion_id
+        accepted_ids << suggestion.id
+        comments[suggestion.id.to_s] = data["comment"] if data["comment"].present?
       else
         suggestion.update!(status: :rejected)
       end
-      comments[suggestion_id] = data[:comment] if data[:comment].present?
     end
 
     if accepted_ids.any?

@@ -1,7 +1,7 @@
 <%# Render the step progress bar. Pass current_step: 1..5 %>
 <%# Future steps are navigable links but become disabled when the form has unsaved changes %>
 <% steps = [
-  { label: "Step 1: Source", path: case_type_config_path(@case_type_config) },
+  { label: "Step 1: Source", path: edit_case_type_config_path(@case_type_config) },
   { label: "Step 2: Clarify", path: questions_case_type_config_path(@case_type_config) },
   { label: "Step 3: Review", path: review_case_type_config_path(@case_type_config) },
   { label: "Step 4: Suggestions", path: suggestions_case_type_config_path(@case_type_config) },

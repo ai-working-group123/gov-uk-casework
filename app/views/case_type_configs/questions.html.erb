@@ -12,22 +12,35 @@
   <!-- Progress indicator -->
   <%= render "progress", current_step: 2 %>
 
+  <% first_unanswered = @questions.index { |q| !@saved_answers.key?(q[:id].to_s) } || 0 %>
+
   <%= form_with url: answer_case_type_config_path(@case_type_config), method: :post, data: { turbo: false, controller: "loading-form", action: "submit->loading-form#submit" } do |f| %>
 
     <% @questions.each_with_index do |question, index| %>
+      <% qid = question[:id].to_s %>
+      <% saved = @saved_answers[qid] %>
+      <% is_answered = saved.present? %>
       <div
         class="bg-white border border-gray-200 rounded-lg p-6 mb-4 shadow-sm question-card"
         data-questions-target="card"
         data-index="<%= index %>"
-        style="<%= 'display: none;' unless index == 0 %>"
+        data-answered="<%= is_answered %>"
+        style="<%= 'display: none;' unless index == first_unanswered %>"
       >
         <div class="flex items-start justify-between mb-4">
           <h3 class="text-lg font-semibold text-gray-900">
             Question <%= index + 1 %> of <%= @questions.length %>
           </h3>
-          <span class="text-sm text-gray-400">
-            <%= index + 1 %>/<%= @questions.length %>
-          </span>
+          <div class="flex items-center gap-2">
+            <% if is_answered %>
+              <span class="inline-flex items-center gap-1 text-xs text-green-600 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">
+                ✓ Answered
+              </span>
+            <% end %>
+            <span class="text-sm text-gray-400">
+              <%= index + 1 %>/<%= @questions.length %>
+            </span>
+          </div>
         </div>
 
         <p class="text-gray-700 mb-6 text-base"><%= question[:text] %></p>
@@ -45,6 +58,7 @@
                 value="<%= answer %>"
                 class="mt-0.5 text-blue-600"
                 data-action="change->questions#selectAnswer"
+                <%= "checked" if saved && saved["selected"] == answer %>
               >
               <span class="text-sm text-gray-700"><%= answer %></span>
             </label>
@@ -57,6 +71,7 @@
           <input
             type="text"
             name="answers[<%= question[:id] %>][custom]"
+            value="<%= saved&.dig("custom") %>"
             class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Type your answer..."
             data-action="input->questions#customAnswer"
@@ -72,26 +87,39 @@
               value="1"
               class="rounded text-gray-400"
               data-action="change->questions#skipAnswer"
+              <%= "checked" if saved && saved["skip"] == "1" %>
             >
             I don't know — use your best judgement
           </label>
 
-          <% if index < @questions.length - 1 %>
-            <button
-              type="button"
-              data-action="questions#next"
-              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-1"
-            >
-              Next
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </button>
-          <% end %>
+          <div class="flex gap-2">
+            <% if index > 0 %>
+              <button
+                type="button"
+                data-action="questions#prev"
+                class="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-1"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Previous
+              </button>
+            <% end %>
+            <% if index < @questions.length - 1 %>
+              <button
+                type="button"
+                data-action="questions#next"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-1"
+              >
+                Next
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              </button>
+            <% end %>
+          </div>
         </div>
       </div>
     <% end %>
 
     <!-- Submit (shown on last question) -->
-    <div data-questions-target="submitArea" class="pt-4" style="<%= 'display: none;' if @questions.length > 1 %>">
+    <div data-questions-target="submitArea" class="pt-4" style="<%= 'display: none;' if first_unanswered < @questions.length - 1 %>">
       <button
         type="submit"
         class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-3 rounded-lg text-sm transition-colors inline-flex items-center gap-2"

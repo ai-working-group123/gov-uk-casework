@@ -27,7 +27,7 @@
                 value="1"
                 id="suggestion_<%= suggestion.id %>"
                 class="w-5 h-5 rounded text-blue-600 border-gray-300 focus:ring-blue-500"
-                checked
+                <%= "checked" unless suggestion.rejected? %>
                 data-action="change->suggestion#toggle"
                 data-suggestion-target="checkbox"
               >
