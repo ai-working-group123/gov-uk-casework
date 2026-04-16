@@ -1,0 +1,73 @@
+{
+  "name": "Black Bag Limit Exemption",
+  "description": "Application for exemption to place out additional black bags if recycling all accepted materials.",
+  "applicant_type": "Residents of Swansea",
+  "caseworker_type": "Swansea Council Waste Management Team",
+  "evidence_requirements": [
+    {
+      "name": "Proof of recycling compliance",
+      "required": true,
+      "source": "Applicant",
+      "notes": "Must show all accepted kerbside materials are recycled"
+    }
+  ],
+  "eligibility_criteria": [
+    {
+      "criterion": "Recycling all accepted kerbside materials",
+      "type": "pass_fail"
+    },
+    {
+      "criterion": "Producing more than three black bags of non-recyclable waste",
+      "type": "pass_fail"
+    },
+    {
+      "criterion": "No recyclable material in black or exemption bags",
+      "type": "pass_fail"
+    }
+  ],
+  "possible_outcomes": [
+    "Approved",
+    "Refused"
+  ],
+  "typical_timeline_days": 14,
+  "communication_steps": [
+    {
+      "stage": "Application submission",
+      "channel": "portal",
+      "content": "Confirmation of receipt"
+    },
+    {
+      "stage": "Decision",
+      "channel": "email",
+      "content": "Outcome of exemption request"
+    }
+  ],
+  "confidence_scores": {
+    "name": 0.9,
+    "evidence": 0.5,
+    "eligibility": 0.7,
+    "timeline": 0.6
+  },
+  "clarifying_questions": [
+    {
+      "question": "What specific documents are accepted as proof of recycling compliance?",
+      "element": "evidence",
+      "options": [
+        "Recycling receipts",
+        "Photographic evidence",
+        "Council-issued compliance certificate"
+      ],
+      "why": "To clarify what constitutes valid evidence for recycling compliance."
+    },
+    {
+      "question": "What factors influence the typical timeline for processing the exemption?",
+      "element": "timeline",
+      "options": [
+        "Application volume",
+        "Staff availability",
+        "Complexity of cases"
+      ],
+      "why": "To understand the variability in processing times."
+    }
+  ]
+}
