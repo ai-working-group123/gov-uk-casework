@@ -15,6 +15,23 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :case_type_configs, only: [ :new, :create, :show, :index ] do
+      member do
+        get :questions
+        post :answer
+        get :review
+        post :submit_review
+        get :suggestions
+        post :apply_suggestions
+        get :finalise
+        post :publish
+        get :processing
+        post :generate
+      end
+    end
+  end
+
   scope "public" do
     get "lookup", to: "lookup#index", as: :public_lookup
     get "lookup/:reference", to: "lookup#show", as: :public_lookup_case

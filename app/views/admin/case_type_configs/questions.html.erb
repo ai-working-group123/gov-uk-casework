@@ -1,0 +1,109 @@
+<% content_for(:title) { "Clarifying Questions — Admin" } %>
+
+<div class="max-w-3xl mx-auto" data-controller="questions">
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold text-gray-900 mb-2">Clarifying Questions</h2>
+    <p class="text-gray-600">
+      We've analysed the source material but need a few more details to generate the best configuration.
+      Answer each question or skip if unsure.
+    </p>
+  </div>
+
+  <!-- Progress indicator -->
+  <%= render "progress", current_step: 3 %>
+
+  <%= form_with url: answer_admin_case_type_config_path(@case_type_config), method: :post, data: { turbo: false } do |f| %>
+
+    <% @questions.each_with_index do |question, index| %>
+      <div
+        class="bg-white border border-gray-200 rounded-lg p-6 mb-4 shadow-sm question-card"
+        data-questions-target="card"
+        data-index="<%= index %>"
+        style="<%= 'display: none;' unless index == 0 %>"
+      >
+        <div class="flex items-start justify-between mb-4">
+          <h3 class="text-lg font-semibold text-gray-900">
+            Question <%= index + 1 %> of <%= @questions.length %>
+          </h3>
+          <span class="text-sm text-gray-400">
+            <%= index + 1 %>/<%= @questions.length %>
+          </span>
+        </div>
+
+        <p class="text-gray-700 mb-6 text-base"><%= question[:text] %></p>
+
+        <!-- Hidden field for question text -->
+        <input type="hidden" name="answers[<%= question[:id] %>][question]" value="<%= question[:text] %>">
+
+        <!-- Suggested answers as radio buttons -->
+        <div class="space-y-3 mb-4">
+          <% question[:suggested_answers].each_with_index do |answer, ai| %>
+            <label class="flex items-start gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-colors has-[:checked]:bg-blue-50 has-[:checked]:border-blue-400">
+              <input
+                type="radio"
+                name="answers[<%= question[:id] %>][selected]"
+                value="<%= answer %>"
+                class="mt-0.5 text-blue-600"
+                data-action="change->questions#selectAnswer"
+              >
+              <span class="text-sm text-gray-700"><%= answer %></span>
+            </label>
+          <% end %>
+        </div>
+
+        <!-- Custom answer -->
+        <div class="mb-4">
+          <label class="block text-sm text-gray-600 mb-1">Or provide your own answer:</label>
+          <input
+            type="text"
+            name="answers[<%= question[:id] %>][custom]"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Type your answer..."
+            data-action="input->questions#customAnswer"
+          >
+        </div>
+
+        <!-- Skip -->
+        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+          <label class="flex items-center gap-2 text-sm text-gray-500 cursor-pointer">
+            <input
+              type="checkbox"
+              name="answers[<%= question[:id] %>][skip]"
+              value="1"
+              class="rounded text-gray-400"
+              data-action="change->questions#skipAnswer"
+            >
+            I don't know — use your best judgement
+          </label>
+
+          <% if index < @questions.length - 1 %>
+            <button
+              type="button"
+              data-action="questions#next"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-1"
+            >
+              Next
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Submit (shown on last question) -->
+    <div data-questions-target="submitArea" class="pt-4" style="<%= 'display: none;' if @questions.length > 1 %>">
+      <button
+        type="submit"
+        class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-3 rounded-lg text-sm transition-colors inline-flex items-center gap-2"
+      >
+        Generate Configuration
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+        </svg>
+      </button>
+      <p class="text-sm text-gray-500 mt-2">
+        This will generate the complete case type configuration. It may take a moment.
+      </p>
+    </div>
+  <% end %>
+</div>
