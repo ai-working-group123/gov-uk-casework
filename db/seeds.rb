@@ -231,6 +231,53 @@ case_type_config.update!(
 	created_by: builder_caseworker
 )
 
+# Additional case type configs for the other visa routes used in seed cases
+[
+	{
+		slug: "student-visa", name: "Student Visa",
+		description: "Case type for Tier 4 / Student visa applications.",
+		organisation: "UK Visas and Immigration", default_sla_days: 60,
+		state_transitions_md: "submitted → assigned → in_review → awaiting_evidence → ready_for_decision → decided_approved | decided_refused",
+		decision_tree_md: "Check CAS validity → English B2 → Maintenance funds → ATAS if applicable → Decision"
+	},
+	{
+		slug: "family-visa", name: "Family Visa",
+		description: "Case type for UK family visa applications (partner, child, parent routes).",
+		organisation: "UK Visas and Immigration", default_sla_days: 84,
+		state_transitions_md: "submitted → assigned → in_review → awaiting_evidence → ready_for_decision → decided_approved | decided_refused",
+		decision_tree_md: "Check relationship evidence → Financial requirement (£29k MFR) → English A1 → Accommodation → Decision"
+	},
+	{
+		slug: "settlement-ilr", name: "Settlement (ILR)",
+		description: "Indefinite Leave to Remain applications.",
+		organisation: "UK Visas and Immigration", default_sla_days: 180,
+		state_transitions_md: "submitted → assigned → in_review → awaiting_evidence → ready_for_decision → decided_approved | decided_refused",
+		decision_tree_md: "Check continuous residence (5yr) → Absences ≤180d/yr → Life in the UK test → English B1 → Decision"
+	},
+	{
+		slug: "visitor-visa", name: "Visitor Visa",
+		description: "Standard visitor visa applications.",
+		organisation: "UK Visas and Immigration", default_sla_days: 21,
+		state_transitions_md: "submitted → assigned → in_review → ready_for_decision → decided_approved | decided_refused",
+		decision_tree_md: "Check genuine visitor intent → Sufficient funds → Return ties → No general grounds for refusal → Decision"
+	}
+].each do |attrs|
+	ctc = CaseTypeConfig.find_or_initialize_by(slug: attrs[:slug])
+	ctc.update!(
+		name: attrs[:name],
+		description: attrs[:description],
+		organisation: attrs[:organisation],
+		status: :published,
+		default_sla_days: attrs[:default_sla_days],
+		state_transitions_md: attrs[:state_transitions_md],
+		decision_tree_md: attrs[:decision_tree_md],
+		created_by: builder_caseworker
+	)
+end
+
+# Index all configs by slug for case seeding below
+case_type_config_by_slug = CaseTypeConfig.all.index_by(&:slug)
+
 generation_logs = [
 	{
 		step: 1,
@@ -326,7 +373,7 @@ seed_cases = [
 		submitted_at: 9.weeks.ago,
 		assigned_at: 8.weeks.ago,
 		sla_deadline: 1.week.ago,
-		case_type: :tier2_work,
+		case_type_config_slug: "skilled-worker-visa",
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 6.weeks.ago, received_at: 8.weeks.ago, reviewed_at: 7.weeks.ago },
 			{ evidence_type: :english_language, status: :accepted, policy_code: "SW-ENGLISH", required_by: 6.weeks.ago, received_at: 7.weeks.ago, reviewed_at: 6.weeks.ago },
@@ -347,7 +394,7 @@ seed_cases = [
 		submitted_at: 1.day.ago,
 		assigned_at: 12.hours.ago,
 		sla_deadline: 7.weeks.from_now,
-		case_type: :tier2_work,
+		case_type_config_slug: "skilled-worker-visa",
 		evidence_items: [
 			{ evidence_type: :passport, status: :received, policy_code: "SW-PASSPORT", required_by: 2.weeks.from_now, received_at: 1.day.ago },
 			{ evidence_type: :sponsorship_certificate, status: :not_received, policy_code: "SW-COS", required_by: 2.weeks.from_now },
@@ -367,7 +414,7 @@ seed_cases = [
 		submitted_at: 3.weeks.ago,
 		assigned_at: 19.days.ago,
 		sla_deadline: 4.weeks.from_now,
-		case_type: :tier2_work,
+		case_type_config_slug: "skilled-worker-visa",
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 2.weeks.ago, received_at: 20.days.ago, reviewed_at: 18.days.ago },
 			{ evidence_type: :sponsorship_certificate, status: :under_review, policy_code: "SW-COS", required_by: 2.weeks.ago, received_at: 18.days.ago },
@@ -388,7 +435,7 @@ seed_cases = [
 		submitted_at: 4.weeks.ago,
 		assigned_at: 25.days.ago,
 		sla_deadline: 3.weeks.from_now,
-		case_type: :tier2_work,
+		case_type_config_slug: "skilled-worker-visa",
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 3.weeks.ago, received_at: 26.days.ago, reviewed_at: 24.days.ago },
 			{ evidence_type: :sponsorship_certificate, status: :accepted, policy_code: "SW-COS", required_by: 3.weeks.ago, received_at: 24.days.ago, reviewed_at: 22.days.ago },
@@ -409,7 +456,7 @@ seed_cases = [
 		assigned_at: 46.days.ago,
 		sla_deadline: 1.week.from_now,
 		decided_at: 1.day.ago,
-		case_type: :tier2_work,
+		case_type_config_slug: "skilled-worker-visa",
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 5.weeks.ago, received_at: 47.days.ago, reviewed_at: 45.days.ago },
 			{ evidence_type: :sponsorship_certificate, status: :accepted, policy_code: "SW-COS", required_by: 5.weeks.ago, received_at: 45.days.ago, reviewed_at: 43.days.ago },
@@ -431,7 +478,7 @@ seed_cases = [
 		assigned_at: 38.days.ago,
 		sla_deadline: 2.weeks.ago,
 		decided_at: 5.days.ago,
-		case_type: :tier2_work,
+		case_type_config_slug: "skilled-worker-visa",
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 4.weeks.ago, received_at: 39.days.ago, reviewed_at: 37.days.ago },
 			{ evidence_type: :sponsorship_certificate, status: :rejected, policy_code: "SW-COS", required_by: 4.weeks.ago, received_at: 36.days.ago, reviewed_at: 33.days.ago, notes: "CoS reference invalid and sponsor licence no longer active." },
@@ -450,7 +497,7 @@ seed_cases = [
 		submitted_at: 3.hours.ago,
 		assigned_at: nil,
 		sla_deadline: 8.weeks.from_now,
-		case_type: :tier2_work,
+		case_type_config_slug: "skilled-worker-visa",
 		evidence_items: [
 			{ evidence_type: :passport, status: :not_received, policy_code: "SW-PASSPORT", required_by: 10.days.from_now },
 			{ evidence_type: :sponsorship_certificate, status: :not_received, policy_code: "SW-COS", required_by: 10.days.from_now },
@@ -471,7 +518,7 @@ seed_cases.each do |case_attrs|
 		nationality: case_attrs[:nationality],
 		assigned_to: assigned_caseworker,
 		assigned_at: case_attrs[:assigned_at],
-		case_type: case_attrs[:case_type],
+		case_type_config: case_type_config_by_slug[case_attrs[:case_type_config_slug]],
 		status: case_attrs[:status],
 		priority: case_attrs[:priority],
 		submitted_at: case_attrs[:submitted_at],
