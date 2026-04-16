@@ -1,17 +1,17 @@
-<div class="max-w-4xl mx-auto py-8">
+<div>
   <% if notice.present? %><div class="notification-success"><%= notice %></div><% end %>
 
-  <h1 class="text-2xl font-bold mb-4"><%= @caseworker.name %></h1>
+  <h1 class="text-3xl font-bold mb-6"><%= @caseworker.name %></h1>
 
-  <dl class="mb-6">
-    <dt class="font-medium">Email</dt>
-    <dd class="mb-2"><%= @caseworker.email %></dd>
-    <dt class="font-medium">Role</dt>
-    <dd class="mb-2"><%= @caseworker.role.humanize %></dd>
-    <dt class="font-medium">Team</dt>
-    <dd class="mb-2"><%= @caseworker.team.name %></dd>
-    <dt class="font-medium">Capacity</dt>
-    <dd class="mb-2"><%= @caseworker.capacity %></dd>
+  <dl class="summary-list">
+    <dt>Email</dt>
+    <dd><%= @caseworker.email %></dd>
+    <dt>Role</dt>
+    <dd><%= @caseworker.role.humanize %></dd>
+    <dt>Team</dt>
+    <dd><%= @caseworker.team.name %></dd>
+    <dt>Capacity</dt>
+    <dd><%= @caseworker.capacity %></dd>
   </dl>
 
   <div class="flex gap-4">

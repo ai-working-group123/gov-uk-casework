@@ -1,21 +1,21 @@
-<div class="max-w-4xl mx-auto py-8">
+<div>
   <% if notice.present? %><div class="notification-success"><%= notice %></div><% end %>
 
-  <h1 class="text-2xl font-bold mb-4"><%= @evidence.evidence_type.humanize %></h1>
+  <h1 class="text-3xl font-bold mb-6"><%= @evidence.evidence_type.humanize %></h1>
 
-  <dl class="mb-6">
-    <dt class="font-medium">Status</dt>
-    <dd class="mb-2"><%= @evidence.status.humanize %></dd>
-    <dt class="font-medium">Received</dt>
-    <dd class="mb-2"><%= @evidence.received_at&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
-    <dt class="font-medium">Reviewed</dt>
-    <dd class="mb-2"><%= @evidence.reviewed_at&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
-    <dt class="font-medium">Required By</dt>
-    <dd class="mb-2"><%= @evidence.required_by&.strftime("%d %b %Y") || "\u2014" %></dd>
-    <dt class="font-medium">Notes</dt>
-    <dd class="mb-2"><%= @evidence.notes || "\u2014" %></dd>
-    <dt class="font-medium">Policy Reference</dt>
-    <dd class="mb-2"><%= @evidence.policy_reference&.title || "\u2014" %></dd>
+  <dl class="summary-list">
+    <dt>Status</dt>
+    <dd><%= @evidence.status.humanize %></dd>
+    <dt>Received</dt>
+    <dd><%= @evidence.received_at&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
+    <dt>Reviewed</dt>
+    <dd><%= @evidence.reviewed_at&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
+    <dt>Required By</dt>
+    <dd><%= @evidence.required_by&.strftime("%d %b %Y") || "\u2014" %></dd>
+    <dt>Notes</dt>
+    <dd><%= @evidence.notes || "\u2014" %></dd>
+    <dt>Policy Reference</dt>
+    <dd><%= @evidence.policy_reference&.title || "\u2014" %></dd>
   </dl>
 
   <div class="flex gap-4">

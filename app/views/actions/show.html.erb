@@ -1,25 +1,25 @@
-<div class="max-w-4xl mx-auto py-8">
+<div>
   <% if notice.present? %><div class="notification-success"><%= notice %></div><% end %>
 
-  <h1 class="text-2xl font-bold mb-4"><%= @action.title %></h1>
+  <h1 class="text-3xl font-bold mb-6"><%= @action.title %></h1>
 
-  <dl class="mb-6">
-    <dt class="font-medium">Type</dt>
-    <dd class="mb-2"><%= @action.action_type.humanize %></dd>
-    <dt class="font-medium">Status</dt>
-    <dd class="mb-2"><%= @action.status.humanize %></dd>
-    <dt class="font-medium">Description</dt>
-    <dd class="mb-2"><%= @action.description || "\u2014" %></dd>
-    <dt class="font-medium">Due Date</dt>
-    <dd class="mb-2"><%= @action.due_date&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
-    <dt class="font-medium">Completed</dt>
-    <dd class="mb-2"><%= @action.completed_at&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
-    <dt class="font-medium">Blocked By</dt>
-    <dd class="mb-2"><%= @action.blocked_by || "\u2014" %></dd>
-    <dt class="font-medium">Policy Reference</dt>
-    <dd class="mb-2"><%= @action.policy_reference&.title || "\u2014" %></dd>
-    <dt class="font-medium">Caseworker Guidance</dt>
-    <dd class="mb-2"><%= @action.caseworker_guidance || "\u2014" %></dd>
+  <dl class="summary-list">
+    <dt>Type</dt>
+    <dd><%= @action.action_type.humanize %></dd>
+    <dt>Status</dt>
+    <dd><%= @action.status.humanize %></dd>
+    <dt>Description</dt>
+    <dd><%= @action.description || "\u2014" %></dd>
+    <dt>Due Date</dt>
+    <dd><%= @action.due_date&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
+    <dt>Completed</dt>
+    <dd><%= @action.completed_at&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
+    <dt>Blocked By</dt>
+    <dd><%= @action.blocked_by || "\u2014" %></dd>
+    <dt>Policy Reference</dt>
+    <dd><%= @action.policy_reference&.title || "\u2014" %></dd>
+    <dt>Caseworker Guidance</dt>
+    <dd><%= @action.caseworker_guidance || "\u2014" %></dd>
   </dl>
 
   <div class="flex gap-4 mb-8">

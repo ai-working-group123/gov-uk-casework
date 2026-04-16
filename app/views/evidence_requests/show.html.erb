@@ -1,21 +1,21 @@
-<div class="max-w-4xl mx-auto py-8">
+<div>
   <% if notice.present? %><div class="notification-success"><%= notice %></div><% end %>
 
-  <h1 class="text-2xl font-bold mb-4">Evidence Request</h1>
+  <h1 class="text-3xl font-bold mb-6">Evidence Request</h1>
 
-  <dl class="mb-6">
-    <dt class="font-medium">Requested By</dt>
-    <dd class="mb-2"><%= @evidence_request.requested_by.name %></dd>
-    <dt class="font-medium">Status</dt>
-    <dd class="mb-2"><%= @evidence_request.status.humanize %></dd>
-    <dt class="font-medium">Deadline</dt>
-    <dd class="mb-2"><%= @evidence_request.deadline.strftime("%d %b %Y %H:%M") %></dd>
-    <dt class="font-medium">Notify Via</dt>
-    <dd class="mb-2"><%= @evidence_request.notify_via %></dd>
-    <dt class="font-medium">Cover Message</dt>
-    <dd class="mb-2 whitespace-pre-wrap"><%= @evidence_request.cover_message || "\u2014" %></dd>
-    <dt class="font-medium">Sent</dt>
-    <dd class="mb-2"><%= @evidence_request.sent_at&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
+  <dl class="summary-list">
+    <dt>Requested By</dt>
+    <dd><%= @evidence_request.requested_by.name %></dd>
+    <dt>Status</dt>
+    <dd><%= @evidence_request.status.humanize %></dd>
+    <dt>Deadline</dt>
+    <dd><%= @evidence_request.deadline.strftime("%d %b %Y %H:%M") %></dd>
+    <dt>Notify Via</dt>
+    <dd><%= @evidence_request.notify_via %></dd>
+    <dt>Cover Message</dt>
+    <dd class="whitespace-pre-wrap"><%= @evidence_request.cover_message || "\u2014" %></dd>
+    <dt>Sent</dt>
+    <dd><%= @evidence_request.sent_at&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
   </dl>
 
   <div class="flex gap-4 mb-8">

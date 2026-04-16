@@ -1,11 +1,11 @@
-<div class="max-w-4xl mx-auto py-8">
+<div>
   <% if notice.present? %><div class="notification-success"><%= notice %></div><% end %>
 
-  <h1 class="text-2xl font-bold mb-4"><%= @team.name %></h1>
+  <h1 class="text-3xl font-bold mb-6"><%= @team.name %></h1>
 
-  <dl class="mb-6">
-    <dt class="font-medium">Leader ID</dt>
-    <dd class="mb-2"><%= @team.leader_id || "\u2014" %></dd>
+  <dl class="summary-list">
+    <dt>Leader ID</dt>
+    <dd><%= @team.leader_id || "\u2014" %></dd>
   </dl>
 
   <div class="flex gap-4">
