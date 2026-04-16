@@ -231,6 +231,53 @@ case_type_config.update!(
 	created_by: builder_caseworker
 )
 
+# Additional case type configs for the other visa routes used in seed cases
+[
+	{
+		slug: "student-visa", name: "Student Visa",
+		description: "Case type for Tier 4 / Student visa applications.",
+		organisation: "UK Visas and Immigration", default_sla_days: 60,
+		state_transitions_md: "submitted → assigned → in_review → awaiting_evidence → ready_for_decision → decided_approved | decided_refused",
+		decision_tree_md: "Check CAS validity → English B2 → Maintenance funds → ATAS if applicable → Decision"
+	},
+	{
+		slug: "family-visa", name: "Family Visa",
+		description: "Case type for UK family visa applications (partner, child, parent routes).",
+		organisation: "UK Visas and Immigration", default_sla_days: 84,
+		state_transitions_md: "submitted → assigned → in_review → awaiting_evidence → ready_for_decision → decided_approved | decided_refused",
+		decision_tree_md: "Check relationship evidence → Financial requirement (£29k MFR) → English A1 → Accommodation → Decision"
+	},
+	{
+		slug: "settlement-ilr", name: "Settlement (ILR)",
+		description: "Indefinite Leave to Remain applications.",
+		organisation: "UK Visas and Immigration", default_sla_days: 180,
+		state_transitions_md: "submitted → assigned → in_review → awaiting_evidence → ready_for_decision → decided_approved | decided_refused",
+		decision_tree_md: "Check continuous residence (5yr) → Absences ≤180d/yr → Life in the UK test → English B1 → Decision"
+	},
+	{
+		slug: "visitor-visa", name: "Visitor Visa",
+		description: "Standard visitor visa applications.",
+		organisation: "UK Visas and Immigration", default_sla_days: 21,
+		state_transitions_md: "submitted → assigned → in_review → ready_for_decision → decided_approved | decided_refused",
+		decision_tree_md: "Check genuine visitor intent → Sufficient funds → Return ties → No general grounds for refusal → Decision"
+	}
+].each do |attrs|
+	ctc = CaseTypeConfig.find_or_initialize_by(slug: attrs[:slug])
+	ctc.update!(
+		name: attrs[:name],
+		description: attrs[:description],
+		organisation: attrs[:organisation],
+		status: :published,
+		default_sla_days: attrs[:default_sla_days],
+		state_transitions_md: attrs[:state_transitions_md],
+		decision_tree_md: attrs[:decision_tree_md],
+		created_by: builder_caseworker
+	)
+end
+
+# Index all configs by slug for case seeding below
+case_type_config_by_slug = CaseTypeConfig.all.index_by(&:slug)
+
 generation_logs = [
 	{
 		step: 1,

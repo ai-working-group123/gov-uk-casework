@@ -1,0 +1,23 @@
+{
+  "id": "tc-14",
+  "reference": "HO-VS-T1MF",
+  "applicant_name": "Ahmed Al-Rashid",
+  "nationality": "Saudi Arabian",
+  "case_type": "Visitor",
+  "status": "submitted",
+  "priority": "low",
+  "risk_score": 10,
+  "sla_status": "Within SLA",
+  "submitted_date": "2024-04-15",
+  "sla_deadline": "2024-05-06",
+  "scenario": "Standard visitor — business conference",
+  "evidence_summary": "0/3 required. Just submitted.",
+  "next_action": "Initial review — check financial sufficiency and return intention evidence",
+  "public_status_message": "Your application has been received",
+  "action_required": false,
+  "documents_to_request": [],
+  "test_flows": [
+    "New case state",
+    "Clean initial view"
+  ]
+}
