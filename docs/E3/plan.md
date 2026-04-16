@@ -1,10 +1,40 @@
 # E3 — AI Case Type Builder: Build Plan
 
+> **This plan is split for parallel development. See:**
+> - [plan-e3a-backend.md](plan-e3a-backend.md) — **E3a**: Services, models, LLM pipeline
+> - [plan-e3b-frontend.md](plan-e3b-frontend.md) — **E3b**: Controller, views, routes, UI
+>
+> **Merge points:** 11:00 (analysis pipeline) and 12:30 (generation pipeline)
+
 ## Your Mission
 
 Build the "wow" feature: an admin pastes a URL or description of a government process → the system scrapes it, analyses it with an LLM, asks clarifying questions, then generates a complete case type config (decision tree, states, evidence requirements, correspondence templates). No code. No developer.
 
 **This is what turns "we built a visa tool" into "we built a configurable casework engine any department can adopt in minutes."**
+
+---
+
+## The Split
+
+| Role | Person | Scope | Files |
+|------|--------|-------|-------|
+| **E3a — Backend** | TBD | Services, models, migrations, LLM prompts, fallback caching | `app/services/`, `app/models/case_type_*` |
+| **E3b — Frontend** | TBD | Controller, views, layout, routes, markdown rendering, UI polish | `app/controllers/admin/`, `app/views/admin/`, `app/views/layouts/admin.html.erb` |
+
+**E3b stubs service responses** with `CaseTypeGeneratorStub` until E3a delivers. No blocking.
+
+### Merge Points
+
+| Time | What | Who Pulls |
+|------|------|-----------|
+| **11:00** | E3a pushes working `scrape_and_analyse!` | E3b swaps stub → real service |
+| **12:30** | E3a pushes working `generate_config!` | E3b wires review to real output |
+| **14:30** | Both integrate improvements + fallback | Joint demo rehearsal |
+
+### Shared Gemfile Edits (coordinate — one PR)
+
+- E3a adds: `ruby-openai` (or `anthropic`)
+- E3b adds: `redcarpet`
 
 ---
 

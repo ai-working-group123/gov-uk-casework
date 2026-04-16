@@ -1,5 +1,5 @@
 class PolicyReferencesController < ApplicationController
-  before_action :set_policy_reference, only: [:show, :edit, :update, :destroy]
+  before_action :set_policy_reference, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @policy_references = PolicyReference.all

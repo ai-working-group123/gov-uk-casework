@@ -1,5 +1,5 @@
 class CaseworkersController < ApplicationController
-  before_action :set_caseworker, only: [:show, :edit, :update, :destroy]
+  before_action :set_caseworker, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @caseworkers = Caseworker.all
@@ -44,6 +44,6 @@ class CaseworkersController < ApplicationController
   end
 
   def caseworker_params
-    params.require(:caseworker).permit(:name, :email, :role, :team_id, :capacity)
+    params.require(:caseworker).permit(:name, :email, :team_id, :capacity)
   end
 end

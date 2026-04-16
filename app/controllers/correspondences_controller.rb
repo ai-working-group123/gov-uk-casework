@@ -1,6 +1,6 @@
 class CorrespondencesController < ApplicationController
   before_action :set_case_and_action
-  before_action :set_correspondence, only: [:show, :edit, :update, :destroy]
+  before_action :set_correspondence, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @correspondences = @action.correspondences

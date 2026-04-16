@@ -1,6 +1,6 @@
 class CaseNotesController < ApplicationController
   before_action :set_case
-  before_action :set_case_note, only: [:show, :edit, :update, :destroy]
+  before_action :set_case_note, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @case_notes = @case.case_notes

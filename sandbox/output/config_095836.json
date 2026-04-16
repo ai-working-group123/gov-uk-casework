@@ -1,0 +1,12 @@
+{
+  "name": "Black Bag Limit Exemption",
+  "slug": "black_bag_limit_exemption",
+  "description": "Application for exemption to place out additional black bags if recycling all accepted materials.",
+  "organisation": "Swansea Council",
+  "default_sla_days": 14,
+  "decision_tree_md": "START\n- If recycling all accepted kerbside materials:\n  - If producing more than three black bags of non-recyclable waste:\n    - If no recyclable material in black or exemption bags:\n      - APPROVE\n    - Else:\n      - REFUSE\n  - Else:\n    - REFUSE\n- Else:\n  - REFUSE",
+  "state_transitions_md": "| Current State | Trigger | Next State | Action |\n|---------------|---------|------------|--------|\n| Submitted     | Review  | In Review  | Assess application |\n| In Review     | Approve | Approved   | Notify applicant of approval |\n| In Review     | Refuse  | Refused    | Notify applicant of refusal |",
+  "evidence_requirements_md": "| Evidence                   | Required? | Source    | Verification Method |\n|----------------------------|-----------|-----------|---------------------|\n| Proof of recycling compliance | Yes       | Applicant | Review submitted documents for compliance with recycling requirements |",
+  "correspondence_templates_md": "### Application Submission Confirmation\n\nDear {{ applicant_name }},\n\nThank you for submitting your application for a Black Bag Limit Exemption. We have received your application and it is currently under review.\n\nBest regards,\nSwansea Council Waste Management Team\n\n### Decision Notification\n\nDear {{ applicant_name }},\n\nWe have completed the review of your Black Bag Limit Exemption application. Your application has been {{ decision }}.\n\n{{#if decision == 'Approved'}}\nYou are now exempt from the black bag limit and may place out additional bags as specified.\n{{/if}}\n\n{{#if decision == 'Refused'}}\nUnfortunately, your application did not meet the necessary criteria for exemption.\n{{/if}}\n\nBest regards,\nSwansea Council Waste Management Team",
+  "risk_scoring_md": "- If recycling compliance evidence is not provided, increase risk score by 50%.\n- If application history shows previous non-compliance, increase risk score by 30%.\n- If all criteria are met, decrease risk score by 20%."
+}
