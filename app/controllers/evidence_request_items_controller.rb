@@ -1,6 +1,6 @@
 class EvidenceRequestItemsController < ApplicationController
   before_action :set_case_and_evidence_request
-  before_action :set_evidence_request_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_evidence_request_item, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @evidence_request_items = @evidence_request.evidence_request_items

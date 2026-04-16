@@ -17,9 +17,9 @@ else
 fi
 echo ""
 
-# 2. Brakeman - Security static analysis
+# 2. Brakeman - Security static analysis (matches CI: bin/brakeman --no-pager)
 echo "── Brakeman ──"
-if bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error; then
+if bin/brakeman --no-pager; then
   echo "✅ Brakeman passed"
 else
   echo "❌ Brakeman failed"

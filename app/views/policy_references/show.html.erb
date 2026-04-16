@@ -17,7 +17,14 @@
     <dt class="font-medium">Criteria</dt>
     <dd class="mb-2"><%= @policy_reference.criteria %></dd>
     <dt class="font-medium">GOV.UK URL</dt>
-    <dd class="mb-2"><%= link_to @policy_reference.govuk_url, @policy_reference.govuk_url if @policy_reference.govuk_url.present? %></dd>
+    <dd class="mb-2"><% if @policy_reference.govuk_url.present? %>
+      <% url = URI.parse(@policy_reference.govuk_url) rescue nil %>
+      <% if url&.host&.end_with?("gov.uk") && url&.scheme == "https" %>
+        <%= link_to url.to_s, url.to_s %>
+      <% else %>
+        <%= @policy_reference.govuk_url %>
+      <% end %>
+    <% end %></dd>
   </dl>
 
   <div class="flex gap-4">

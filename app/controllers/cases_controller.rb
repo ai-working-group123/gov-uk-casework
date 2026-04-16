@@ -1,5 +1,5 @@
 class CasesController < ApplicationController
-  before_action :set_case, only: [:show, :edit, :update, :destroy]
+  before_action :set_case, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @cases = Case.all
