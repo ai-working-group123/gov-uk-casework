@@ -293,3 +293,207 @@ suggestions.each do |attrs|
 	suggestion = CaseTypeSuggestion.find_or_initialize_by(case_type_config: case_type_config, title: attrs[:title])
 	suggestion.update!(attrs)
 end
+
+seed_caseworkers = [
+	{ email: "sarah.chen@gov.uk", name: "Sarah Chen", role: :senior_caseworker, capacity: 14 },
+	{ email: "fatima.ali@gov.uk", name: "Fatima Ali", role: :caseworker, capacity: 18 },
+	{ email: "david.park@gov.uk", name: "David Park", role: :caseworker, capacity: 12 },
+	{ email: "nia.williams@gov.uk", name: "Nia Williams", role: :caseworker, capacity: 12 }
+]
+
+seed_caseworkers.each do |attrs|
+	caseworker = Caseworker.find_or_initialize_by(email: attrs[:email])
+	caseworker.update!(
+		name: attrs[:name],
+		team: team,
+		role: attrs[:role],
+		capacity: attrs[:capacity]
+	)
+end
+
+caseworker_by_email = Caseworker.where(email: seed_caseworkers.map { |attrs| attrs[:email] }).index_by(&:email)
+policy_reference_by_code = PolicyReference.where(code: skilled_worker_policy_references.map { |attrs| attrs[:code] }).index_by(&:code)
+
+seed_cases = [
+	{
+		reference: "HO-T2-PRI1",
+		applicant_name: "Priya Sharma",
+		applicant_email: "priya.sharma@example.com",
+		nationality: "Indian",
+		assigned_to_email: "fatima.ali@gov.uk",
+		status: :awaiting_evidence,
+		priority: :urgent,
+		submitted_at: 9.weeks.ago,
+		assigned_at: 8.weeks.ago,
+		sla_deadline: 1.week.ago,
+		case_type: :tier2_work,
+		evidence_items: [
+			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 6.weeks.ago, received_at: 8.weeks.ago, reviewed_at: 7.weeks.ago },
+			{ evidence_type: :english_language, status: :accepted, policy_code: "SW-ENGLISH", required_by: 6.weeks.ago, received_at: 7.weeks.ago, reviewed_at: 6.weeks.ago },
+			{ evidence_type: :sponsorship_certificate, status: :not_received, policy_code: "SW-COS", required_by: 5.weeks.ago, notes: "Employer has not provided valid CoS reference yet." },
+			{ evidence_type: :bank_statements, status: :received, policy_code: "SW-MAINTENANCE", required_by: 6.weeks.ago, received_at: 5.weeks.ago },
+			{ evidence_type: :tb_certificate, status: :accepted, policy_code: "SW-TB", required_by: 6.weeks.ago, received_at: 7.weeks.ago, reviewed_at: 6.weeks.ago },
+			{ evidence_type: :biometrics, status: :accepted, policy_code: "SW-BIOMETRICS", required_by: 6.weeks.ago, received_at: 6.weeks.ago, reviewed_at: 6.weeks.ago }
+		]
+	},
+	{
+		reference: "HO-T2-CHEN",
+		applicant_name: "Chen Wei",
+		applicant_email: "chen.wei@example.com",
+		nationality: "Chinese",
+		assigned_to_email: "david.park@gov.uk",
+		status: :assigned,
+		priority: :medium,
+		submitted_at: 1.day.ago,
+		assigned_at: 12.hours.ago,
+		sla_deadline: 7.weeks.from_now,
+		case_type: :tier2_work,
+		evidence_items: [
+			{ evidence_type: :passport, status: :received, policy_code: "SW-PASSPORT", required_by: 2.weeks.from_now, received_at: 1.day.ago },
+			{ evidence_type: :sponsorship_certificate, status: :not_received, policy_code: "SW-COS", required_by: 2.weeks.from_now },
+			{ evidence_type: :english_language, status: :not_received, policy_code: "SW-ENGLISH", required_by: 2.weeks.from_now },
+			{ evidence_type: :bank_statements, status: :not_received, policy_code: "SW-MAINTENANCE", required_by: 2.weeks.from_now },
+			{ evidence_type: :biometrics, status: :not_received, policy_code: "SW-BIOMETRICS", required_by: 3.weeks.from_now }
+		]
+	},
+	{
+		reference: "HO-T2-AISH",
+		applicant_name: "Aisha Hassan",
+		applicant_email: "aisha.hassan@example.com",
+		nationality: "Sudanese",
+		assigned_to_email: "sarah.chen@gov.uk",
+		status: :in_review,
+		priority: :high,
+		submitted_at: 3.weeks.ago,
+		assigned_at: 19.days.ago,
+		sla_deadline: 4.weeks.from_now,
+		case_type: :tier2_work,
+		evidence_items: [
+			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 2.weeks.ago, received_at: 20.days.ago, reviewed_at: 18.days.ago },
+			{ evidence_type: :sponsorship_certificate, status: :under_review, policy_code: "SW-COS", required_by: 2.weeks.ago, received_at: 18.days.ago },
+			{ evidence_type: :english_language, status: :accepted, policy_code: "SW-ENGLISH", required_by: 2.weeks.ago, received_at: 16.days.ago, reviewed_at: 14.days.ago },
+			{ evidence_type: :tb_certificate, status: :received, policy_code: "SW-TB", required_by: 2.weeks.ago, received_at: 14.days.ago },
+			{ evidence_type: :bank_statements, status: :under_review, policy_code: "SW-MAINTENANCE", required_by: 2.weeks.ago, received_at: 12.days.ago },
+			{ evidence_type: :atas_certificate, status: :not_received, policy_code: "SW-ATAS", required_by: 1.week.from_now, notes: "ATAS may be required depending on role details." }
+		]
+	},
+	{
+		reference: "HO-T2-MARC",
+		applicant_name: "Marco Rossi",
+		applicant_email: "marco.rossi@example.com",
+		nationality: "Italian",
+		assigned_to_email: "nia.williams@gov.uk",
+		status: :ready_for_decision,
+		priority: :medium,
+		submitted_at: 4.weeks.ago,
+		assigned_at: 25.days.ago,
+		sla_deadline: 3.weeks.from_now,
+		case_type: :tier2_work,
+		evidence_items: [
+			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 3.weeks.ago, received_at: 26.days.ago, reviewed_at: 24.days.ago },
+			{ evidence_type: :sponsorship_certificate, status: :accepted, policy_code: "SW-COS", required_by: 3.weeks.ago, received_at: 24.days.ago, reviewed_at: 22.days.ago },
+			{ evidence_type: :english_language, status: :accepted, policy_code: "SW-ENGLISH", required_by: 3.weeks.ago, received_at: 22.days.ago, reviewed_at: 20.days.ago },
+			{ evidence_type: :bank_statements, status: :accepted, policy_code: "SW-MAINTENANCE", required_by: 3.weeks.ago, received_at: 21.days.ago, reviewed_at: 19.days.ago },
+			{ evidence_type: :biometrics, status: :accepted, policy_code: "SW-BIOMETRICS", required_by: 3.weeks.ago, received_at: 20.days.ago, reviewed_at: 18.days.ago }
+		]
+	},
+	{
+		reference: "HO-T2-JAME",
+		applicant_name: "James OBrien",
+		applicant_email: "james.obrien@example.com",
+		nationality: "Nigerian",
+		assigned_to_email: "sarah.chen@gov.uk",
+		status: :decided_approved,
+		priority: :high,
+		submitted_at: 7.weeks.ago,
+		assigned_at: 46.days.ago,
+		sla_deadline: 1.week.from_now,
+		decided_at: 1.day.ago,
+		case_type: :tier2_work,
+		evidence_items: [
+			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 5.weeks.ago, received_at: 47.days.ago, reviewed_at: 45.days.ago },
+			{ evidence_type: :sponsorship_certificate, status: :accepted, policy_code: "SW-COS", required_by: 5.weeks.ago, received_at: 45.days.ago, reviewed_at: 43.days.ago },
+			{ evidence_type: :english_language, status: :accepted, policy_code: "SW-ENGLISH", required_by: 5.weeks.ago, received_at: 44.days.ago, reviewed_at: 42.days.ago },
+			{ evidence_type: :bank_statements, status: :accepted, policy_code: "SW-MAINTENANCE", required_by: 5.weeks.ago, received_at: 43.days.ago, reviewed_at: 41.days.ago },
+			{ evidence_type: :tb_certificate, status: :accepted, policy_code: "SW-TB", required_by: 5.weeks.ago, received_at: 42.days.ago, reviewed_at: 40.days.ago },
+			{ evidence_type: :biometrics, status: :accepted, policy_code: "SW-BIOMETRICS", required_by: 5.weeks.ago, received_at: 41.days.ago, reviewed_at: 39.days.ago }
+		]
+	},
+	{
+		reference: "HO-T2-OLGA",
+		applicant_name: "Olga Petrov",
+		applicant_email: "olga.petrov@example.com",
+		nationality: "Russian",
+		assigned_to_email: "fatima.ali@gov.uk",
+		status: :decided_refused,
+		priority: :high,
+		submitted_at: 6.weeks.ago,
+		assigned_at: 38.days.ago,
+		sla_deadline: 2.weeks.ago,
+		decided_at: 5.days.ago,
+		case_type: :tier2_work,
+		evidence_items: [
+			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 4.weeks.ago, received_at: 39.days.ago, reviewed_at: 37.days.ago },
+			{ evidence_type: :sponsorship_certificate, status: :rejected, policy_code: "SW-COS", required_by: 4.weeks.ago, received_at: 36.days.ago, reviewed_at: 33.days.ago, notes: "CoS reference invalid and sponsor licence no longer active." },
+			{ evidence_type: :english_language, status: :accepted, policy_code: "SW-ENGLISH", required_by: 4.weeks.ago, received_at: 35.days.ago, reviewed_at: 34.days.ago },
+			{ evidence_type: :biometrics, status: :accepted, policy_code: "SW-BIOMETRICS", required_by: 4.weeks.ago, received_at: 34.days.ago, reviewed_at: 32.days.ago }
+		]
+	},
+	{
+		reference: "HO-T2-LINA",
+		applicant_name: "Lina Ahmed",
+		applicant_email: "lina.ahmed@example.com",
+		nationality: "Egyptian",
+		assigned_to_email: "david.park@gov.uk",
+		status: :submitted,
+		priority: :low,
+		submitted_at: 3.hours.ago,
+		assigned_at: nil,
+		sla_deadline: 8.weeks.from_now,
+		case_type: :tier2_work,
+		evidence_items: [
+			{ evidence_type: :passport, status: :not_received, policy_code: "SW-PASSPORT", required_by: 10.days.from_now },
+			{ evidence_type: :sponsorship_certificate, status: :not_received, policy_code: "SW-COS", required_by: 10.days.from_now },
+			{ evidence_type: :english_language, status: :not_received, policy_code: "SW-ENGLISH", required_by: 10.days.from_now }
+		]
+	}
+]
+
+seed_case_records = {}
+
+seed_cases.each do |case_attrs|
+	assigned_caseworker = case_attrs[:assigned_to_email] ? caseworker_by_email[case_attrs[:assigned_to_email]] : nil
+
+	kase = Case.find_or_initialize_by(reference: case_attrs[:reference])
+	kase.update!(
+		applicant_name: case_attrs[:applicant_name],
+		applicant_email: case_attrs[:applicant_email],
+		nationality: case_attrs[:nationality],
+		assigned_to: assigned_caseworker,
+		assigned_at: case_attrs[:assigned_at],
+		case_type: case_attrs[:case_type],
+		status: case_attrs[:status],
+		priority: case_attrs[:priority],
+		submitted_at: case_attrs[:submitted_at],
+		sla_deadline: case_attrs[:sla_deadline],
+		decided_at: case_attrs[:decided_at]
+	)
+
+	seed_case_records[case_attrs[:reference]] = kase
+end
+
+seed_cases.each do |case_attrs|
+	kase = seed_case_records[case_attrs[:reference]]
+
+	case_attrs[:evidence_items].each do |evidence_attrs|
+		evidence = Evidence.find_or_initialize_by(case: kase, evidence_type: evidence_attrs[:evidence_type])
+		evidence.update!(
+			status: evidence_attrs[:status],
+			policy_reference: policy_reference_by_code[evidence_attrs[:policy_code]],
+			notes: evidence_attrs[:notes],
+			required_by: evidence_attrs[:required_by],
+			received_at: evidence_attrs[:received_at],
+			reviewed_at: evidence_attrs[:reviewed_at]
+		)
+	end
+end
