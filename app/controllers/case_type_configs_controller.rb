@@ -44,7 +44,10 @@ class CaseTypeConfigsController < ApplicationController
       confidence_score: 0.5
     )
 
-    session["ctc_#{@case_type_config.id}_questions"] = result[:questions].to_json
+    @case_type_config.update!(
+      analysis: result[:analysis],
+      clarifying_questions: result[:questions]
+    )
 
     redirect_to questions_case_type_config_path(@case_type_config)
   end
@@ -83,7 +86,10 @@ class CaseTypeConfigsController < ApplicationController
         confidence_score: 0.5
       )
 
-      session["ctc_#{@case_type_config.id}_questions"] = result[:questions].to_json
+      @case_type_config.update!(
+        analysis: result[:analysis],
+        clarifying_questions: result[:questions]
+      )
 
       redirect_to questions_case_type_config_path(@case_type_config)
     else
@@ -93,19 +99,13 @@ class CaseTypeConfigsController < ApplicationController
 
   # GET /admin/case_type_configs/:id/questions
   def questions
-    questions_json = session["ctc_#{@case_type_config.id}_questions"]
-    @questions = questions_json ? JSON.parse(questions_json, symbolize_names: true) : []
+    @questions = @case_type_config.clarifying_questions.map(&:symbolize_keys)
   end
 
   # POST /admin/case_type_configs/:id/answer
   # Receives answers to clarifying questions, triggers generation
   def answer
-    # Retrieve the analysis from the most recent analyse/re_analyse log
-    analysis_log = @case_type_config.case_type_generation_logs
-      .where(step_name: %w[analyse re_analyse])
-      .order(created_at: :desc)
-      .first
-    analysis_json = analysis_log ? JSON.parse(analysis_log.output_text) : {}
+    analysis_json = @case_type_config.analysis
 
     # Build answers text block from form params
     answers = params[:answers]&.to_unsafe_h || {}
@@ -120,6 +120,8 @@ class CaseTypeConfigsController < ApplicationController
       end
       "Q: #{question_text}\nA: #{response}"
     }.join("\n\n")
+
+    @case_type_config.update!(clarifying_answers: answers.to_h)
 
     @case_type_config.case_type_generation_logs.create!(
       step: 2,
@@ -161,8 +163,6 @@ class CaseTypeConfigsController < ApplicationController
       tokens_used: result.dig(:metadata, :tokens_used),
       confidence_score: 0.9
     )
-
-    session.delete("ctc_#{@case_type_config.id}_questions")
 
     redirect_to review_case_type_config_path(@case_type_config)
   end
@@ -312,4 +312,5 @@ class CaseTypeConfigsController < ApplicationController
   def generator
     @generator ||= LlmService.new
   end
+
 end
