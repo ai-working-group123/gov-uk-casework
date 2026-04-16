@@ -65,16 +65,17 @@
               <!-- Standard reference -->
               <% if suggestion.standard_reference.present? %>
                 <p class="text-xs text-gray-400">
-                  📖 <%= suggestion.standard_reference %>
+                  <span aria-hidden="true">📖</span> <%= suggestion.standard_reference %>
                 </p>
               <% end %>
 
               <!-- Comment field -->
               <div class="mt-3" data-suggestion-target="commentArea">
-                <label class="block text-xs text-gray-500 mb-1">Additional comments (optional):</label>
+                <label for="comment_<%= suggestion.id %>" class="block text-xs text-gray-500 mb-1">Additional comments (optional):</label>
                 <input
                   type="text"
                   name="suggestions[<%= suggestion.id %>][comment]"
+                  id="comment_<%= suggestion.id %>"
                   class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="e.g. Apply this but with a 21-day window instead of 14..."
                 >
@@ -104,7 +105,7 @@
           class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-3 rounded-lg text-sm transition-colors inline-flex items-center gap-2"
         >
           Apply &amp; Continue
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
           </svg>
         </button>

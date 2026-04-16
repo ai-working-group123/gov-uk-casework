@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title><%= content_for(:title) || "Case Management Service — Admin" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -21,6 +21,7 @@
   </head>
 
   <body class="bg-gray-50 min-h-screen">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-blue-700 focus:text-white focus:px-4 focus:py-2">Skip to main content</a>
     <!-- Blue admin header -->
     <header class="bg-blue-800 text-white shadow-md">
       <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -31,7 +32,7 @@
             <p class="text-blue-200 text-sm">Admin</p>
           </div>
         </div>
-        <nav class="flex items-center gap-6 text-sm">
+        <nav aria-label="Admin navigation" class="flex items-center gap-6 text-sm">
           <%= link_to "Case Types", case_type_configs_path, class: "text-blue-100 hover:text-white" %>
           <%= link_to "← Back to Casework", root_path, class: "text-blue-200 hover:text-white" %>
         </nav>
@@ -40,7 +41,7 @@
 
     <% if flash[:notice] %>
       <div class="max-w-7xl mx-auto px-6 mt-4">
-        <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-md text-sm">
+        <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-md text-sm" role="status">
           <%= flash[:notice] %>
         </div>
       </div>
@@ -48,13 +49,13 @@
 
     <% if flash[:alert] %>
       <div class="max-w-7xl mx-auto px-6 mt-4">
-        <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-md text-sm">
+        <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-md text-sm" role="alert">
           <%= flash[:alert] %>
         </div>
       </div>
     <% end %>
 
-    <main class="max-w-7xl mx-auto px-6 py-8">
+    <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
       <%= yield %>
     </main>
   </body>

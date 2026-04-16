@@ -48,7 +48,7 @@
       <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
         <div class="px-6 py-4 border-b border-gray-100">
           <h3 class="text-lg font-semibold text-gray-900">
-            <span class="mr-2"><%= section[:icon] %></span><%= section[:title] %>
+            <span class="mr-2" aria-hidden="true"><%= section[:icon] %></span><%= section[:title] %>
           </h3>
         </div>
         <div class="px-6 py-4 prose prose-sm max-w-none">
@@ -69,7 +69,7 @@
             <dt class="text-gray-500">Source URLs</dt>
             <dd class="text-gray-900 mt-1">
               <% metadata["urls"].each do |url| %>
-                <div><%= link_to url, url, target: "_blank", class: "text-blue-600 hover:underline break-all" %></div>
+                <div><%= link_to url, url, target: "_blank", rel: "noopener noreferrer", class: "text-blue-600 hover:underline break-all" %><span class="sr-only"> (opens in new tab)</span></div>
               <% end %>
             </dd>
           </div>
@@ -95,7 +95,7 @@
             publish_case_type_config_path(@case_type_config),
             method: :post,
             class: "bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg text-sm transition-colors inline-flex items-center gap-2",
-            data: { turbo: false } %>
+            data: { turbo: false, turbo_confirm: "Are you sure you want to publish this case type? This will make it available for use." } %>
     </div>
   </div>
 </div>

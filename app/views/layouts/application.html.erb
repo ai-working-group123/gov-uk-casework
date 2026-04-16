@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title><%= content_for(:title) || "Gov Uk Case" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -24,7 +24,8 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-blue-700 focus:text-white focus:px-4 focus:py-2">Skip to main content</a>
+    <main id="main-content" class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
     </main>
   </body>

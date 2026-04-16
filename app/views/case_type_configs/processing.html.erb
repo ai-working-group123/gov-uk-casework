@@ -1,9 +1,9 @@
 <% content_for(:title) { "Processing — Admin" } %>
 
-<div class="max-w-3xl mx-auto text-center py-16">
+<div class="max-w-3xl mx-auto text-center py-16" role="status" aria-live="polite">
   <!-- Animated spinner -->
   <div class="mb-8">
-    <svg class="animate-spin h-16 w-16 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <svg aria-hidden="true" class="animate-spin h-16 w-16 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
     </svg>
@@ -13,25 +13,25 @@
   <p class="text-gray-600 mb-8"><%= @processing_message || "The AI is analysing your input. This may take a moment." %></p>
 
   <!-- Progress steps -->
-  <div class="inline-flex flex-col items-start text-left space-y-3 mb-8">
+  <div class="inline-flex flex-col items-start text-left space-y-3 mb-8" aria-label="Processing progress">
     <% (@completed_steps || []).each do |step| %>
       <span class="flex items-center gap-2 text-green-600 text-sm">
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-        <%= step %>
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+        <span><%= step %> <span class="sr-only">(completed)</span></span>
       </span>
     <% end %>
 
     <% if @current_step %>
       <span class="flex items-center gap-2 text-blue-600 text-sm font-semibold">
-        <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
-        <%= @current_step %>
+        <svg aria-hidden="true" class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+        <span><%= @current_step %> <span class="sr-only">(in progress)</span></span>
       </span>
     <% end %>
 
     <% (@pending_steps || []).each do |step| %>
       <span class="flex items-center gap-2 text-gray-400 text-sm">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke-width="2"></circle></svg>
-        <%= step %>
+        <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke-width="2"></circle></svg>
+        <span><%= step %> <span class="sr-only">(pending)</span></span>
       </span>
     <% end %>
   </div>

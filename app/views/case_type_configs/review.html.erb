@@ -42,7 +42,7 @@
         <div class="bg-white border border-gray-200 rounded-lg shadow-sm" data-controller="markdown-section">
           <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
             <h3 class="text-lg font-semibold text-gray-900">
-              <span class="mr-2"><%= section[:icon] %></span><%= section[:title] %>
+              <span class="mr-2" aria-hidden="true"><%= section[:icon] %></span><%= section[:title] %>
             </h3>
             <div class="flex items-center gap-2">
               <button
@@ -50,6 +50,7 @@
                 data-action="markdown-section#toggleEdit"
                 data-markdown-section-target="editBtn"
                 class="text-sm text-blue-600 hover:text-blue-800 font-medium px-3 py-1 rounded border border-blue-200 hover:bg-blue-50 transition-colors"
+                aria-label="Edit <%= section[:title] %>"
               >
                 Edit
               </button>
@@ -65,6 +66,7 @@
           <div class="px-6 py-4 hidden" data-markdown-section-target="editor">
             <textarea
               name="<%= section[:param] %>"
+              aria-label="<%= section[:title] %> markdown content"
               class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-y"
               rows="12"
               data-markdown-section-target="textarea"
@@ -74,6 +76,7 @@
                 type="button"
                 data-action="markdown-section#cancelEdit"
                 class="text-sm text-gray-500 hover:text-gray-700 px-3 py-1.5"
+                aria-label="Cancel editing <%= section[:title] %>"
               >
                 Cancel
               </button>
@@ -81,6 +84,7 @@
                 type="button"
                 data-action="markdown-section#saveEdit"
                 class="text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded font-medium transition-colors"
+                aria-label="Done editing <%= section[:title] %>"
               >
                 Done editing
               </button>
@@ -103,7 +107,7 @@
         class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-3 rounded-lg text-sm transition-colors inline-flex items-center gap-2"
       >
         Save &amp; Continue
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
         </svg>
       </button>
@@ -122,7 +126,7 @@
             <dt class="text-gray-500">Source URLs</dt>
             <dd class="text-gray-900 mt-1">
               <% metadata["urls"].each do |url| %>
-                <div><%= link_to url, url, target: "_blank", class: "text-blue-600 hover:underline break-all" %></div>
+                <div><%= link_to url, url, target: "_blank", rel: "noopener noreferrer", class: "text-blue-600 hover:underline break-all" %><span class="sr-only"> (opens in new tab)</span></div>
               <% end %>
             </dd>
           </div>

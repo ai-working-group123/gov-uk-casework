@@ -53,10 +53,11 @@
 
         <!-- Custom answer -->
         <div class="mb-4">
-          <label class="block text-sm text-gray-600 mb-1">Or provide your own answer:</label>
+          <label for="custom_answer_<%= question[:id] %>" class="block text-sm text-gray-600 mb-1">Or provide your own answer:</label>
           <input
             type="text"
             name="answers[<%= question[:id] %>][custom]"
+            id="custom_answer_<%= question[:id] %>"
             class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Type your answer..."
             data-action="input->questions#customAnswer"
@@ -83,7 +84,7 @@
               class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-1"
             >
               Next
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
           <% end %>
         </div>
@@ -97,7 +98,7 @@
         class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-3 rounded-lg text-sm transition-colors inline-flex items-center gap-2"
       >
         Generate Configuration
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
         </svg>
       </button>

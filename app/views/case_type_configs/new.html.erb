@@ -33,6 +33,7 @@
           <input
             type="url"
             name="urls[]"
+            aria-label="Reference URL"
             class="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="https://www.gov.uk/..."
           >
@@ -43,7 +44,7 @@
         data-action="url-list#add"
         class="mt-2 text-sm text-blue-600 hover:text-blue-800 font-medium inline-flex items-center gap-1"
       >
-        <span class="text-lg leading-none">+</span> Add another URL
+        <span aria-hidden="true" class="text-lg leading-none">+</span> Add another URL
       </button>
     </div>
 
@@ -54,7 +55,7 @@
         class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-3 rounded-lg text-sm transition-colors inline-flex items-center gap-2"
       >
         Analyse &amp; Generate
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
         </svg>
       </button>
