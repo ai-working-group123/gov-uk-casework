@@ -1,1 +1,112 @@
 @import "tailwindcss";
+
+/* Prose styles for rendered markdown content */
+.prose h1 {
+  @apply text-3xl font-bold leading-9 mt-0 mb-3 text-gray-900;
+}
+
+.prose h2 {
+  @apply text-2xl font-bold leading-8 mt-6 mb-3 text-gray-900 border-b border-gray-200 pb-2;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold leading-7 mt-5 mb-2 text-gray-800;
+}
+
+.prose h4 {
+  @apply text-lg font-semibold leading-6 mt-4 mb-2 text-gray-800;
+}
+
+.prose p {
+  @apply mt-2 mb-3 leading-relaxed text-gray-700;
+}
+
+.prose a {
+  @apply text-blue-600 underline hover:text-blue-700;
+}
+
+.prose strong {
+  @apply font-semibold text-gray-900;
+}
+
+.prose em {
+  @apply italic;
+}
+
+.prose ul {
+  @apply list-disc pl-6 mt-2 mb-3;
+}
+
+.prose ol {
+  @apply list-decimal pl-6 mt-2 mb-3;
+}
+
+.prose li {
+  @apply mt-1 mb-1 leading-relaxed text-gray-700;
+}
+
+.prose li > ul,
+.prose li > ol {
+  @apply mt-1 mb-1;
+}
+
+.prose table {
+  @apply w-full border-collapse mt-3 mb-4 text-sm leading-5;
+}
+
+.prose thead {
+  @apply border-b-2 border-gray-300;
+}
+
+.prose thead th {
+  @apply px-3 py-2.5 font-semibold text-left text-gray-700 bg-gray-50;
+}
+
+.prose tbody tr {
+  @apply border-b border-gray-200 hover:bg-gray-50;
+}
+
+.prose tbody td {
+  @apply px-3 py-2.5 text-gray-600 align-top;
+}
+
+.prose code {
+  @apply font-mono text-sm text-pink-700 bg-gray-100 px-1.5 py-0.5 rounded;
+}
+
+.prose pre {
+  @apply font-mono text-sm leading-normal p-4 mt-3 mb-4 rounded-lg overflow-x-auto bg-slate-800 text-slate-200;
+}
+
+.prose pre code {
+  @apply bg-transparent text-inherit p-0 text-[inherit] rounded-none;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-blue-500 px-4 py-3 mt-3 mb-3 bg-blue-50 rounded-r-md;
+}
+
+.prose blockquote p {
+  @apply text-blue-800 mt-1 mb-1;
+}
+
+.prose blockquote ul,
+.prose blockquote ol {
+  @apply text-blue-800;
+}
+
+.prose blockquote li {
+  @apply text-blue-800;
+}
+
+.prose hr {
+  @apply border-0 border-t border-gray-200 my-6;
+}
+
+.prose .anchor {
+  @apply no-underline hidden;
+}
+
+.prose img {
+  @apply max-w-full h-auto rounded-lg mt-3 mb-3;
+}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_16_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_16_130000) do
   create_table "actions", force: :cascade do |t|
     t.integer "action_type", null: false
     t.string "blocked_by"
@@ -42,6 +42,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_120000) do
   end
 
   create_table "case_type_configs", force: :cascade do |t|
+    t.json "analysis", default: {}
+    t.json "clarifying_answers", default: {}
+    t.json "clarifying_questions", default: []
     t.text "correspondence_templates_md"
     t.datetime "created_at", null: false
     t.integer "created_by_id"
@@ -97,6 +100,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_120000) do
     t.string "applicant_name", null: false
     t.datetime "assigned_at"
     t.integer "assigned_to_id"
+    t.json "case_data", default: {}
     t.integer "case_type_config_id"
     t.datetime "created_at", null: false
     t.datetime "decided_at"
