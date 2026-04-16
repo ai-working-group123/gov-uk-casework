@@ -1,5 +1,5 @@
 <div class="max-w-4xl mx-auto py-8">
-  <p class="text-green-600 mb-4"><%= notice %></p>
+  <% if notice.present? %><div class="notification-success"><%= notice %></div><% end %>
 
   <h1 class="text-2xl font-bold mb-4">Case Note</h1>
 
@@ -17,7 +17,7 @@
   </dl>
 
   <div class="flex gap-4">
-    <%= link_to "Edit", edit_case_case_note_path(@case, @case_note), class: "text-blue-600 hover:underline" %>
-    <%= link_to "Back to Notes", case_case_notes_path(@case), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Edit", edit_case_case_note_path(@case, @case_note), class: "link" %>
+    <%= link_to "Back to Notes", case_case_notes_path(@case), class: "link-back" %>
   </div>
 </div>

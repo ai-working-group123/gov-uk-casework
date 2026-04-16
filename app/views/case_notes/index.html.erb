@@ -6,16 +6,16 @@
 
   <% if @case_notes.any? %>
     <% @case_notes.each do |note| %>
-      <div class="border rounded p-4 mb-4">
-        <div class="flex justify-between items-start mb-2">
-          <span class="text-sm text-gray-500"><%= note.note_type.humanize %> &middot; <%= note.created_at.strftime("%d %b %Y %H:%M") %></span>
-          <span class="text-sm text-gray-500"><%= note.caseworker&.name || "System" %></span>
+      <div class="border-b border-gds-mid-grey py-4">
+        <div class="flex justify-between items-start mb-1">
+          <span class="text-sm text-gds-dark-grey"><%= note.note_type.humanize %> &middot; <%= note.created_at.strftime("%d %b %Y %H:%M") %></span>
+          <span class="text-sm text-gds-dark-grey"><%= note.caseworker&.name || "System" %></span>
         </div>
         <p class="mb-2"><%= note.content %></p>
-        <div class="flex gap-2">
-          <%= link_to "Show", case_case_note_path(@case, note), class: "text-blue-600 hover:underline text-sm" %>
-          <%= link_to "Edit", edit_case_case_note_path(@case, note), class: "text-blue-600 hover:underline text-sm" %>
-          <%= button_to "Delete", case_case_note_path(@case, note), method: :delete, class: "text-red-600 hover:underline text-sm", data: { turbo_confirm: "Are you sure?" } %>
+        <div class="flex gap-3">
+          <%= link_to "View", case_case_note_path(@case, note), class: "link text-sm" %>
+          <%= link_to "Edit", edit_case_case_note_path(@case, note), class: "link text-sm" %>
+          <%= button_to "Delete", case_case_note_path(@case, note), method: :delete, class: "text-gds-red hover:underline text-sm", data: { turbo_confirm: "Are you sure?" } %>
         </div>
       </div>
     <% end %>
