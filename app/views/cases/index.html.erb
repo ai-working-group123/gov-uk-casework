@@ -1,41 +1,65 @@
-<div class="max-w-6xl mx-auto py-8">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold">Cases</h1>
-    <%= link_to "New Case", new_case_path, class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+<div>
+  <div class="flex justify-between items-start mb-6">
+    <div>
+      <h1 class="text-3xl font-bold text-gds-black mb-1">Cases</h1>
+      <p class="text-gds-dark-grey text-base">All casework applications</p>
+    </div>
+    <%= link_to "New Case", new_case_path, class: "btn-primary" %>
   </div>
 
   <% if @cases.any? %>
-    <table class="min-w-full border">
-      <thead class="bg-gray-50">
+    <table class="gds-table">
+      <thead>
         <tr>
-          <th class="px-4 py-2 text-left">Reference</th>
-          <th class="px-4 py-2 text-left">Applicant</th>
-          <th class="px-4 py-2 text-left">Type</th>
-          <th class="px-4 py-2 text-left">Status</th>
-          <th class="px-4 py-2 text-left">Priority</th>
-          <th class="px-4 py-2 text-left">SLA Deadline</th>
-          <th class="px-4 py-2 text-left">Actions</th>
+          <th>Reference</th>
+          <th>Applicant</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Priority</th>
+          <th>SLA Deadline</th>
+          <th class="w-20"></th>
         </tr>
       </thead>
       <tbody>
         <% @cases.each do |kase| %>
-          <tr class="border-t">
-            <td class="px-4 py-2"><%= kase.reference %></td>
-            <td class="px-4 py-2"><%= kase.applicant_name %></td>
-            <td class="px-4 py-2"><%= kase.case_type_config&.name || "Unassigned" %></td>
-            <td class="px-4 py-2"><%= kase.status.humanize %></td>
-            <td class="px-4 py-2"><%= kase.priority.humanize %></td>
-            <td class="px-4 py-2"><%= kase.sla_deadline&.strftime("%d %b %Y") %></td>
-            <td class="px-4 py-2 flex gap-2">
-              <%= link_to "Show", kase, class: "text-blue-600 hover:underline" %>
-              <%= link_to "Edit", edit_case_path(kase), class: "text-blue-600 hover:underline" %>
-              <%= button_to "Delete", kase, method: :delete, class: "text-red-600 hover:underline", data: { turbo_confirm: "Are you sure?" } %>
+          <tr>
+            <td><%= link_to kase.reference, kase, class: "link font-semibold" %></td>
+            <td><%= kase.applicant_name %></td>
+            <td class="text-sm"><%= kase.case_type_config&.name || "Unassigned" %></td>
+            <td>
+              <span class="<%= case kase.status
+                  when 'submitted' then 'tag-blue'
+                  when 'in_progress', 'under_review' then 'tag-yellow'
+                  when 'approved', 'completed' then 'tag-green'
+                  when 'rejected', 'cancelled' then 'tag-red'
+                  else 'tag-grey'
+                  end %>">
+                <%= kase.status.humanize.upcase %>
+              </span>
+            </td>
+            <td>
+              <span class="<%= case kase.priority
+                  when 'urgent' then 'tag-red'
+                  when 'high' then 'tag-orange'
+                  when 'medium' then 'tag-yellow'
+                  else 'tag-grey'
+                  end %>">
+                <%= kase.priority.humanize %>
+              </span>
+            </td>
+            <td class="text-sm"><%= kase.sla_deadline&.strftime("%d %b %Y") %></td>
+            <td>
+              <%= link_to "Edit", edit_case_path(kase), class: "link text-sm" %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% else %>
-    <p class="text-gray-500">No cases yet.</p>
+    <div class="py-12 border-t-3 border-gds-blue">
+      <h2 class="text-xl font-bold mb-2">No cases yet</h2>
+      <p class="text-gds-dark-grey mb-4">Cases represent individual applications from citizens. Before creating a case, you'll need at least one published case type.</p>
+      <%= link_to "Create your first case", new_case_path, class: "btn-primary" %>
+    </div>
   <% end %>
 </div>
