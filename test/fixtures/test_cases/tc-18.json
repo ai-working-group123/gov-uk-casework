@@ -1,0 +1,27 @@
+{
+  "id": "tc-18",
+  "reference": "HO-T4-Q8VL",
+  "applicant_name": "Tariq Hassan",
+  "nationality": "Bangladeshi",
+  "case_type": "Student",
+  "status": "awaiting_evidence",
+  "priority": "high",
+  "risk_score": 50,
+  "sla_status": "Within SLA",
+  "submitted_date": "2024-04-01",
+  "sla_deadline": "2024-07-01",
+  "scenario": "Digital upload test — multiple items requested",
+  "evidence_summary": "2/5 received. MISSING: financial evidence + SELT test certificate.",
+  "next_action": "Chase financial evidence and English language test results",
+  "public_status_message": "Awaiting evidence — we need documents from you",
+  "action_required": true,
+  "documents_to_request": [
+    "Financial evidence (bank statements £1,334/month for 9 months)",
+    "SELT certificate (CEFR B2)"
+  ],
+  "test_flows": [
+    "Multiple items on public action required screen",
+    "Two upload flows",
+    "Item 1 received / Item 2 not yet"
+  ]
+}

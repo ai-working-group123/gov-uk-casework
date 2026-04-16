@@ -1,0 +1,25 @@
+{
+  "id": "tc-03",
+  "reference": "HO-T2-X7BN",
+  "applicant_name": "Yuki Tanaka",
+  "nationality": "Japanese",
+  "case_type": "Skilled Worker",
+  "status": "in_review",
+  "priority": "medium",
+  "risk_score": 25,
+  "sla_status": "Within SLA",
+  "submitted_date": "2024-03-01",
+  "sla_deadline": "2024-04-27",
+  "scenario": "All evidence received — ready to decide",
+  "evidence_summary": "6/6 received and accepted. Financials verified. Salary above threshold.",
+  "next_action": "All checks pass — record approval decision",
+  "public_status_message": "Your application is being reviewed by a caseworker",
+  "action_required": false,
+  "documents_to_request": [],
+  "test_flows": [
+    "Dashboard action needed",
+    "Case detail ready to decide",
+    "Evidence checklist all complete",
+    "Make decision action"
+  ]
+}

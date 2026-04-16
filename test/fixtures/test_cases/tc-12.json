@@ -1,0 +1,24 @@
+{
+  "id": "tc-12",
+  "reference": "HO-ST-K3BV",
+  "applicant_name": "Mei Lin",
+  "nationality": "Chinese",
+  "case_type": "Settlement (ILR)",
+  "status": "in_review",
+  "priority": "low",
+  "risk_score": 15,
+  "sla_status": "Within SLA",
+  "submitted_date": "2024-03-01",
+  "sla_deadline": "2024-09-01",
+  "scenario": "Straightforward ILR — 5 years Skilled Worker route",
+  "evidence_summary": "9/10 received. All salary slips, P60s, CoS history present. 1 absence record outstanding.",
+  "next_action": "Request overseas travel record for absences calculation",
+  "public_status_message": "Your application is being reviewed",
+  "action_required": false,
+  "documents_to_request": [],
+  "test_flows": [
+    "Evidence checklist near complete",
+    "Single outstanding item",
+    "Clear action"
+  ]
+}

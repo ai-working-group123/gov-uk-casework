@@ -1,0 +1,24 @@
+{
+  "id": "tc-08",
+  "reference": "HO-T4-C2MN",
+  "applicant_name": "James O'Brien",
+  "nationality": "Irish",
+  "case_type": "Student",
+  "status": "in_review",
+  "priority": "low",
+  "risk_score": 20,
+  "sla_status": "Within SLA",
+  "submitted_date": "2024-04-10",
+  "sla_deadline": "2024-07-10",
+  "scenario": "New student case — just assigned",
+  "evidence_summary": "0/5 received. CAS not yet verified.",
+  "next_action": "Initial review — verify CAS number is valid and unspent",
+  "public_status_message": "Your application has been received and is being assigned to a caseworker",
+  "action_required": false,
+  "documents_to_request": [],
+  "test_flows": [
+    "Dashboard new badge",
+    "Empty evidence",
+    "Single first action"
+  ]
+}

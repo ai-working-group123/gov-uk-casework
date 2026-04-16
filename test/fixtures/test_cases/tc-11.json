@@ -1,0 +1,25 @@
+{
+  "id": "tc-11",
+  "reference": "HO-ST-M9QX",
+  "applicant_name": "James Okafor",
+  "nationality": "Nigerian",
+  "case_type": "Settlement (ILR)",
+  "status": "in_review",
+  "priority": "high",
+  "risk_score": 60,
+  "sla_status": "Approaching SLA 28 days",
+  "submitted_date": "2023-11-10",
+  "sla_deadline": "2024-05-10",
+  "scenario": "Near-SLA ILR — 10 years residency to verify",
+  "evidence_summary": "8/10 received. 2 documents under review. Complex: continuous residency evidence spanning 10 years.",
+  "next_action": "SLA in 28 days — prioritise remaining document review",
+  "public_status_message": "Your application is being reviewed by a caseworker",
+  "action_required": false,
+  "documents_to_request": [],
+  "test_flows": [
+    "Dashboard approaching SLA",
+    "High risk score",
+    "Complex evidence checklist",
+    "Timeline with 10+ entries"
+  ]
+}

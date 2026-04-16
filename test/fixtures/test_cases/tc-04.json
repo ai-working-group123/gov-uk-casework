@@ -1,0 +1,24 @@
+{
+  "id": "tc-04",
+  "reference": "HO-T2-P2KR",
+  "applicant_name": "Amara Diallo",
+  "nationality": "Senegalese",
+  "case_type": "Skilled Worker",
+  "status": "awaiting_evidence",
+  "priority": "high",
+  "risk_score": 70,
+  "sla_status": "OVERDUE 7 days",
+  "submitted_date": "2024-01-10",
+  "sla_deadline": "2024-03-10",
+  "scenario": "Overdue — TB cert missing",
+  "evidence_summary": "5/6 received. MISSING: TB certificate (from listed country, sent to wrong clinic)",
+  "next_action": "Chase TB cert. Remind applicant of approved clinic list.",
+  "public_status_message": "Awaiting evidence — we need a document from you",
+  "action_required": true,
+  "documents_to_request": ["TB certificate from an approved clinic"],
+  "test_flows": [
+    "Public status action required",
+    "Upload flow for TB cert",
+    "Dashboard overdue"
+  ]
+}
