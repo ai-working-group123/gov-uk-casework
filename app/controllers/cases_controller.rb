@@ -40,12 +40,19 @@ class CasesController < ApplicationController
   private
 
   def set_case
-    @case = Case.find(params[:id])
+    @case = Case.includes(
+      :assigned_to,
+      :case_type_config,
+      :evidences,
+      :case_notes,
+      actions: :policy_reference,
+      evidences: :policy_reference
+    ).find(params[:id])
   end
 
   def case_params
     params.require(:case).permit(:applicant_name, :applicant_email, :nationality,
-                                 :case_type, :status, :priority, :risk_score,
+                                 :case_type_config_id, :status, :priority, :risk_score,
                                  :assigned_to_id, :sla_deadline, :decided_at)
   end
 end
