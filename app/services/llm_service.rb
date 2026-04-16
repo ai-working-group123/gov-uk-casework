@@ -8,6 +8,31 @@ class LlmService
 
   # ── Prompts ──────────────────────────────────────────────────
 
+  CASE_EVALUATION_PROMPT = <<~PROMPT
+    You are a casework rules engine. Given a case's current state and
+    the rules for this case type, determine what operations should be applied
+    to advance the case.
+
+    Return ONLY a JSON array of operations. Each operation must be one of:
+    - { "op": "update", "model": "Case", "id": <case_id>, "attrs": { "status": "ready_for_decision" } }
+    - { "op": "create", "model": "Action", "attrs": { "case_id": <case_id>, "title": "...", "action_type": "...", "status": "pending" } }
+    - { "op": "create", "model": "CaseNote", "attrs": { "case_id": <case_id>, "content": "...", "note_type": "system" } }
+    - { "op": "update", "model": "Evidence", "id": <evidence_id>, "attrs": { "status": "accepted" } }
+
+    Only use these models: Case, Evidence, Action, CaseNote, Correspondence, EvidenceRequest, EvidenceRequestItem
+    Only use enum values that exist in the schema.
+    Only return operations that are justified by the rules below.
+
+    Valid Case statuses: submitted, assigned, in_review, awaiting_evidence, ready_for_decision, decided_approved, decided_refused, withdrawn
+    Valid Evidence statuses: not_received, received, under_review, accepted, rejected
+    Valid Action types: chase_evidence, review_documents, make_decision, send_correspondence, escalate, schedule_interview
+    Valid Action statuses: pending, in_progress, completed, blocked, cancelled
+    Valid CaseNote types: manual, system, decision, evidence
+
+    If no operations are needed (the case is already in the correct state), return an empty array: []
+    Return ONLY valid JSON — no markdown fences, no explanation text.
+  PROMPT
+
   LINK_RELEVANCE_PROMPT = <<~PROMPT
     You are helping build a casework system. Given a page about a government process and a list of links found on that page, identify which links would contain ADDITIONAL useful information for understanding:
     - Evidence/document requirements
@@ -378,6 +403,44 @@ class LlmService
     result.symbolize_keys.merge(
       metadata: { model: @model, tokens_used: response[:tokens_used] }
     )
+  end
+
+  # Evaluates a case's current state against its case type config rules
+  # and returns proposed operations to advance the case.
+  #
+  # case_data: serialized case state (Hash)
+  # rules: { decision_tree_md:, state_transitions_md:, evidence_requirements_md:, risk_scoring_md: }
+  #
+  # Returns:
+  #   {
+  #     operations: [{ "op" => "update"|"create", "model" => "...", ... }],
+  #     raw_response: String,
+  #     metadata: { model:, tokens_used:, elapsed: }
+  #   }
+  def evaluate_case!(case_data:, rules:)
+    rules_text = [
+      ("## Decision Tree\n#{rules[:decision_tree_md]}" if rules[:decision_tree_md].present?),
+      ("## State Transitions\n#{rules[:state_transitions_md]}" if rules[:state_transitions_md].present?),
+      ("## Evidence Requirements\n#{rules[:evidence_requirements_md]}" if rules[:evidence_requirements_md].present?),
+      ("## Risk Scoring\n#{rules[:risk_scoring_md]}" if rules[:risk_scoring_md].present?)
+    ].compact.join("\n\n")
+
+    user_message = "RULES:\n#{rules_text}\n\nCURRENT CASE STATE:\n#{JSON.pretty_generate(case_data)}"
+
+    response = chat(
+      CASE_EVALUATION_PROMPT,
+      user_message,
+      max_completion_tokens: MAX_COMPLETION_TOKENS
+    )
+
+    operations = parse_json(response[:content])
+    operations = [] unless operations.is_a?(Array)
+
+    {
+      operations: operations,
+      raw_response: response[:content],
+      metadata: { model: @model, tokens_used: response[:tokens_used], elapsed: response[:elapsed] }
+    }
   end
 
   private

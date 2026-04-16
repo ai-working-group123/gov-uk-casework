@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_16_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_16_124229) do
   create_table "actions", force: :cascade do |t|
     t.integer "action_type", null: false
     t.string "blocked_by"
@@ -100,6 +100,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_120000) do
     t.integer "case_type_config_id"
     t.datetime "created_at", null: false
     t.datetime "decided_at"
+    t.boolean "evaluation_in_progress", default: false, null: false
     t.string "nationality"
     t.integer "priority", default: 1
     t.string "reference", null: false

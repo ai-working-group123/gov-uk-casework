@@ -326,7 +326,6 @@ seed_cases = [
 		submitted_at: 9.weeks.ago,
 		assigned_at: 8.weeks.ago,
 		sla_deadline: 1.week.ago,
-		case_type: :tier2_work,
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 6.weeks.ago, received_at: 8.weeks.ago, reviewed_at: 7.weeks.ago },
 			{ evidence_type: :english_language, status: :accepted, policy_code: "SW-ENGLISH", required_by: 6.weeks.ago, received_at: 7.weeks.ago, reviewed_at: 6.weeks.ago },
@@ -347,7 +346,6 @@ seed_cases = [
 		submitted_at: 1.day.ago,
 		assigned_at: 12.hours.ago,
 		sla_deadline: 7.weeks.from_now,
-		case_type: :tier2_work,
 		evidence_items: [
 			{ evidence_type: :passport, status: :received, policy_code: "SW-PASSPORT", required_by: 2.weeks.from_now, received_at: 1.day.ago },
 			{ evidence_type: :sponsorship_certificate, status: :not_received, policy_code: "SW-COS", required_by: 2.weeks.from_now },
@@ -367,7 +365,6 @@ seed_cases = [
 		submitted_at: 3.weeks.ago,
 		assigned_at: 19.days.ago,
 		sla_deadline: 4.weeks.from_now,
-		case_type: :tier2_work,
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 2.weeks.ago, received_at: 20.days.ago, reviewed_at: 18.days.ago },
 			{ evidence_type: :sponsorship_certificate, status: :under_review, policy_code: "SW-COS", required_by: 2.weeks.ago, received_at: 18.days.ago },
@@ -388,7 +385,6 @@ seed_cases = [
 		submitted_at: 4.weeks.ago,
 		assigned_at: 25.days.ago,
 		sla_deadline: 3.weeks.from_now,
-		case_type: :tier2_work,
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 3.weeks.ago, received_at: 26.days.ago, reviewed_at: 24.days.ago },
 			{ evidence_type: :sponsorship_certificate, status: :accepted, policy_code: "SW-COS", required_by: 3.weeks.ago, received_at: 24.days.ago, reviewed_at: 22.days.ago },
@@ -409,7 +405,6 @@ seed_cases = [
 		assigned_at: 46.days.ago,
 		sla_deadline: 1.week.from_now,
 		decided_at: 1.day.ago,
-		case_type: :tier2_work,
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 5.weeks.ago, received_at: 47.days.ago, reviewed_at: 45.days.ago },
 			{ evidence_type: :sponsorship_certificate, status: :accepted, policy_code: "SW-COS", required_by: 5.weeks.ago, received_at: 45.days.ago, reviewed_at: 43.days.ago },
@@ -431,7 +426,6 @@ seed_cases = [
 		assigned_at: 38.days.ago,
 		sla_deadline: 2.weeks.ago,
 		decided_at: 5.days.ago,
-		case_type: :tier2_work,
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 4.weeks.ago, received_at: 39.days.ago, reviewed_at: 37.days.ago },
 			{ evidence_type: :sponsorship_certificate, status: :rejected, policy_code: "SW-COS", required_by: 4.weeks.ago, received_at: 36.days.ago, reviewed_at: 33.days.ago, notes: "CoS reference invalid and sponsor licence no longer active." },
@@ -450,7 +444,6 @@ seed_cases = [
 		submitted_at: 3.hours.ago,
 		assigned_at: nil,
 		sla_deadline: 8.weeks.from_now,
-		case_type: :tier2_work,
 		evidence_items: [
 			{ evidence_type: :passport, status: :not_received, policy_code: "SW-PASSPORT", required_by: 10.days.from_now },
 			{ evidence_type: :sponsorship_certificate, status: :not_received, policy_code: "SW-COS", required_by: 10.days.from_now },
@@ -471,7 +464,7 @@ seed_cases.each do |case_attrs|
 		nationality: case_attrs[:nationality],
 		assigned_to: assigned_caseworker,
 		assigned_at: case_attrs[:assigned_at],
-		case_type: case_attrs[:case_type],
+		case_type_config: case_type_config,
 		status: case_attrs[:status],
 		priority: case_attrs[:priority],
 		submitted_at: case_attrs[:submitted_at],
