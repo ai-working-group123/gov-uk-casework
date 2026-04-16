@@ -1,19 +1,11 @@
 class LookupController < ApplicationController
-  layout "public"
-
   def index
   end
 
   def show
-    @reference = params[:reference]
-  end
-
-  def upload_form
-    @reference = params[:reference]
-    @item_id   = params[:item_id]
-  end
-
-  def upload
-    redirect_to lookup_case_path(params[:reference])
+    @case = Case.find_by(reference: params[:reference])
+    if @case.nil?
+      redirect_to public_lookup_path, alert: "No case found with reference: #{params[:reference]}"
+    end
   end
 end

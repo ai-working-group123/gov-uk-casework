@@ -1,0 +1,56 @@
+<%= form_with(model: [@case, @action, correspondence]) do |form| %>
+  <% if correspondence.errors.any? %>
+    <div class="bg-red-50 text-red-500 px-4 py-3 rounded mb-4">
+      <h2><%= pluralize(correspondence.errors.count, "error") %> prohibited this correspondence from being saved:</h2>
+      <ul class="list-disc ml-5 mt-2">
+        <% correspondence.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= form.label :channel, class: "block font-medium mb-1" %>
+    <%= form.select :channel, Correspondence.channels.keys.map { |c| [c.humanize, c] }, {}, class: "border rounded px-3 py-2 w-full" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :direction, class: "block font-medium mb-1" %>
+    <%= form.select :direction, Correspondence.directions.keys.map { |d| [d.humanize, d] }, {}, class: "border rounded px-3 py-2 w-full" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :subject, class: "block font-medium mb-1" %>
+    <%= form.text_field :subject, class: "border rounded px-3 py-2 w-full" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :body, class: "block font-medium mb-1" %>
+    <%= form.text_area :body, rows: 5, class: "border rounded px-3 py-2 w-full" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :policy_reference_id, "Policy Reference", class: "block font-medium mb-1" %>
+    <%= form.collection_select :policy_reference_id, PolicyReference.all, :id, :title, { prompt: "None", include_blank: true }, class: "border rounded px-3 py-2 w-full" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :policy_explanation, class: "block font-medium mb-1" %>
+    <%= form.text_area :policy_explanation, rows: 3, class: "border rounded px-3 py-2 w-full" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :guidance_url, class: "block font-medium mb-1" %>
+    <%= form.url_field :guidance_url, class: "border rounded px-3 py-2 w-full" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :sent_at, class: "block font-medium mb-1" %>
+    <%= form.datetime_local_field :sent_at, class: "border rounded px-3 py-2 w-full" %>
+  </div>
+
+  <div>
+    <%= form.submit class: "bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700" %>
+  </div>
+<% end %>

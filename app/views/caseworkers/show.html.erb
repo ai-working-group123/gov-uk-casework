@@ -1,0 +1,21 @@
+<div class="max-w-4xl mx-auto py-8">
+  <p class="text-green-600 mb-4"><%= notice %></p>
+
+  <h1 class="text-2xl font-bold mb-4"><%= @caseworker.name %></h1>
+
+  <dl class="mb-6">
+    <dt class="font-medium">Email</dt>
+    <dd class="mb-2"><%= @caseworker.email %></dd>
+    <dt class="font-medium">Role</dt>
+    <dd class="mb-2"><%= @caseworker.role.humanize %></dd>
+    <dt class="font-medium">Team</dt>
+    <dd class="mb-2"><%= @caseworker.team.name %></dd>
+    <dt class="font-medium">Capacity</dt>
+    <dd class="mb-2"><%= @caseworker.capacity %></dd>
+  </dl>
+
+  <div class="flex gap-4">
+    <%= link_to "Edit", edit_caseworker_path(@caseworker), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Back to Caseworkers", caseworkers_path, class: "text-blue-600 hover:underline" %>
+  </div>
+</div>

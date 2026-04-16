@@ -1,0 +1,23 @@
+<div class="max-w-4xl mx-auto py-8">
+  <p class="text-green-600 mb-4"><%= notice %></p>
+
+  <h1 class="text-2xl font-bold mb-4">Case Note</h1>
+
+  <dl class="mb-6">
+    <dt class="font-medium">Type</dt>
+    <dd class="mb-2"><%= @case_note.note_type.humanize %></dd>
+    <dt class="font-medium">Caseworker</dt>
+    <dd class="mb-2"><%= @case_note.caseworker&.name || "System" %></dd>
+    <dt class="font-medium">Content</dt>
+    <dd class="mb-2"><%= @case_note.content %></dd>
+    <dt class="font-medium">Visible to Applicant</dt>
+    <dd class="mb-2"><%= @case_note.visible_to_applicant ? "Yes" : "No" %></dd>
+    <dt class="font-medium">Applicant Message</dt>
+    <dd class="mb-2"><%= @case_note.applicant_message || "\u2014" %></dd>
+  </dl>
+
+  <div class="flex gap-4">
+    <%= link_to "Edit", edit_case_case_note_path(@case, @case_note), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Back to Notes", case_case_notes_path(@case), class: "text-blue-600 hover:underline" %>
+  </div>
+</div>

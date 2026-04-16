@@ -1,0 +1,25 @@
+<div class="max-w-4xl mx-auto py-8">
+  <p class="text-green-600 mb-4"><%= notice %></p>
+
+  <h1 class="text-2xl font-bold mb-4"><%= @correspondence.subject %></h1>
+
+  <dl class="mb-6">
+    <dt class="font-medium">Channel</dt>
+    <dd class="mb-2"><%= @correspondence.channel.humanize %></dd>
+    <dt class="font-medium">Direction</dt>
+    <dd class="mb-2"><%= @correspondence.direction.humanize %></dd>
+    <dt class="font-medium">Body</dt>
+    <dd class="mb-2 whitespace-pre-wrap"><%= @correspondence.body %></dd>
+    <dt class="font-medium">Policy Reference</dt>
+    <dd class="mb-2"><%= @correspondence.policy_reference&.title || "\u2014" %></dd>
+    <dt class="font-medium">Policy Explanation</dt>
+    <dd class="mb-2"><%= @correspondence.policy_explanation || "\u2014" %></dd>
+    <dt class="font-medium">Sent</dt>
+    <dd class="mb-2"><%= @correspondence.sent_at&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
+  </dl>
+
+  <div class="flex gap-4">
+    <%= link_to "Edit", edit_case_action_correspondence_path(@case, @action, @correspondence), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Back to Correspondences", case_action_correspondences_path(@case, @action), class: "text-blue-600 hover:underline" %>
+  </div>
+</div>

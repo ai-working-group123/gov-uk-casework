@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_16_082923) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_16_092305) do
   create_table "actions", force: :cascade do |t|
     t.integer "action_type", null: false
     t.string "blocked_by"
@@ -39,6 +39,57 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_082923) do
     t.boolean "visible_to_applicant", default: false
     t.index ["case_id"], name: "index_case_notes_on_case_id"
     t.index ["caseworker_id"], name: "index_case_notes_on_caseworker_id"
+  end
+
+  create_table "case_type_configs", force: :cascade do |t|
+    t.text "correspondence_templates_md"
+    t.datetime "created_at", null: false
+    t.integer "created_by_id"
+    t.text "decision_tree_md", null: false
+    t.integer "default_sla_days"
+    t.text "description"
+    t.text "evidence_requirements_md"
+    t.string "name", null: false
+    t.string "organisation"
+    t.text "risk_scoring_md"
+    t.string "slug", null: false
+    t.json "source_metadata", default: {}
+    t.text "state_transitions_md", null: false
+    t.integer "status", default: 0
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_case_type_configs_on_created_by_id"
+    t.index ["slug"], name: "index_case_type_configs_on_slug", unique: true
+  end
+
+  create_table "case_type_generation_logs", force: :cascade do |t|
+    t.integer "case_type_config_id", null: false
+    t.float "confidence_score"
+    t.datetime "created_at", null: false
+    t.text "input_text"
+    t.string "model_used"
+    t.text "output_text"
+    t.integer "step", null: false
+    t.string "step_name", null: false
+    t.integer "tokens_used"
+    t.datetime "updated_at", null: false
+    t.index ["case_type_config_id"], name: "index_case_type_generation_logs_on_case_type_config_id"
+  end
+
+  create_table "case_type_suggestions", force: :cascade do |t|
+    t.integer "case_type_config_id", null: false
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.text "description", null: false
+    t.text "impact_description"
+    t.integer "priority", default: 1
+    t.datetime "resolved_at"
+    t.integer "resolved_by_id"
+    t.string "standard_reference"
+    t.integer "status", default: 0
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["case_type_config_id"], name: "index_case_type_suggestions_on_case_type_config_id"
+    t.index ["resolved_by_id"], name: "index_case_type_suggestions_on_resolved_by_id"
   end
 
   create_table "cases", force: :cascade do |t|
@@ -166,6 +217,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_082923) do
   add_foreign_key "actions", "policy_references"
   add_foreign_key "case_notes", "cases"
   add_foreign_key "case_notes", "caseworkers"
+  add_foreign_key "case_type_configs", "caseworkers", column: "created_by_id"
+  add_foreign_key "case_type_generation_logs", "case_type_configs"
+  add_foreign_key "case_type_suggestions", "case_type_configs"
+  add_foreign_key "case_type_suggestions", "caseworkers", column: "resolved_by_id"
   add_foreign_key "cases", "caseworkers", column: "assigned_to_id"
   add_foreign_key "caseworkers", "teams"
   add_foreign_key "correspondences", "actions"

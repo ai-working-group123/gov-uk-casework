@@ -1,0 +1,26 @@
+<div class="max-w-4xl mx-auto py-8">
+  <p class="text-green-600 mb-4"><%= notice %></p>
+
+  <h1 class="text-2xl font-bold mb-4">Evidence Request</h1>
+
+  <dl class="mb-6">
+    <dt class="font-medium">Requested By</dt>
+    <dd class="mb-2"><%= @evidence_request.requested_by.name %></dd>
+    <dt class="font-medium">Status</dt>
+    <dd class="mb-2"><%= @evidence_request.status.humanize %></dd>
+    <dt class="font-medium">Deadline</dt>
+    <dd class="mb-2"><%= @evidence_request.deadline.strftime("%d %b %Y %H:%M") %></dd>
+    <dt class="font-medium">Notify Via</dt>
+    <dd class="mb-2"><%= @evidence_request.notify_via %></dd>
+    <dt class="font-medium">Cover Message</dt>
+    <dd class="mb-2 whitespace-pre-wrap"><%= @evidence_request.cover_message || "\u2014" %></dd>
+    <dt class="font-medium">Sent</dt>
+    <dd class="mb-2"><%= @evidence_request.sent_at&.strftime("%d %b %Y %H:%M") || "\u2014" %></dd>
+  </dl>
+
+  <div class="flex gap-4 mb-8">
+    <%= link_to "Edit", edit_case_evidence_request_path(@case, @evidence_request), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Items", case_evidence_request_evidence_request_items_path(@case, @evidence_request), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Back to Evidence Requests", case_evidence_requests_path(@case), class: "text-blue-600 hover:underline" %>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "🔍 Running pre-commit checks..."
+echo ""
+
+# Track failures
+FAILED=0
+
+# 1. RuboCop - Style & lint
+echo "── RuboCop ──"
+if bin/rubocop --force-exclusion; then
+  echo "✅ RuboCop passed"
+else
+  echo "❌ RuboCop failed"
+  FAILED=1
+fi
+echo ""
+
+# 2. Brakeman - Security static analysis (matches CI: bin/brakeman --no-pager)
+echo "── Brakeman ──"
+if bin/brakeman --no-pager; then
+  echo "✅ Brakeman passed"
+else
+  echo "❌ Brakeman failed"
+  FAILED=1
+fi
+echo ""
+
+# 3. Bundler Audit - Gem vulnerability scan
+echo "── Bundler Audit ──"
+if bin/bundler-audit; then
+  echo "✅ Bundler Audit passed"
+else
+  echo "❌ Bundler Audit failed"
+  FAILED=1
+fi
+echo ""
+
+# 4. Importmap Audit - JS dependency scan
+echo "── Importmap Audit ──"
+if bin/importmap audit; then
+  echo "✅ Importmap Audit passed"
+else
+  echo "❌ Importmap Audit failed"
+  FAILED=1
+fi
+echo ""
+
+if [ $FAILED -ne 0 ]; then
+  echo "❌ Pre-commit checks failed. Fix the issues above before committing."
+  echo "   To bypass (not recommended): git commit --no-verify"
+  exit 1
+fi
+
+echo "✅ All pre-commit checks passed!"

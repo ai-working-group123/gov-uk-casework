@@ -1,0 +1,7 @@
+<div class="max-w-2xl mx-auto py-8">
+  <h1 class="text-2xl font-bold mb-6">New Evidence Request for Case: <%= @case.reference %></h1>
+  <%= render "form", evidence_request: @evidence_request %>
+  <div class="mt-4">
+    <%= link_to "Back to Evidence Requests", case_evidence_requests_path(@case), class: "text-blue-600 hover:underline" %>
+  </div>
+</div>
