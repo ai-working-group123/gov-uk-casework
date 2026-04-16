@@ -1,0 +1,139 @@
+<% content_for(:title) { "Review: #{@case_type_config.name} — Admin" } %>
+
+<div class="max-w-6xl mx-auto">
+  <!-- Header -->
+  <div class="flex items-start justify-between mb-8">
+    <div>
+      <h2 class="text-2xl font-bold text-gray-900 mb-1"><%= @case_type_config.name %></h2>
+      <p class="text-gray-600"><%= @case_type_config.description %></p>
+      <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
+        <span>SLA: <%= @case_type_config.default_sla_days %> days</span>
+        <span>Organisation: <%= @case_type_config.organisation || "Not set" %></span>
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+          Draft
+        </span>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <%= link_to "← Back", case_type_configs_path, class: "text-sm text-gray-500 hover:text-gray-700 px-3 py-2" %>
+    </div>
+  </div>
+
+  <!-- Progress indicator -->
+  <%= render "progress", current_step: 3 %>
+
+  <!-- Wrap sections in a form for submit_review -->
+  <%= form_with url: submit_review_case_type_config_path(@case_type_config), method: :post, data: { turbo: false, controller: "loading-form", action: "submit->loading-form#submit" } do %>
+
+    <!-- Generated sections -->
+    <div class="space-y-6">
+      <% sections = [
+        { title: "Decision Tree", field: :decision_tree_md, param: "decision_tree_md", icon: "🌳" },
+        { title: "State Transitions", field: :state_transitions_md, param: "state_transitions_md", icon: "🔄" },
+        { title: "Evidence Requirements", field: :evidence_requirements_md, param: "evidence_requirements_md", icon: "📋" },
+        { title: "Risk Scoring", field: :risk_scoring_md, param: "risk_scoring_md", icon: "⚠️" },
+        { title: "Correspondence Templates", field: :correspondence_templates_md, param: "correspondence_templates_md", icon: "✉️" }
+      ] %>
+
+      <% sections.each do |section| %>
+        <% content = @case_type_config.send(section[:field]) %>
+        <% next if content.blank? %>
+
+        <div class="bg-white border border-gray-200 rounded-lg shadow-sm" data-controller="markdown-section">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+            <h3 class="text-lg font-semibold text-gray-900">
+              <span class="mr-2"><%= section[:icon] %></span><%= section[:title] %>
+            </h3>
+            <div class="flex items-center gap-2">
+              <button
+                type="button"
+                data-action="markdown-section#toggleEdit"
+                data-markdown-section-target="editBtn"
+                class="text-sm text-blue-600 hover:text-blue-800 font-medium px-3 py-1 rounded border border-blue-200 hover:bg-blue-50 transition-colors"
+              >
+                Edit
+              </button>
+            </div>
+          </div>
+
+          <!-- Rendered markdown view -->
+          <div class="px-6 py-4 prose prose-sm max-w-none" data-markdown-section-target="preview">
+            <%= sanitize marksmithed(content) %>
+          </div>
+
+          <!-- Edit view (hidden by default) -->
+          <div class="px-6 py-4 hidden" data-markdown-section-target="editor">
+            <textarea
+              name="<%= section[:param] %>"
+              class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-y"
+              rows="12"
+              data-markdown-section-target="textarea"
+            ><%= content %></textarea>
+            <div class="flex justify-end gap-2 mt-3">
+              <button
+                type="button"
+                data-action="markdown-section#cancelEdit"
+                class="text-sm text-gray-500 hover:text-gray-700 px-3 py-1.5"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                data-action="markdown-section#saveEdit"
+                class="text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded font-medium transition-colors"
+              >
+                Done editing
+              </button>
+            </div>
+          </div>
+
+          <!-- Hidden field to submit current content even when not in edit mode -->
+          <input type="hidden" name="<%= section[:param] %>" value="<%= content %>" data-markdown-section-target="hiddenField">
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Save & Continue -->
+    <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
+      <p class="text-sm text-gray-500">
+        Next: AI will review your configuration and suggest process improvements.
+      </p>
+      <button
+        type="submit"
+        class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-3 rounded-lg text-sm transition-colors inline-flex items-center gap-2"
+      >
+        Save &amp; Continue
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+        </svg>
+      </button>
+    </div>
+
+  <% end %>
+
+  <!-- Source metadata -->
+  <% if @case_type_config.source_metadata.present? %>
+    <% metadata = @case_type_config.source_metadata.is_a?(String) ? JSON.parse(@case_type_config.source_metadata) : @case_type_config.source_metadata %>
+    <div class="mt-8 bg-gray-50 border border-gray-200 rounded-lg p-6">
+      <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Source Information</h3>
+      <dl class="grid grid-cols-2 gap-4 text-sm">
+        <% if metadata["urls"].present? %>
+          <div>
+            <dt class="text-gray-500">Source URLs</dt>
+            <dd class="text-gray-900 mt-1">
+              <% metadata["urls"].each do |url| %>
+                <div><%= link_to url, url, target: "_blank", class: "text-blue-600 hover:underline break-all" %></div>
+              <% end %>
+            </dd>
+          </div>
+        <% end %>
+        <% if metadata["submitted_at"].present? %>
+          <div>
+            <dt class="text-gray-500">Submitted</dt>
+            <dd class="text-gray-900 mt-1"><%= metadata["submitted_at"] %></dd>
+          </div>
+        <% end %>
+      </dl>
+    </div>
+  <% end %>
+</div>

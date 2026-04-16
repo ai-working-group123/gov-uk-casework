@@ -16,6 +16,21 @@ Rails.application.routes.draw do
         resources :evidence_request_items
       end
     end
+
+    resources :case_type_configs, only: [ :new, :create, :show, :index, :update ] do
+      member do
+        get :questions
+        post :answer
+        get :review
+        post :submit_review
+        get :suggestions
+        post :apply_suggestions
+        get :finalise
+        post :publish
+        get :processing
+        post :generate
+      end
+    end
   end
 
   scope "public" do

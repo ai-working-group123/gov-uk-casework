@@ -326,6 +326,15 @@ seed_cases = [
 		submitted_at: 9.weeks.ago,
 		assigned_at: 8.weeks.ago,
 		sla_deadline: 1.week.ago,
+		case_type_config: case_type_config,
+		case_data: {
+			applicant: { date_of_birth: "1990-03-15", passport_number: "K1234567", phone: "+91 98765 43210", current_address: "42 Marine Drive, Mumbai 400002, India" },
+			sponsor: { name: "TechBridge Solutions Ltd", licence_number: "ABC123DEF", is_a_rated: true },
+			job: { title: "Senior Software Engineer", soc_code: "2136", annual_salary: 52000, weekly_hours: 37.5, start_date: "2026-06-01" },
+			english_language: { test_type: "IELTS", score: "7.5", test_date: "2026-01-10", reference: "ENG-REF-001" },
+			maintenance: { sponsor_certified: false, funds_held: 1450, bank_name: "State Bank of India" },
+			previous_applications: [ { type: "Student Visa", reference: "STU-2022-1234", outcome: "granted" } ]
+		},
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 6.weeks.ago, received_at: 8.weeks.ago, reviewed_at: 7.weeks.ago },
 			{ evidence_type: :english_language, status: :accepted, policy_code: "SW-ENGLISH", required_by: 6.weeks.ago, received_at: 7.weeks.ago, reviewed_at: 6.weeks.ago },
@@ -346,6 +355,15 @@ seed_cases = [
 		submitted_at: 1.day.ago,
 		assigned_at: 12.hours.ago,
 		sla_deadline: 7.weeks.from_now,
+		case_type_config: case_type_config,
+		case_data: {
+			applicant: { date_of_birth: "1988-11-22", passport_number: "EA0987654", phone: "+86 138 0013 8000", current_address: "88 Nanjing Road, Shanghai 200003, China" },
+			sponsor: { name: "Global Finance Group plc", licence_number: "GFG456LIC", is_a_rated: true },
+			job: { title: "Quantitative Analyst", soc_code: "2425", annual_salary: 65000, weekly_hours: 40, start_date: "2026-07-15" },
+			english_language: { test_type: "PTE Academic", score: "72", test_date: "2026-03-20", reference: "PTE-REF-002" },
+			maintenance: { sponsor_certified: true },
+			previous_applications: []
+		},
 		evidence_items: [
 			{ evidence_type: :passport, status: :received, policy_code: "SW-PASSPORT", required_by: 2.weeks.from_now, received_at: 1.day.ago },
 			{ evidence_type: :sponsorship_certificate, status: :not_received, policy_code: "SW-COS", required_by: 2.weeks.from_now },
@@ -365,6 +383,16 @@ seed_cases = [
 		submitted_at: 3.weeks.ago,
 		assigned_at: 19.days.ago,
 		sla_deadline: 4.weeks.from_now,
+		case_type_config: case_type_config,
+		case_data: {
+			applicant: { date_of_birth: "1995-07-03", passport_number: "S5678901", phone: "+249 912 345 678", current_address: "15 Al-Gamhuriya Ave, Khartoum, Sudan" },
+			sponsor: { name: "NHS Royal London Hospital", licence_number: "NHS789SPO", is_a_rated: true },
+			job: { title: "Junior Doctor - Paediatrics", soc_code: "2211", annual_salary: 40257, weekly_hours: 40, start_date: "2026-06-15" },
+			english_language: { test_type: "OET", score: "B", test_date: "2025-12-05", reference: "OET-REF-003" },
+			maintenance: { sponsor_certified: true },
+			previous_applications: [ { type: "Visitor Visa", reference: "VIS-2024-5678", outcome: "granted" } ],
+			atas: { required: true, status: "pending", role_category: "medical research" }
+		},
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 2.weeks.ago, received_at: 20.days.ago, reviewed_at: 18.days.ago },
 			{ evidence_type: :sponsorship_certificate, status: :under_review, policy_code: "SW-COS", required_by: 2.weeks.ago, received_at: 18.days.ago },
@@ -385,6 +413,15 @@ seed_cases = [
 		submitted_at: 4.weeks.ago,
 		assigned_at: 25.days.ago,
 		sla_deadline: 3.weeks.from_now,
+		case_type_config: case_type_config,
+		case_data: {
+			applicant: { date_of_birth: "1992-01-19", passport_number: "YA4567890", phone: "+39 06 1234 5678", current_address: "Via Condotti 12, 00187 Roma, Italy" },
+			sponsor: { name: "Barclays Investment Bank", licence_number: "BIB321LIC", is_a_rated: true },
+			job: { title: "Risk Analyst", soc_code: "2424", annual_salary: 58000, weekly_hours: 37.5, start_date: "2026-05-20" },
+			english_language: { exempt: true, exemption_reason: "National of EU country (pre-settled status)" },
+			maintenance: { sponsor_certified: true },
+			previous_applications: [ { type: "EU Settlement Scheme", reference: "EUSS-2021-9876", outcome: "pre-settled" } ]
+		},
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 3.weeks.ago, received_at: 26.days.ago, reviewed_at: 24.days.ago },
 			{ evidence_type: :sponsorship_certificate, status: :accepted, policy_code: "SW-COS", required_by: 3.weeks.ago, received_at: 24.days.ago, reviewed_at: 22.days.ago },
@@ -405,6 +442,16 @@ seed_cases = [
 		assigned_at: 46.days.ago,
 		sla_deadline: 1.week.from_now,
 		decided_at: 1.day.ago,
+		case_type_config: case_type_config,
+		case_data: {
+			applicant: { date_of_birth: "1987-09-30", passport_number: "A09876543", phone: "+234 803 456 7890", current_address: "7 Broad Street, Lagos Island, Lagos, Nigeria" },
+			sponsor: { name: "Deloitte LLP", licence_number: "DEL654SPO", is_a_rated: true },
+			job: { title: "Senior Tax Consultant", soc_code: "2421", annual_salary: 62000, weekly_hours: 37.5, start_date: "2026-04-01" },
+			english_language: { test_type: "IELTS", score: "8.0", test_date: "2025-11-15", reference: "ENG-REF-005" },
+			maintenance: { sponsor_certified: true },
+			previous_applications: [ { type: "Skilled Worker", reference: "SW-2023-4567", outcome: "granted" } ],
+			criminal_record: { required: true, provided: true, clear: true }
+		},
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 5.weeks.ago, received_at: 47.days.ago, reviewed_at: 45.days.ago },
 			{ evidence_type: :sponsorship_certificate, status: :accepted, policy_code: "SW-COS", required_by: 5.weeks.ago, received_at: 45.days.ago, reviewed_at: 43.days.ago },
@@ -426,6 +473,16 @@ seed_cases = [
 		assigned_at: 38.days.ago,
 		sla_deadline: 2.weeks.ago,
 		decided_at: 5.days.ago,
+		case_type_config: case_type_config,
+		case_data: {
+			applicant: { date_of_birth: "1993-05-12", passport_number: "R12345678", phone: "+7 495 123 4567", current_address: "Tverskaya 25, Moscow 125009, Russia" },
+			sponsor: { name: "NovaTech Solutions Ltd", licence_number: "NTS999LIC", is_a_rated: false, notes: "Sponsor licence revoked during processing" },
+			job: { title: "Data Engineer", soc_code: "2135", annual_salary: 45000, weekly_hours: 37.5, start_date: "2026-05-01" },
+			english_language: { test_type: "IELTS", score: "7.0", test_date: "2026-01-28", reference: "ENG-REF-006" },
+			maintenance: { sponsor_certified: false, funds_held: 900, bank_name: "Sberbank", insufficient: true },
+			previous_applications: [],
+			refusal_reasons: [ "Invalid CoS - sponsor licence revoked", "Insufficient maintenance funds" ]
+		},
 		evidence_items: [
 			{ evidence_type: :passport, status: :accepted, policy_code: "SW-PASSPORT", required_by: 4.weeks.ago, received_at: 39.days.ago, reviewed_at: 37.days.ago },
 			{ evidence_type: :sponsorship_certificate, status: :rejected, policy_code: "SW-COS", required_by: 4.weeks.ago, received_at: 36.days.ago, reviewed_at: 33.days.ago, notes: "CoS reference invalid and sponsor licence no longer active." },
@@ -444,6 +501,16 @@ seed_cases = [
 		submitted_at: 3.hours.ago,
 		assigned_at: nil,
 		sla_deadline: 8.weeks.from_now,
+		case_type_config: case_type_config,
+		case_data: {
+			applicant: { date_of_birth: "1997-12-08", passport_number: "EG7654321", phone: "+20 100 234 5678", current_address: "14 Corniche El Nil, Garden City, Cairo, Egypt" },
+			sponsor: { name: "University of Manchester", licence_number: "UOM567LIC", is_a_rated: true },
+			job: { title: "Research Associate - Materials Science", soc_code: "2119", annual_salary: 36024, weekly_hours: 37.5, start_date: "2026-09-01" },
+			english_language: { test_type: "IELTS", score: "7.0", test_date: "2026-03-01", reference: "ENG-REF-007" },
+			maintenance: { sponsor_certified: true },
+			previous_applications: [],
+			atas: { required: true, status: "not_applied", role_category: "materials science research" }
+		},
 		evidence_items: [
 			{ evidence_type: :passport, status: :not_received, policy_code: "SW-PASSPORT", required_by: 10.days.from_now },
 			{ evidence_type: :sponsorship_certificate, status: :not_received, policy_code: "SW-COS", required_by: 10.days.from_now },
@@ -469,7 +536,8 @@ seed_cases.each do |case_attrs|
 		priority: case_attrs[:priority],
 		submitted_at: case_attrs[:submitted_at],
 		sla_deadline: case_attrs[:sla_deadline],
-		decided_at: case_attrs[:decided_at]
+		decided_at: case_attrs[:decided_at],
+		case_data: case_attrs[:case_data] || {}
 	)
 
 	seed_case_records[case_attrs[:reference]] = kase
