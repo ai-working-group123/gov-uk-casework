@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :cases do
       member do
         post :evaluate
+        post :run_workflow
       end
       resources :evidences
       resources :case_notes, only: [ :index, :show, :create, :new, :edit, :update, :destroy ]

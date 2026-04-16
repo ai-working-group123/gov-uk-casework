@@ -18,15 +18,16 @@ class CaseEvaluationJob < ApplicationJob
     raise
   ensure
     if kase
-      kase.update_column(:evaluation_in_progress, false)
+      kase.update_columns(evaluation_in_progress: false, last_evaluated_at: Time.current)
       broadcast_banner_removal(kase)
+
     end
   end
 
   private
 
   def clear_flag(kase)
-    kase.update_column(:evaluation_in_progress, false)
+    kase.update_columns(evaluation_in_progress: false, last_evaluated_at: Time.current)
     broadcast_banner_removal(kase)
   end
 
@@ -36,5 +37,6 @@ class CaseEvaluationJob < ApplicationJob
       target: "case_evaluation_banner",
       html: '<turbo-frame id="case_evaluation_banner"></turbo-frame>'
     )
+    kase.update_columns(evaluation_in_progress: false, last_evaluated_at: Time.current)
   end
 end

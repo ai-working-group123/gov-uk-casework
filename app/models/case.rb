@@ -21,6 +21,18 @@ class Case < ApplicationRecord
 
   after_commit :enqueue_evaluation, on: [ :create, :update ]
 
+  def evaluate_if_stale!
+    return if evaluation_in_progress?
+    return if last_evaluated_at.present? && last_evaluated_at > 24.hours.ago
+
+    enqueue_evaluation
+  end
+
+  def force_evaluate!
+    update_column(:evaluation_in_progress, true)
+    CaseEvaluationJob.perform_later(id)
+  end
+
   # Human-readable case type label — from config name if present, otherwise generic
   def case_type_label
     case_type_config&.name || "Application"
